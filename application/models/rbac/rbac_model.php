@@ -79,7 +79,7 @@ class Rbac_model extends CI_Model
                 INNER JOIN rbac_permissions c ON b.perm_id=c.perm_id
                 INNER JOIN rbac_menu d ON c.id_menu=d.id_menu
             WHERE a.role_id = ?
-            ORDER BY d.parent ASC, d.weight ASC
+            ORDER BY d.depth ASC, d.weight ASC
         ";
         
         $query = $this->db->query($sql, array($role_id));
