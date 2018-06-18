@@ -16,15 +16,15 @@ class Musrenbangcam extends CI_Controller
         }
 	}
 
-    function index(){
+    function index($pilihan_usulan=null){
         $this->auth->restrict();
 
         $data['url_add_data'] = site_url('musrenbangcam/edit_data');
-        $data['url_load_data'] = site_url('musrenbangcam/load_data');
+        $data['url_load_data'] = site_url('musrenbangcam/load_data/'.$pilihan_usulan);
         $data['url_delete_data'] = site_url('musrenbangcam/delete_data');
         $data['url_edit_data'] = site_url('musrenbangcam/edit_data');
         $data['url_save_data'] = site_url('musrenbangcam/save_data');
-        $data['url_data_list_musrenbangcam'] = site_url('musrenbangcam/show_list_musrembangcam');
+        $data['url_data_list_musrenbangcam'] = site_url('musrenbangcam/show_list_musrembangcam/'.$pilihan_usulan);
 
         $data['url_terima_usulan_musrenbang'] = site_url('musrenbangcam/terima_usulan_musrenbang');
         $data['url_tolak_usulan_musrenbang'] = site_url('musrenbangcam/tolak_usulan_musrenbang');
@@ -32,7 +32,11 @@ class Musrenbangcam extends CI_Controller
         $data['url_load_keterangan'] = site_url('musrenbangcam/load_keterangan');
         $data['url_show_gallery'] = site_url('musrenbangcam/show_gallery');
 
-        $data['url_summary_biaya'] = site_url('musrenbangcam/get_summary_biaya');
+        $data['url_summary_biaya'] = site_url('musrenbangcam/get_summary_biaya/'.$pilihan_usulan);
+
+        $asal_usulan = array('' => 'Semua', '1' => 'Desa', '4' => 'Kecamatan', '2' => 'Pokir', '3' => 'Temu Wirasa', '5' => 'Musrenbang SKPD', '6' => 'Musrenbangcam');
+        $data['asal_usulan_ng'] = form_dropdown('asal_usulan_ng', $asal_usulan, $pilihan_usulan, 'data-placeholder="Pilih Asal Usulan" class="common chosen-select" id="asal_usulan_ng"');
+
         $this->template->load('template','musrenbang/musrenbangcam',$data);
     }
 
@@ -70,14 +74,20 @@ class Musrenbangcam extends CI_Controller
 		$ret = TRUE;
 		if(empty($id_musrenbang)) {
 			//insert
-      $data_post['created_by'] = $this->session->userdata('id_user');
-      $data_post['created_date'] = $date." ".$time;
+          $data_post['created_by'] = $this->session->userdata('id_user');
+          $data_post['created_date'] = $date." ".$time;
+          $data_post['start_from'] = '6';
+          $data_post['stat_musren'] = $data_post['id_keputusan']=='' ? '1' : $data_post['id_keputusan'];
+          $data_post['stat_forum'] = '1';
+          $data_post['stat_musrenkab'] = '1';
+
 			$ret = $this->m_musrenbang->insert($data_post,'table_musrenbang');
 			//echo $this->db->last_query();
 		} else {
 			//update
-      $data_post['changed_by'] = $this->session->userdata('id_user');
-      $data_post['changed_date'] = $date." ".$time;
+          $data_post['changed_by'] = $this->session->userdata('id_user');
+          $data_post['changed_date'] = $date." ".$time;
+          $data_post['stat_musren'] = $data_post['id_keputusan']=='' ? '1' : $data_post['id_keputusan'];
 			$ret = $this->m_musrenbang->update($id_musrenbang,$data_post,'table_musrenbang','primary_musrenbang');
 			echo $this->db->last_query();
 		}
@@ -97,14 +107,14 @@ class Musrenbangcam extends CI_Controller
 		//print_r ($id_cek);
   }
 
-  function load_data(){
+  function load_data($asal_usulan_ng=NULL){
     $search = $this->input->post("search");
 		$start = $this->input->post("start");
 		$length = $this->input->post("length");
 		$order = $this->input->post("order");
 
-		$renstra = $this->m_musrenbang->get_data_table_cam($search, $start, $length, $order["0"]);
-		$alldata = $this->m_musrenbang->count_data_table_cam($search, $start, $length, $order["0"]);
+		$renstra = $this->m_musrenbang->get_data_table_cam($search, $start, $length, $order["0"], $asal_usulan_ng);
+		$alldata = $this->m_musrenbang->count_data_table_cam($search, $start, $length, $order["0"], $asal_usulan_ng);
 
 		$data = array();
 		$no=0;
@@ -237,12 +247,12 @@ class Musrenbangcam extends CI_Controller
         return "Rp".number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $rupiah)),2);
     }
 
-		function show_list_musrembangcam(){
+		function show_list_musrembangcam($asal_usulan_ng=NULL){
         $kode_kegiatan = $this->input->post('kode_kegiatan');
         $id_skpd = $this->input->post('id_skpd');
 
 
-        $results = $this->m_musrenbang->get_list_musrenbangcam($kode_kegiatan,$id_skpd);
+        $results = $this->m_musrenbang->get_list_musrenbangcam($kode_kegiatan,$id_skpd, $asal_usulan_ng);
         $data = "";
         foreach ($results as $result) {
           //  $action = '<a href="javascript:void(0)" onclick="edit_musrenbangcam('. $result->id_musrenbang .')" class="icon2-page_white_edit" title="Edit Usulan Musrenbang"/>';
@@ -285,7 +295,8 @@ class Musrenbangcam extends CI_Controller
         $data_post = array(
             'id_keputusan' => '2',
 			'id_status_usulan' => '3',
-            'alasan_keputusan' => ''
+            'alasan_keputusan' => '',
+            'stat_musren' => '2'
             );
         $result = $this->m_musrenbang->update($id_musrenbang,$data_post,'table_musrenbang','primary_musrenbang');
 
@@ -326,7 +337,8 @@ class Musrenbangcam extends CI_Controller
 		$data_post = array(
 			'id_keputusan' => '3',
 			'alasan_keputusan' => $keterangan,
-			'id_status_usulan' => '3'
+			'id_status_usulan' => '3',
+            'stat_musren' => '3'
 		);
 		$result = $this->m_musrenbang->update($id_musrenbang,$data_post,'table_musrenbang','primary_musrenbang');
 		if($result===FALSE){
@@ -346,7 +358,8 @@ class Musrenbangcam extends CI_Controller
         $this->db->from("t_upload_file");
         $result = $this->db->get();
         $result = $result->result();
-        //print_r($result);
+        // print_r($result);
+        // exit();
         $arr = array();
         $i=0;
         foreach($result as $results){
@@ -354,7 +367,8 @@ class Musrenbangcam extends CI_Controller
             $arr[$i]['title'] = $results->name;
             $i++;
         }
-        //print_r($arr);
+        // print_r($arr);
+        // exit();
         /*$arr = array();
         $arr[0]['href'] = '1_b.jpg';
         $arr[1]['href'] = '2_b.jpg';

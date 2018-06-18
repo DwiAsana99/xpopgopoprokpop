@@ -16,21 +16,25 @@ class Forum_skpd extends CI_Controller
         }
 	}
 
-    function index(){
+    function index($pilihan_usulan=null){
         $this->auth->restrict();
 
         $data['url_add_data'] = site_url('forum_skpd/edit_data');
-        $data['url_load_data'] = site_url('forum_skpd/load_data');
+        $data['url_load_data'] = site_url('forum_skpd/load_data/'.$pilihan_usulan);
         $data['url_delete_data'] = site_url('forum_skpd/delete_data');
         $data['url_edit_data'] = site_url('forum_skpd/edit_data');
         $data['url_save_data'] = site_url('forum_skpd/save_data');
-        $data['url_data_list_musrenbangcam'] = site_url('forum_skpd/show_list_musrembangcam');
+        $data['url_data_list_musrenbangcam'] = site_url('forum_skpd/show_list_musrembangcam/'.$pilihan_usulan);
 
         $data['url_terima_usulan_musrenbang'] = site_url('forum_skpd/terima_usulan_musrenbang');
         $data['url_tolak_usulan_musrenbang'] = site_url('forum_skpd/tolak_usulan_musrenbang');
         $data['url_valid_usulan_musrenbang'] = site_url('forum_skpd/valid_usulan_musrenbang');
         $data['url_load_keterangan'] = site_url('forum_skpd/load_keterangan');
         $data['url_show_gallery'] = site_url('forum_skpd/show_gallery');
+
+        $asal_usulan = array('' => 'Semua', '1' => 'Desa', '4' => 'Kecamatan', '2' => 'Pokir', '3' => 'Temu Wirasa', '5' => 'Musrenbang SKPD', '6' => 'Musrenbangcam', '7' => 'Forum SKPD');
+        $data['asal_usulan_ng'] = form_dropdown('asal_usulan_ng', $asal_usulan, $pilihan_usulan, 'data-placeholder="Pilih Asal Usulan" class="common chosen-select" id="asal_usulan_ng"');
+
         $this->template->load('template','forum_skpd/forum_skpd',$data);
 	}
 
@@ -68,8 +72,11 @@ class Forum_skpd extends CI_Controller
 		$ret = TRUE;
 		if(empty($id_musrenbang)) {
 			//insert
-      $data_post['created_by'] = $this->session->userdata('id_user');
-      $data_post['created_date'] = $date." ".$time;
+          $data_post['created_by'] = $this->session->userdata('id_user');
+          $data_post['created_date'] = $date." ".$time;
+          $data_post['start_from'] = '6';
+          $data_post['stat_forum'] = (empty($data_post['id_keputusan']))?'1':$data_post['id_keputusan'];
+          $data_post['stat_musrenkab'] = '1';
 			$ret = $this->m_musrenbang->insert($data_post,'table_musrenbang');
 			//echo $this->db->last_query();
 		} else {
@@ -95,14 +102,14 @@ class Forum_skpd extends CI_Controller
 		//print_r ($id_cek);
   }
 
-  function load_data(){
+  function load_data($asal_usulan_ng=NULL){
     $search = $this->input->post("search");
 		$start = $this->input->post("start");
 		$length = $this->input->post("length");
 		$order = $this->input->post("order");
 
-		$renstra = $this->m_musrenbang->get_data_table_cam($search, $start, $length, $order["0"]);
-		$alldata = $this->m_musrenbang->count_data_table_cam($search, $start, $length, $order["0"]);
+		$renstra = $this->m_musrenbang->get_data_table_cam($search, $start, $length, $order["0"], $asal_usulan_ng);
+		$alldata = $this->m_musrenbang->count_data_table_cam($search, $start, $length, $order["0"], $asal_usulan_ng);
 
 		$data = array();
 		$no=0;
@@ -235,12 +242,12 @@ class Forum_skpd extends CI_Controller
         return "Rp".number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $rupiah)),2);
     }
 
-		function show_list_musrembangcam(){
+		function show_list_musrembangcam($asal_usulan_ng=NULL){
         $kode_kegiatan = $this->input->post('kode_kegiatan');
         $id_skpd = $this->input->post('id_skpd');
 
 
-        $results = $this->m_musrenbang->get_list_musrenbangcam($kode_kegiatan,$id_skpd);
+        $results = $this->m_musrenbang->get_list_musrenbangcam($kode_kegiatan,$id_skpd, $asal_usulan_ng);
         $data = "";
         foreach ($results as $result) {
           //  $action = '<a href="javascript:void(0)" onclick="edit_forum_skpd('. $result->id_musrenbang .')" class="icon2-page_white_edit" title="Edit Usulan Musrenbang"/>';
@@ -282,7 +289,8 @@ class Forum_skpd extends CI_Controller
         $id_musrenbang = $this->input->post('id_musrenbang');
         $data_post = array(
             'id_keputusan' => '2',
-						'id_status_usulan' => '4'
+			'id_status_usulan' => '4',
+            'stat_forum' => '2'
             );
         $result = $this->m_musrenbang->update($id_musrenbang,$data_post,'table_musrenbang','primary_musrenbang');
 
@@ -323,7 +331,8 @@ class Forum_skpd extends CI_Controller
 		$data_post = array(
 			'id_keputusan' => '3',
 			'alasan_keputusan' => $keterangan,
-			'id_status_usulan' => '4'
+			'id_status_usulan' => '4',
+            'stat_forum' => '3'
 		);
 		$result = $this->m_musrenbang->update($id_musrenbang,$data_post,'table_musrenbang','primary_musrenbang');
 		if($result===FALSE){

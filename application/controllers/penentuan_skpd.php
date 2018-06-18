@@ -73,6 +73,9 @@ class Penentuan_skpd extends CI_Controller
             $data_post['start_from'] = '4';
             $data_post['stat_kec'] = '2';
             $data_post['stat_skpd'] = '1';
+            $data_post['stat_musren'] = '1';
+            $data_post['stat_forum'] = '1';
+            $data_post['stat_musrenkab'] = '1';
             $ret = $this->m_musrenbang->insert($data_post,'table_musrenbang');
             //echo $this->db->last_query();
         } else {
@@ -82,6 +85,9 @@ class Penentuan_skpd extends CI_Controller
             $data_post['stat_desa'] = '2';
             $data_post['stat_kec'] = '2';
             $data_post['stat_skpd'] = '1';
+            $data_post['stat_musren'] = '1';
+            $data_post['stat_forum'] = '1';
+            $data_post['stat_musrenkab'] = '1';
             $ret = $this->m_musrenbang->update($id_musrenbang,$data_post,'table_musrenbang','primary_musrenbang');
             echo $this->db->last_query();
         }
@@ -198,7 +204,8 @@ class Penentuan_skpd extends CI_Controller
         $data_ = array(
             'flag_delete' => '1',
             'changed_date' => $date." ".$time,
-            'changed_by' => $this->session->userdata('id_user')
+            'changed_by' => $this->session->userdata('id_user'),
+            'stat_kec' => '3'
         );
 		$result = $this->m_musrenbang->delete($id_musrenbang,$data_,'table_musrenbang','primary_musrenbang');
 		if($result) {

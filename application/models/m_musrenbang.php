@@ -134,9 +134,15 @@ class M_musrenbang extends CI_Model
     }
 
 		//get data table from rkpd
-    function get_data_table_cam($search, $start, $length, $order){
+    function get_data_table_cam($search, $start, $length, $order, $asal_usulan_ng=NULL){
 			$id_skpd = $this->session->userdata('id_skpd');
 			$tahun = $this->session->userdata('t_anggaran_aktif');
+
+			$qry_where = "";
+			if (!empty($asal_usulan_ng)) {
+				$qry_where = "and start_from = '$asal_usulan_ng'";
+			}
+
 			$order_arr = array('id_musrenbang','kode_kegiatan','nama_program_kegiatan','nama_skpd');
         $sql = "
             SELECT *
@@ -161,6 +167,7 @@ class M_musrenbang extends CI_Model
 									id_skpd = '$id_skpd'
 									AND tahun = '$tahun'
 									AND flag_delete = '0'
+									$qry_where
 									GROUP BY kode_kegiatan
 							) AS m
 							left join m_program as p
@@ -180,9 +187,15 @@ class M_musrenbang extends CI_Model
         return $this->db->query($sql)->result();
 	}
 
-	function count_data_table_cam($search, $start, $length, $order){
+	function count_data_table_cam($search, $start, $length, $order, $asal_usulan_ng=NULL){
 		$id_skpd = $this->session->userdata('id_skpd');
 		$tahun = $this->session->userdata('t_anggaran_aktif');
+
+		$qry_where = "";
+		if (!empty($asal_usulan_ng)) {
+			$qry_where = "and start_from = '$asal_usulan_ng'";
+		}
+
          $sql = "
 				 SELECT *
 				 FROM (
@@ -207,6 +220,7 @@ class M_musrenbang extends CI_Model
 							 AND tahun = '$tahun'
 							 AND flag_delete = '0'
 							 AND id_status_usulan >= '3'
+							 $qry_where
 							 GROUP BY kode_kegiatan
 					 ) AS m
 					 left join m_program as p
@@ -224,8 +238,13 @@ class M_musrenbang extends CI_Model
         return $this->db->query($sql)->num_rows();
     }
 
-		function get_list_musrenbangcam($kode_kegiatan,$id_skpd){
+		function get_list_musrenbangcam($kode_kegiatan,$id_skpd, $asal_usulan_ng=NULL){
 				$tahun = $this->session->userdata('t_anggaran_aktif');
+				$qry_where = "";
+				if (!empty($asal_usulan_ng)) {
+					$qry_where = "and start_from = '$asal_usulan_ng'";
+				}
+
 				$sql = "select m.*,d.nama_desa,k.nama_kec,au.nama as asal_usulan,u.nama as status_usulan,ke.nama as status_keputusan from (
 						select * from (SELECT *,concat(kd_urusan,'.',kd_bidang,'.',kd_program,'.',kd_kegiatan) AS kode_kegiatan
 						FROM
@@ -233,7 +252,8 @@ class M_musrenbang extends CI_Model
 						WHERE
 						id_skpd = '$id_skpd'
 						AND tahun = '$tahun'
-						AND flag_delete = '0') as a
+						AND flag_delete = '0'
+						$qry_where) as a
 						where kode_kegiatan = '$kode_kegiatan'
 						) as m
 						left join m_desa as d on m.id_desa=d.id_desa
@@ -301,10 +321,15 @@ class M_musrenbang extends CI_Model
 
 	}
 
-	function get_data_table_skpd($search, $start, $length, $order){
+	function get_data_table_skpd($search, $start, $length, $order, $asal_usulan_ng=NULL){
 		//pada level kecamatan, data yang muncul hanya sesuai dengan kecamatan nya
 		$tahun = $this->session->userdata('t_anggaran_aktif');
 		$id_skpd = $this->session->userdata('id_skpd');
+
+		$qry_where = "";
+		if (!empty($asal_usulan_ng)) {
+			$qry_where = "and start_from = '$asal_usulan_ng'";
+		}
 
 		$order_arr = array('id_musrenbang','kode_kegiatan','nama_program_kegiatan','jenis_pekerjaan','volume','jumlah_dana','nama_desa','status_keputusan');
 		$sql = "
@@ -317,7 +342,7 @@ class M_musrenbang extends CI_Model
 						CONCAT(m.volume,' ',m.satuan) as volume_satuan
 
 					from
-						(select * from t_musrenbang where tahun = '$tahun' and id_skpd = '$id_skpd' and flag_delete = '0') as m
+						(select * from t_musrenbang where tahun = '$tahun' and id_skpd = '$id_skpd' and flag_delete = '0' $qry_where) as m
 					left join m_program as p
 					on m.kd_urusan=p.Kd_Urusan and m.kd_bidang=p.Kd_Bidang and m.kd_program=p.Kd_Prog
 					left join m_kegiatan as k
@@ -343,9 +368,15 @@ class M_musrenbang extends CI_Model
 		return $result->result();
 	}
 
-	function count_data_table_skpd($search, $start, $length, $order){
+	function count_data_table_skpd($search, $start, $length, $order, $asal_usulan_ng=NULL){
 		$tahun = $this->session->userdata('t_anggaran_aktif');
 		$id_skpd = $this->session->userdata('id_skpd');
+
+		$qry_where = "";
+		if (!empty($asal_usulan_ng)) {
+			$qry_where = "and start_from = '$asal_usulan_ng'";
+		}
+
 		$sql = "
 		SELECT * FROM (
 			select m.*,d.nama_desa,kec.nama_kec,p.nama as status_keputusan from (
@@ -355,7 +386,7 @@ class M_musrenbang extends CI_Model
 					CONCAT(m.kd_urusan,'.',m.kd_bidang,'.',m.kd_program,'.',m.kd_kegiatan) as kode_kegiatan,
 					CONCAT(m.volume,' ',m.satuan) as volume_satuan
 				from
-					(select * from t_musrenbang where tahun = '$tahun' and id_skpd = '$id_skpd' and flag_delete = '0') as m
+					(select * from t_musrenbang where tahun = '$tahun' and id_skpd = '$id_skpd' and flag_delete = '0' $qry_where) as m
 				left join m_program as p
 				on m.kd_urusan=p.Kd_Urusan and m.kd_bidang=p.Kd_Bidang and m.kd_program=p.Kd_Prog
 				left join m_kegiatan as k
@@ -944,13 +975,18 @@ class M_musrenbang extends CI_Model
         return $this->db->query($sql)->row()->total_biaya;
     }
 
-    function get_summary_biaya_skpd(){
+    function get_summary_biaya_skpd($asal_usulan_ng=NULL){
 
         $tahun = $this->session->userdata('t_anggaran_aktif');
         $id_skpd = $this->session->userdata('id_skpd');
 
+		$qry_where = "";
+		if (!empty($asal_usulan_ng)) {
+			$qry_where = "and start_from = '$asal_usulan_ng'";
+		}
+
         $sql = "
-        select sum(jumlah_dana) as total_biaya from t_musrenbang where id_skpd = ".$id_skpd." and tahun = ".$tahun." and flag_delete = 0
+        select sum(jumlah_dana) as total_biaya from t_musrenbang where id_skpd = ".$id_skpd." and tahun = ".$tahun." and flag_delete = 0 $qry_where
         ";
         return $this->db->query($sql)->row()->total_biaya;
     }

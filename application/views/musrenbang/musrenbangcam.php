@@ -2,6 +2,8 @@
 	var dt;
 
 
+
+
 	function showDaftarUsulanMusrenbang ( d ) {
 	    // `d` is the original data object for the row
 	    $.ajaxSetup({
@@ -45,6 +47,12 @@
 
 	}
 	$(document).ready(function(){
+		prepare_chosen();
+
+		$(document).on('change', '#asal_usulan_ng', function() {
+			console.log($('#asal_usulan_ng').val());
+			window.location = "<?php echo base_url('musrenbangcam/index').'/'; ?>" + $(this).val();
+		});
     	dt = $("#musrenbangcam").DataTable({
 				"processing": true,
 				"serverSide": true,
@@ -283,6 +291,7 @@ section#main {
 	</header>
 	<div class="module_content"; style="overflow:auto">
     <div style='float:right'>
+    <?php echo $asal_usulan_ng; ?><br>
     <a href="<?php echo site_url('musrenbangcam/do_cetak_musrenbangcam') ?>"><input style="margin: 3px 10px 0px 0px; float: right;" type="button" value="Cetak Musrenbangcam" /></a>
     <a href="<?php echo site_url('musrenbangcam/preview_musrenbangcam') ?>"><input style="margin: 3px 10px 0px 0px; float: right;" type="button" value="Lihat Musrenbangcam" /></a>
     <a href="<?php echo $url_add_data ?>"><input style="margin: 3px 10px 0 10px; float: right;" type="button" value="Tambah Data Musrenbangcam" /></a>

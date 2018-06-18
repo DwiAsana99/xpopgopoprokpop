@@ -45,6 +45,12 @@
 
 	}
 	$(document).ready(function(){
+		prepare_chosen();
+
+		$(document).on('change', '#asal_usulan_ng', function() {
+			console.log($('#asal_usulan_ng').val());
+			window.location = "<?php echo base_url('forum_skpd/index').'/'; ?>" + $(this).val();
+		});
     dt = $("#musrenbangcam").DataTable({
 						"processing": true,
 						"serverSide": true,
@@ -237,6 +243,7 @@ section#main {
 	</header>
 	<div class="module_content"; style="overflow:auto">
 	<div style="float:right">
+    <?php echo $asal_usulan_ng; ?><br>
 	<a href="<?php echo site_url('forum_skpd/do_cetak_forum_skpd') ?>"><input style="margin: 3px 10px 0px 0px; float: right;" type="button" value="Cetak Forum SKPD" /></a>
     <a href="<?php echo $url_add_data ?>"><input style="margin: 3px 10px 0 10px; float: right;" type="button" value="Tambah Data Forum SKPD" /></a></div><br>
 		<table id="musrenbangcam" class="table-common tablesorter" style="width:100%">

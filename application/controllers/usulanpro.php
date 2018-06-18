@@ -282,6 +282,12 @@ class Usulanpro extends CI_Controller
             
 
         );
+
+        if ($data_post['id_groups'] == '6') {
+        	$is_pokir_ng = TRUE;
+        }else{
+        	$is_pokir_ng = FALSE;
+        }
         
 		if(strpos($call_from, 'usulanpro/edit_data') != FALSE) {
 			$call_from = '';
@@ -394,12 +400,22 @@ class Usulanpro extends CI_Controller
             $data_post['created_by'] = $this->session->userdata('nama');
             $data_post['created_date'] = $date." ".$time;
 			$data_post['file'] = $cekusulan->file;
+			if ($is_pokir_ng) {
+				$data_post['start_from'] = '2';
+			}else{
+				$data_post['start_from'] = '3';
+			}
+			$data_post['stat_skpd'] = '1';
+			$data_post['stat_musren'] = '1';
+			$data_post['stat_forum'] = '1';
+			$data_post['stat_musrenkab'] = '1';
 			$ret = $this->m_usulanpro_trx->insert($data_post,'table_musrenbang');
 			//echo $this->db->last_query();
 		} else {
 			//update
             $data_post['changed_by'] = $this->session->userdata('nama');
             $data_post['changed_date'] = $date." ".$time;
+
 			$ret = $this->m_usulanpro_trx->update($id,$data_post,'table_musrenbang','primary_musrenbang');
 			//echo $this->db->last_query();
 		}

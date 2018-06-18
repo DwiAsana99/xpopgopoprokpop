@@ -14,16 +14,19 @@ class Skpd extends CI_Controller
         }
   }
 
-  function index(){
+  function index($pilihan_usulan=null){
     	$this->auth->restrict();
       $data['url_add_data'] = site_url('skpd/edit_data');
-      $data['url_load_data'] = site_url('skpd/load_data');
+      $data['url_load_data'] = site_url('skpd/load_data/'.$pilihan_usulan);
       $data['url_delete_data'] = site_url('skpd/delete_data');
       $data['url_edit_data'] = site_url('skpd/edit_data');
       $data['url_save_data'] = site_url('skpd/save_data');
       $data['url_show_gallery'] = site_url('skpd/show_gallery');
 
-      $data['url_summary_biaya'] = site_url('skpd/get_summary_biaya');
+      $data['url_summary_biaya'] = site_url('skpd/get_summary_biaya/'.$pilihan_usulan);
+
+      $asal_usulan = array('' => 'Semua', '1' => 'Desa', '4' => 'Kecamatan', '2' => 'Pokir', '3' => 'Temu Wirasa', '5' => 'Musrenbang SKPD');
+      $data['asal_usulan_ng'] = form_dropdown('asal_usulan_ng', $asal_usulan, $pilihan_usulan, 'data-placeholder="Pilih Asal Usulan" class="common chosen-select" id="asal_usulan_ng"');
 
     	$this->template->load('template','skpd/skpd',$data);
 	}
@@ -70,12 +73,18 @@ class Skpd extends CI_Controller
     			//insert
           $data_post['created_by'] = $this->session->userdata('id_user');
           $data_post['created_date'] = $date." ".$time;
+          $data_post['start_from'] = '5';
+          $data_post['stat_skpd'] = (empty($data_post['id_keputusan']))?'1':$data_post['id_keputusan'];
+          $data_post['stat_musren'] = '1';
+          $data_post['stat_forum'] = '1';
+          $data_post['stat_musrenkab'] = '1';
     			$ret = $this->m_musrenbang->insert($data_post,'table_musrenbang');
     			//echo $this->db->last_query();
   		} else {
     			//update
           $data_post['changed_by'] = $this->session->userdata('id_user');
           $data_post['changed_date'] = $date." ".$time;
+          $data_post['stat_skpd'] = (empty($data_post['id_keputusan']))?'1':$data_post['id_keputusan'];
     			$ret = $this->m_musrenbang->update($id_musrenbang,$data_post,'table_musrenbang','primary_musrenbang');
     			//echo $this->db->last_query();
   		}
@@ -95,14 +104,14 @@ class Skpd extends CI_Controller
   		//print_r ($id_cek);
     }
 
-    function load_data(){
+    function load_data($asal_usulan_ng=NULL){
         $search = $this->input->post("search");
 				$start = $this->input->post("start");
 				$length = $this->input->post("length");
 				$order = $this->input->post("order");
 
-				$renstra = $this->m_musrenbang->get_data_table_skpd($search, $start, $length, $order["0"]);
-				$alldata = $this->m_musrenbang->count_data_table_skpd($search, $start, $length, $order["0"]);
+				$renstra = $this->m_musrenbang->get_data_table_skpd($search, $start, $length, $order["0"], $asal_usulan_ng);
+				$alldata = $this->m_musrenbang->count_data_table_skpd($search, $start, $length, $order["0"], $asal_usulan_ng);
 
 				$data = array();
 				$no=0;
@@ -380,9 +389,9 @@ class Skpd extends CI_Controller
         }
     }
 
-    function get_summary_biaya(){
+    function get_summary_biaya($asal_usulan_ng=NULL){
       $arr = array(
-        'total_biaya' => $this->m_musrenbang->get_summary_biaya_skpd()
+        'total_biaya' => $this->m_musrenbang->get_summary_biaya_skpd($asal_usulan_ng)
       );
 
       echo json_encode($arr);

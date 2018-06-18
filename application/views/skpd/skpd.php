@@ -1,6 +1,13 @@
 <script type="text/javascript">
 	var dt;
 	$(document).ready(function(){
+		prepare_chosen();
+
+		$(document).on('change', '#asal_usulan_ng', function() {
+			console.log($('#asal_usulan_ng').val());
+			window.location = "<?php echo base_url('skpd/index').'/'; ?>" + $(this).val();
+		});
+
 	    dt = $("#musrenbangcam").DataTable({
 	    	"lengthMenu": [[300, 500, 1000], [300, 500, 1000]],
 	    	"iDisplayLength": 300,
@@ -137,6 +144,7 @@
     <!-- <a href="<?php echo $url_add_data?>">Tambah Data Usulan SKPD</a></div><br> -->
     <div class="module_content"; style="overflow:auto">
     <div style='float:right'>
+    <?php echo $asal_usulan_ng; ?><br>
     <a href="<?php echo site_url('skpd/do_cetak_rekap_skpd') ?>"><input style="margin: 3px 10px 0px 0px; float: right;" type="button" value="Cetak Rekapitulasi SKPD" /></a>
     <a href="<?php echo site_url('skpd/preview_rekap_skpd') ?>"><input style="margin: 3px 10px 0px 0px; float: right;" type="button" value="Lihat Rekapitulasi SKPD" /></a>
     <a href="<?php echo $url_add_data ?>"><input style="margin: 3px 10px 0px 0px; float: right;" type="button" value="Tambah Data Usulan SKPD" /></a></div><br>
