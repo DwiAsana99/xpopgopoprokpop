@@ -3,7 +3,7 @@
 		SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 		WHERE tahun = '".$ta."'
 		AND flag_delete = 0
-		".$id_groups."
+		".$id_usulan."
 		".$status."
 		".$kec."
 		".$desa."
@@ -41,7 +41,7 @@
 			SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 			WHERE tahun = '".$ta."'
 			AND flag_delete = 0
-			".$id_groups."
+			".$id_usulan."
 			".$status."
 			".$kec."
 			".$desa."
@@ -79,7 +79,7 @@
 				SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 				WHERE tahun = '".$ta."'
 				AND flag_delete = 0
-				".$id_groups."
+				".$id_usulan."
 				".$status."
 				".$kec."
 				".$desa."
@@ -119,7 +119,7 @@
 					SELECT * FROM t_musrenbang
 					WHERE tahun = '".$ta."'
 					AND flag_delete = 0
-					".$id_groups."
+					".$id_usulan."
 					".$status."
 					".$kec."
 					".$desa."

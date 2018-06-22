@@ -560,5 +560,11 @@ class M_usulanpro_trx extends CI_Model
 				WHERE tahun = '".$ta."' AND id_groups = 6";
 		return $this->db->query($sql)->result();
 	}
+
+	function get_asal_usulan()
+	{
+		$result = $this->db->query("SELECT id, asal_usulan FROM m_asal_usulan_ng");
+		return $result->result();
+	}
 }
 ?>

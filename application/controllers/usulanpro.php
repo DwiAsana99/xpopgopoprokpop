@@ -772,8 +772,14 @@ class Usulanpro extends CI_Controller
 			$cb_desa[$row->id] = $row->label;
 		}
 
+		$cb_asal_usulan = array("all" => "Semua Usulan");
+		foreach ($this->m_usulanpro_trx->get_asal_usulan() as $row) {
+			$cb_asal_usulan[$row->id] = $row->asal_usulan;
+		}
+
 		$data['cb_kecamatan'] = form_dropdown('cb_kecamatan', $cb_kecamatan, NULL, 'data-placeholder="Pilih Kecamatan" class="common chosen-select" id="cb_kecamatan"');
 		$data['cb_desa'] = form_dropdown('cb_desa', $cb_desa, NULL, 'data-placeholder="Pilih Desa" class="common chosen-select" id="cb_desa"');
+		$data['cb_asal_usulan'] = form_dropdown('cb_asal_usulan', $cb_asal_usulan, NULL,'data-placeholder="Pilih Asal Usulan" class="common chosen-select" id="cb_asal_usulan"');
 
 		$this->template->load('template', 'usulanpro/preview_rekap_usulan', $data);
     }
@@ -785,29 +791,26 @@ class Usulanpro extends CI_Controller
 		$id_desa = $this->input->post('id_desa');
 
 		//for jenis usulan
-		if($id_usulan == "all") {
-			$id_groups = NULL;
-		}elseif($id_usulan == 1) {
-			$id_groups = "AND id_groups = 6";
-		}elseif ($id_usulan == 2) {
-			$id_groups = "AND (id_groups = 4 OR id_groups = 5)";
-		}elseif ($id_usulan == 3){
-			$id_groups = "AND id_groups = 3";				
-		}elseif($id_usulan == 4){
-			$id_groups = "AND id_groups = 5";
+		if($id_usulan == 'all') {
+			$usulan = NULL;
+		} else {
+			$usulan = "AND start_from = ".$id_usulan;
 		}
+
 		//for status (belum ditentukan(1)/terakomodir(2)/tidak terakomodir(3))
 		if ($id_status == "all") {
 			$status = NULL;
 		}else{
 			$status = "AND id_keputusan = ".$id_status;
 		}
+
 		//for kecamatan
 		if($id_kec == 'all'){
 			$kec = NULL;
 		}else{
 			$kec = "AND id_kecamatan = ".$id_kec;
 		}
+
 		//for desa
 		if($id_desa == 'all'){				
 			$desa = NULL;
@@ -815,12 +818,13 @@ class Usulanpro extends CI_Controller
 			$desa = "AND id_desa = ".$id_desa;
 		}
 
+		
 		// $data2['urusan'] = $this->m_usulanpro_trx->get_allusulan_urusan($ta,$id_groups,$status,$kec,$desa);
 		// $data2['urusan'] = $this->db->query("SELECT t.*,u.Nm_Urusan AS nama_urusan FROM (
 		// 	SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 		// 	WHERE tahun = ".$ta."
 		// 		AND flag_delete = 0
-		// 		".$id_groups."
+		// 		".$usulan."
 		// 		".$status."
 		// 		".$kec."
 		// 		".$desa."
@@ -831,10 +835,13 @@ class Usulanpro extends CI_Controller
 // print($this->db->last_query());exit;
 
 		$data2['ta'] = $ta;
-		$data2['id_groups'] = $id_groups;
+		$data2['id_usulan'] = $usulan;
 		$data2['status'] = $status;
 		$data2['kec'] = $kec;
 		$data2['desa'] = $desa;
+		
+		// print_r($data2); exit();
+
 		// $data['usulan'] = $this->load->view('usulanpro/cetak/usulan_tak_terakomodir_all', $data2);
 		return $this->load->view('usulanpro/cetak/isi_rekap_usulan', $data2);
     }

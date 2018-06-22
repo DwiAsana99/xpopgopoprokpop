@@ -103,3 +103,6 @@ ERROR - 2018-06-18 17:09:13 --> Severity: Notice  --> Undefined variable: id_gro
 ERROR - 2018-06-18 17:29:15 --> Severity: Notice  --> Undefined variable: id_groups D:\xampp\htdocs\sirenbangda\application\views\usulanpro\create.php 11
 ERROR - 2018-06-18 19:47:06 --> 404 Page Not Found --> asset
 ERROR - 2018-06-18 19:47:07 --> Query error: Column 'tahun' in where clause is ambiguous
+ERROR - 2018-06-18 20:48:44 --> 404 Page Not Found --> asset
+ERROR - 2018-06-18 20:48:45 --> 404 Page Not Found --> asset
+ERROR - 2018-06-18 20:48:46 --> Query error: Column 'tahun' in where clause is ambiguous

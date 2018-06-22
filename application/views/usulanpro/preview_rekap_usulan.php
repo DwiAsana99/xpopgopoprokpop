@@ -27,17 +27,20 @@
 			});
 		});
 
+// asal usulan -------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 		$(document).on("click", ".lihat", function(){
 			var ta = "<?php echo $this->session->userdata('t_anggaran_aktif'); ?>";
-			var id_usulan = $('#select1').val();
+			var id_usulan = $('#cb_asal_usulan').val();
 			var id_status = $('#select2').val();
-			var id_pilihan = $('#select3').val();
+			// var id_pilihan = $('#select3').val();
 			var id_kec = $('#cb_kecamatan').val();
 			var id_desa = $('#cb_desa').val();
+			// alert(id_status);
 			$.ajax({
 				type 	: "POST",
 				url 	: "<?php echo site_url('usulanpro/isi_all_usulan'); ?>/" + ta,
-				data 	: {id_usulan:id_usulan, id_status:id_status, id_pilihan:id_pilihan, id_kec:id_kec, id_desa:id_desa},
+				data 	: {id_usulan:id_usulan, id_status:id_status, id_kec:id_kec, id_desa:id_desa},
 				success : function(data) {
 					var textUsulan = $('#select1 option:selected').text()+" ("+$('#select2 option:selected').text()+") : ";
 					// textUsulan = textUsulan+" "+$('#select3 option:selected').text()+" : ";
@@ -60,13 +63,14 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
-					<select class="s2 chosen-select" data-placeholder=" " id="select1">
+					<?php echo $cb_asal_usulan; ?>
+					<!-- <select class="s2 chosen-select" data-placeholder=" " id="select1">
 						<option value="all">Semua Usulan</option>
 						<option value="1">Pokir</option>
 						<option value="2">Temu Wirasa</option>
 						<option value="3">Musrenbangcam</option>
 						<option value="4">Forum SKPD</option>
-					</select>
+					</select> -->
 				</div>
 			</div>
 
