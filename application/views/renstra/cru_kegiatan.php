@@ -29,6 +29,24 @@ if (!empty($revisi_rpjmd)) {
 	$sisa5 = $revisi_rpjmd->nominal_5 - $nominal_5_pro;
 }
 ?>
+
+
+<style type="text/css">
+  .custom2{
+    /*max-width: 300px;*/
+    min-width: 300px;
+  }
+  .custom:enabled{
+    background-color: #f4f4f4 !important;
+    margin-bottom: 5px !important;
+  }
+  .custom:disabled{
+    background-color: #ddd !important;
+    cursor: not-allowed !important;
+    margin-bottom: 5px !important;
+  }
+</style>
+
 <script type="text/javascript">
 prepare_chosen();
 $('input[name=nominal_1]').autoNumeric(numOptionsNotRound);
@@ -36,6 +54,155 @@ $('input[name=nominal_2]').autoNumeric(numOptionsNotRound);
 $('input[name=nominal_3]').autoNumeric(numOptionsNotRound);
 $('input[name=nominal_4]').autoNumeric(numOptionsNotRound);
 $('input[name=nominal_5]').autoNumeric(numOptionsNotRound);
+
+
+
+function select_lihat1(th, from_back, kd_jenis) {
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("renstra/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '1',
+        kd_jenis: kd_jenis
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat1_th"+th).attr('onclick','select_lihat1("'+th+'", true, "'+msg.pilihan.kd_jenis+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat1_th"+th).removeAttr("disabled");
+          $("#btn_lihat2_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat3_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat2(th, from_back, kd_jenis, kd_kat){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("renstra/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '2',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat2_th"+th).attr('onclick','select_lihat2("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat2_th"+th).removeAttr("disabled");
+          $("#btn_lihat3_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat3(th, from_back, kd_jenis, kd_kat, kd_sub){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("renstra/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '3',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat,
+        kd_sub: kd_sub
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat3_th"+th).attr('onclick','select_lihat3("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat3_th"+th).removeAttr("disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat4(th, from_back, kd_jenis, kd_kat, kd_sub, kd_bel){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("renstra/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '4',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat,
+        kd_sub: kd_sub,
+        kd_bel: kd_bel
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'", "'+msg.pilihan.kd_bel+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat4_th"+th).removeAttr("disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat5(th, from_back, kd_jenis, kd_kat, kd_sub, kd_bel, uraian, not_in=null){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("renstra/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '5',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat,
+        kd_sub: kd_sub,
+        kd_bel: kd_bel,
+        uraian: uraian,
+        not_in: not_in
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", false, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'", "'+msg.pilihan.kd_bel+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat4_th"+th).removeAttr("disabled");
+        }else if(from_back == 666){
+          $("#btn_lihat1_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat2_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat3_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }else if(from_back == 999){
+          $("#btn_lihat1_th"+th).removeAttr("disabled");
+          $("#btn_lihat2_th"+th).removeAttr("disabled");
+          $("#btn_lihat3_th"+th).removeAttr("disabled");
+          $("#btn_lihat4_th"+th).removeAttr("disabled");
+        }
+      }
+    });
+  }
 
 $(document).on("change", "#kd_kegiatan", function () {
 	var str = $(this).find('option:selected').text();
@@ -689,7 +856,6 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 }
 
 	function save_belanja_renstra(tahun, clue){
-
 		var id_renstra = $('input[name="id_renstra"]').val();
 		var id_kegiatan = $('input[name="id_kegiatan"]').val();
 		var id_belanja = $('#id_belanja_'+tahun).val();
@@ -745,15 +911,20 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 			    },
 			    success: function(msg){
 			    	//console.log(msg);
-			    	$('#list_tahun_'+tahun).html(msg);
+        			$("#btn_lihat1_th"+tahun).attr('onclick','select_lihat1("'+tahun+'", true, "'+jenis+'")');
+        			$("#btn_lihat2_th"+tahun).attr('onclick','select_lihat2("'+tahun+'", true, "'+jenis+'", "'+kategori+'")');
+        			$("#btn_lihat3_th"+tahun).attr('onclick','select_lihat3("'+tahun+'", true, "'+jenis+'", "'+kategori+'", "'+subkategori+'")');
+        			$("#btn_lihat4_th"+tahun).attr('onclick','select_lihat4("'+tahun+'", true, "'+jenis+'", "'+kategori+'", "'+subkategori+'", "'+belanja+'")');
+
+          			select_lihat5(tahun, 999, jenis, kategori, subkategori, belanja, uraian);
+
+			    	// $('#list_tahun_'+tahun).html(msg);
 			    	$('#id_belanja_'+tahun).val('');
 
 			    	clear_belanja(clue, tahun)
 			    }
 			});
-		}
-
-		
+		}		
 	}
 
 	function clear_belanja(clue, tahun){

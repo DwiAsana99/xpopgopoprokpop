@@ -1854,5 +1854,64 @@ class M_renstra_trx extends CI_Model
 		$result = $this->db->query($query);
 		return $result->result();
 	}
+
+	function get_belanja_kegiatan($id_kegiatan, $group=NULL, $id_pilihan=NULL, $tahun=NULL, $not_in=NULL){
+		$th = "";
+		$not = "";
+		$group_by = "";
+		$where_tambahan = "";
+		$pilihan = array(
+			'for_order' => array(
+				'1' => 'kode_jenis_belanja, kode_kategori_belanja', 
+				'2' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja', 
+				'3' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja', 
+				'4' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja',
+				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja'
+			),
+			'for_where' => array(
+				'1' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'"',
+				'2' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'"',
+				'3' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'" AND kode_sub_kategori_belanja="'.$id_pilihan[3].'"',
+				'4' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'" AND kode_sub_kategori_belanja="'.$id_pilihan[3].'" AND kode_belanja="'.$id_pilihan[4].'"',
+				'5' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'" AND kode_sub_kategori_belanja="'.$id_pilihan[3].'" AND kode_belanja="'.$id_pilihan[4].'" AND uraian_belanja="'.$id_pilihan[5].'"'
+			)
+		);
+		if (!empty($tahun)) {
+			$th = " AND tahun = '".$tahun."' ";
+		}
+		if(!empty($not_in)){
+			$not = " AND id <> '".$not_in."' ";
+		}
+		if (!empty($group)) {
+			$group_by = 'GROUP BY '.$pilihan["for_order"][$group];
+			$where_tambahan = $pilihan["for_where"][$group];
+		}
+
+		$query = "SELECT id ,tahun, id_renstra,
+						SUM(subtotal) AS sum_all,
+						kode_sumber_dana AS kode_sumber_dana,(
+							SELECT sumber_dana FROM m_sumber_dana WHERE id = kode_sumber_dana
+						) AS Sumber_dana,
+						kode_jenis_belanja AS kode_jenis_belanja, (
+							SELECT jenis_belanja FROM m_jenis_belanja WHERE kd_jenis_belanja = kode_jenis_belanja
+						) AS jenis_belanja,
+						kode_kategori_belanja AS kode_kategori_belanja, (
+							SELECT kategori_belanja FROM m_kategori_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja
+						) AS kategori_belanja,
+						kode_sub_kategori_belanja AS kode_sub_kategori_belanja,(
+							SELECT sub_kategori_belanja FROM m_subkategori_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja
+						) AS sub_kategori_belanja,
+						kode_belanja AS kode_belanja,(
+							SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
+						) AS belanja,
+						uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_kegiatan
+						FROM t_renstra_belanja_kegiatan
+						WHERE id_kegiatan = '$id_kegiatan' ".$th." ".$not." ".$where_tambahan."
+						".$group_by."
+						ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC, uraian_belanja ASC, Sumber_dana ASC, detil_uraian_belanja ASC";
+
+		$result = $this->db->query($query);
+		return $result->result();
+	}
 }
 ?>
