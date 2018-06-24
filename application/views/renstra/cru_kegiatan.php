@@ -182,12 +182,12 @@ function select_lihat1(th, from_back, kd_jenis) {
         uraian: uraian,
         not_in: not_in
       },
-      success: function(msg){
-      	clear_belanja('jns', th);
-        $("#box_lihat_th"+th).html(msg.html);
-        $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", false, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'", "'+msg.pilihan.kd_bel+'")');
+      success: function(msgRespon){
+        $("#box_lihat_th"+th).html(msgRespon.html);
+        $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", false, "'+msgRespon.pilihan.kd_jenis+'", "'+msgRespon.pilihan.kd_kat+'", "'+msgRespon.pilihan.kd_sub+'", "'+msgRespon.pilihan.kd_bel+'")');
         if (!from_back) {
-          $("#text_lihat_th"+th).html(msg.title);
+		  clear_belanja('jns', th);
+          $("#text_lihat_th"+th).html(msgRespon.title);
           $("#btn_lihat4_th"+th).removeAttr("disabled");
         }else if(from_back == 666){
           $("#btn_lihat1_th"+th).attr("disabled", "disabled");
@@ -195,10 +195,13 @@ function select_lihat1(th, from_back, kd_jenis) {
           $("#btn_lihat3_th"+th).attr("disabled", "disabled");
           $("#btn_lihat4_th"+th).attr("disabled", "disabled");
         }else if(from_back == 999){
+		  clear_belanja('jns', th);
           $("#btn_lihat1_th"+th).removeAttr("disabled");
           $("#btn_lihat2_th"+th).removeAttr("disabled");
           $("#btn_lihat3_th"+th).removeAttr("disabled");
           $("#btn_lihat4_th"+th).removeAttr("disabled");
+        }else{
+          clear_belanja('jns', th);
         }
       }
     });
@@ -758,6 +761,9 @@ $(document).on("click", ".hapus_indikator_kegiatan", function(){
 		</div>
 	</div>
 </div>
+<span id="for_sum_total_ng"></span>
+	
+</span>
 <script type="text/javascript">
 function hitungTarget(index, target){
 	var kategori_target = $("select[name='kategori_target["+ index +"]']").val();
@@ -918,8 +924,9 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 
           			select_lihat5(tahun, 999, jenis, kategori, subkategori, belanja, uraian);
 
-			    	// $('#list_tahun_'+tahun).html(msg);
+			    	$('#for_sum_total_ng').html(msg);
 			    	$('#id_belanja_'+tahun).val('');
+			    	// $('#nominal_'+tahun).autoNumeric('set', total);
 
 			    	clear_belanja(clue, tahun)
 			    }

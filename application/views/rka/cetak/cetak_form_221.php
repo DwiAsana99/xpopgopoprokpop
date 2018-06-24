@@ -278,7 +278,8 @@
                   <?php else: ?>
                     <?php  
                       $uraianbelanja = $rowth->uraian_upper;
-                      $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
+                      $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
+                      $uraianbelanja2 = '"'.$uraianbelanja2.'"';
                       $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_rka_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
                     ?>
                     <tr>
@@ -313,7 +314,8 @@
                   </tr>
                   <?php  
                     $uraianbelanja = $rowth->uraian_upper;
-                    $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
+                    $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
+                    $uraianbelanja2 = '"'.$uraianbelanja2.'"';
                     $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_rka_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
                   ?>
                   <tr>
@@ -360,7 +362,8 @@
                 </tr>
                 <?php  
                   $uraianbelanja = $rowth->uraian_upper;
-                  $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
+                  $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
+                  $uraianbelanja2 = '"'.$uraianbelanja2.'"';
                   $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_rka_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
                 ?>
                 <tr>
@@ -419,7 +422,8 @@
               </tr>
               <?php  
                 $uraianbelanja = $rowth->uraian_upper;
-                $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
+                $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
+                $uraianbelanja2 = '"'.$uraianbelanja2.'"';
                 $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_rka_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
               ?>
               <tr>
@@ -504,7 +508,8 @@
             </tr>
             <?php  
               $uraianbelanja = $rowth->uraian_upper;
-              $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
+              $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
+              $uraianbelanja2 = '"'.$uraianbelanja2.'"';
               $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_rka_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
             ?>
             <tr>

@@ -917,31 +917,31 @@ class Renstra extends CI_Controller
 			return $result;
 		}else{
 			foreach ($result as $row) {
-				$vol = Formatting::currency($row->volume, 2);
-				$nom = Formatting::currency($row->nominal_satuan, 2);
-				$sub = Formatting::currency($row->subtotal, 2);
+				// $vol = Formatting::currency($row->volume, 2);
+				// $nom = Formatting::currency($row->nominal_satuan, 2);
+				// $sub = Formatting::currency($row->subtotal, 2);
 
-				echo "<tr id='".$row->id."'>
-				<td>".$i.".</td>
-				<td>".$row->kode_jenis_belanja.". ".$row->jenis_belanja."</td>
-				<td>".$row->kode_kategori_belanja.". ".$row->kategori_belanja."</td>
-				<td>".$row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja."</td>
-				<td>".$row->kode_belanja.". ".$row->belanja."</td>
-				<td>".$row->uraian_belanja."</td>
-				<td>".$row->Sumber_dana."</td>
-				<td>".$row->detil_uraian_belanja."</td>
-				<td>".$vol."</td>
-				<td>".$row->satuan."</td>
-				<td>".$nom."</td>
-				<td>".$sub."</td>
-				<td>
-					<span id='ubahrowng' class='icon-pencil' onclick='ubahrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Ubah Belanja'></span>
-				</td>
-				<td>
-					<span id='hapusrowng' class='icon-remove' onclick='hapusrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Hapus Belanja'></span>
-				</td>
-				</tr>";
-				$i++;
+				// echo "<tr id='".$row->id."'>
+				// <td>".$i.".</td>
+				// <td>".$row->kode_jenis_belanja.". ".$row->jenis_belanja."</td>
+				// <td>".$row->kode_kategori_belanja.". ".$row->kategori_belanja."</td>
+				// <td>".$row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja."</td>
+				// <td>".$row->kode_belanja.". ".$row->belanja."</td>
+				// <td>".$row->uraian_belanja."</td>
+				// <td>".$row->Sumber_dana."</td>
+				// <td>".$row->detil_uraian_belanja."</td>
+				// <td>".$vol."</td>
+				// <td>".$row->satuan."</td>
+				// <td>".$nom."</td>
+				// <td>".$sub."</td>
+				// <td>
+				// 	<span id='ubahrowng' class='icon-pencil' onclick='ubahrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Ubah Belanja'></span>
+				// </td>
+				// <td>
+				// 	<span id='hapusrowng' class='icon-remove' onclick='hapusrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Hapus Belanja'></span>
+				// </td>
+				// </tr>";
+				// $i++;
 				$total += $row->subtotal;
 			}
 			echo "<script type='text/javascript'>$('#nominal_".$tahun."').autoNumeric('set', ".$total.");</script>";
