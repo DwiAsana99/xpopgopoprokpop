@@ -118,10 +118,11 @@
 						$tot_rencana += $row->sum_rencana;
 						$tot_realisasi += $row->sum_realisasi;
 						$kegiatan = $this->m_cik->get_data_kegiatan_cik_readonly($row->id_skpd,$bulan,$row_urusan->kd_urusan,$row_bidang->kd_bidang,$row->kd_program);
-						$cik_pro_keg = (empty($row->sum_realisasi))?0:round(($row->sum_realisasi/$row->sum_rencana)*100,2);
+						$cik_pro_keg = (empty($row->sum_rencana))?0:round(($row->sum_realisasi/$row->sum_rencana)*100,2);
 						$indikator_program = $this->m_cik->get_indikator_prog_keg_preview($row->id, $bulan, FALSE, TRUE);
 						$temp = $indikator_program->result();
-						$total_temp = $indikator_program->num_rows();
+						// $total_temp = $indikator_program->num_rows();
+						$total_temp = ($indikator_program->num_rows()==0)?1:$indikator_program->num_rows();
 
 						$col_indikator=1;
 						$go_2_keg = FALSE;
@@ -229,10 +230,11 @@
 					foreach($kegiatan as $row_kegiatan)
 					{
 						//$kegiatan = $this->m_cik->get_data_kegiatan_cik($row->id_skpd,$bulan,$row->id);
-						$cik_pro_keg = (empty($row_kegiatan->$realisasi))?0:round(($row_kegiatan->$realisasi/$row_kegiatan->rencana)*100,2);
+						$cik_pro_keg = (empty($row_kegiatan->rencana))?0:round(($row_kegiatan->$realisasi/$row_kegiatan->rencana)*100,2);
 						$indikator_program = $this->m_cik->get_indikator_prog_keg_preview($row_kegiatan->id, $bulan, FALSE, TRUE);
 						$temp = $indikator_program->result();
-						$total_temp = $indikator_program->num_rows();
+						// $total_temp = $indikator_program->num_rows();
+						$total_temp = ($indikator_program->num_rows()==0)?1:$indikator_program->num_rows();
 
 						$col_indikator=1;
 						$go_2_keg = FALSE;

@@ -428,7 +428,7 @@ $(document).on("change", "#cb_subkategori_belanja_3", function () {
 <br>
   <div class="row">
     <div class="col-md-12" style="margin-bottom: 15px;">
-      <b id="text_lihat_th4"></b>
+      <b id="text_lihat_th3"></b>
     </div>
     <div class="col-md-3">
       <button type="button" class="col-md-12 custom" id="btn_lihat1_th3" onclick='select_lihat1("3", true, "5.2")'>Jenis Belanja</button>

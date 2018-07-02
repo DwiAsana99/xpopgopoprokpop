@@ -343,7 +343,7 @@ class M_renstra_trx extends CI_Model
 		    `t_renstra_belanja_kegiatan`.`nominal_satuan`,
 		    `t_renstra_belanja_kegiatan`.`subtotal`,
 		    now()
-		FROM `sirenbangda_db_sirenbangda_ng`.`t_renstra_belanja_kegiatan` 
+		FROM `".$this->db->database."`.`t_renstra_belanja_kegiatan` 
 		where t_renstra_belanja_kegiatan.id_kegiatan = '".$id."' and tahun = '".$thmin."'");
 	}
 

@@ -1639,8 +1639,8 @@ function view_renstra_skpd(){
 					$html .= '<tr>
 						<td>'.$row->Sumber_dana.'</td><td>'.$row->detil_uraian_belanja.'</td><td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td><td>'.Formatting::currency($row->nominal_satuan, 2).'</td><td>'.Formatting::currency($row->subtotal, 2).'</td>';
 					if (empty($not_in)) {
-						$html .= '<td><span id="ubahrowng" class="icon-pencil" onclick="ubahrowng_1('.$row->id.')" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
-						<td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng_1('.$row->id.')" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>';
+						$html .= '<td><span id="ubahrowng" class="icon-pencil" onclick="ubahrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
+						<td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>';
 					}else{
 						$html .= '<td>&nbsp;</td><td>&nbsp;</td>';
 					}

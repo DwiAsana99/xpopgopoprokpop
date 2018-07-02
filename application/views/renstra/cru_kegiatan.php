@@ -195,7 +195,7 @@ function select_lihat1(th, from_back, kd_jenis) {
           $("#btn_lihat3_th"+th).attr("disabled", "disabled");
           $("#btn_lihat4_th"+th).attr("disabled", "disabled");
         }else if(from_back == 999){
-		  clear_belanja('jns', th);
+          $("#text_lihat_th"+th).html(msgRespon.title);
           $("#btn_lihat1_th"+th).removeAttr("disabled");
           $("#btn_lihat2_th"+th).removeAttr("disabled");
           $("#btn_lihat3_th"+th).removeAttr("disabled");
@@ -762,8 +762,6 @@ $(document).on("click", ".hapus_indikator_kegiatan", function(){
 	</div>
 </div>
 <span id="for_sum_total_ng"></span>
-	
-</span>
 <script type="text/javascript">
 function hitungTarget(index, target){
 	var kategori_target = $("select[name='kategori_target["+ index +"]']").val();
@@ -935,6 +933,27 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 	}
 
 	function clear_belanja(clue, tahun){
+		// if (clue == 'all') {
+
+		// }else{
+		// 	document.getElementById("cb_jenis_belanja_"+tahun).value = '';
+		// 	$("#cb_jenis_belanja_"+tahun).trigger("chosen:updated");
+		// 	document.getElementById("cb_kategori_belanja_"+tahun).value = '';
+		// 	$("#cb_kategori_belanja_"+tahun).trigger("chosen:updated");
+		// 	document.getElementById("cb_subkategori_belanja_"+tahun).value = '';
+		// 	$("#cb_subkategori_belanja_"+tahun).trigger("chosen:updated");
+		// 	document.getElementById("cb_belanja_"+tahun).value = '';
+		// 	$("#cb_belanja_"+tahun).trigger("chosen:updated");
+		// 	document.getElementById("sumberdana_"+tahun).value = '';
+		// 	$("#sumberdana_"+tahun).trigger("chosen:updated");
+		// 	document.getElementById("uraian_"+tahun).value = '';
+		// 	document.getElementById("det_uraian_"+tahun).value = '';
+		// 	document.getElementById("volume_"+tahun).value = '';
+		// 	document.getElementById("satuan_"+tahun).value = '';
+		// 	document.getElementById("nominal_satuan_"+tahun).value='';
+		// }
+
+
 		if (clue=='all') {
 	      	
 	    }
@@ -947,6 +966,8 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 			$("#cb_subkategori_belanja_"+tahun).trigger("chosen:updated");
 			document.getElementById("cb_belanja_"+tahun).value = '';
 			$("#cb_belanja_"+tahun).trigger("chosen:updated");
+			document.getElementById("sumberdana_"+tahun).value = '';
+			$("#sumberdana_"+tahun).trigger("chosen:updated");
 			document.getElementById("uraian_"+tahun).value = '';
 			document.getElementById("det_uraian_"+tahun).value = '';
 			document.getElementById("volume_"+tahun).value = '';
@@ -960,6 +981,8 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 	      $("#cb_subkategori_belanja_"+tahun).trigger("chosen:updated");
 	      document.getElementById("cb_belanja_"+tahun).value = '';
 	      $("#cb_belanja_"+tahun).trigger("chosen:updated");
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
@@ -970,6 +993,8 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 	      $("#cb_subkategori_belanja_"+tahun).trigger("chosen:updated");
 	      document.getElementById("cb_belanja_"+tahun).value = '';
 	      $("#cb_belanja_"+tahun).trigger("chosen:updated");
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
@@ -978,12 +1003,16 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 	    }else if (clue=='belanja') {
 	      document.getElementById("cb_belanja_"+tahun).value = '';
 	      $("#cb_belanja_"+tahun).trigger("chosen:updated");
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='uraian') {
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
@@ -1023,7 +1052,10 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 					    },
 					    success: function(respon){
 					    	//console.log(msg);
-					    	$('#list_tahun_'+tahun).html(respon);
+					    	// $('#list_tahun_'+tahun).html(respon);
+					    	$('#for_sum_total_ng').html(respon);
+    						select_lihat1(tahun, false, '5.2');
+
 					    }
 					});
 		    	}else{

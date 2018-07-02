@@ -191,6 +191,173 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+  function select_lihat1(th, from_back, kd_jenis) {
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("ppas/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '1',
+        kd_jenis: kd_jenis
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat1_th"+th).attr('onclick','select_lihat1("'+th+'", true, "'+msg.pilihan.kd_jenis+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat1_th"+th).removeAttr("disabled");
+          $("#btn_lihat2_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat3_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat2(th, from_back, kd_jenis, kd_kat){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("ppas/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '2',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat2_th"+th).attr('onclick','select_lihat2("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat2_th"+th).removeAttr("disabled");
+          $("#btn_lihat3_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat3(th, from_back, kd_jenis, kd_kat, kd_sub){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("ppas/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '3',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat,
+        kd_sub: kd_sub
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat3_th"+th).attr('onclick','select_lihat3("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat3_th"+th).removeAttr("disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat4(th, from_back, kd_jenis, kd_kat, kd_sub, kd_bel){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("ppas/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '4',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat,
+        kd_sub: kd_sub,
+        kd_bel: kd_bel
+      },
+      success: function(msg){
+      	clear_belanja('jns', th);
+        $("#box_lihat_th"+th).html(msg.html);
+        $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'", "'+msg.pilihan.kd_bel+'")');
+        if (!from_back) {
+          $("#text_lihat_th"+th).html(msg.title);
+          $("#btn_lihat4_th"+th).removeAttr("disabled");
+        }
+      }
+    });
+  }
+
+  function select_lihat5(th, from_back, kd_jenis, kd_kat, kd_sub, kd_bel, uraian, not_in=null){
+    var id_kegiatan = $('input[name="id_kegiatan"]').val();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("ppas/select_belanja_lihat"); ?>',
+      dataType: 'JSON',
+      data: {
+        id_keg: id_kegiatan,
+        tahun: th,
+        group: '5',
+        kd_jenis: kd_jenis, 
+        kd_kat: kd_kat,
+        kd_sub: kd_sub,
+        kd_bel: kd_bel,
+        uraian: uraian,
+        not_in: not_in
+      },
+      success: function(msgRespon){
+        $("#box_lihat_th"+th).html(msgRespon.html);
+        $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", false, "'+msgRespon.pilihan.kd_jenis+'", "'+msgRespon.pilihan.kd_kat+'", "'+msgRespon.pilihan.kd_sub+'", "'+msgRespon.pilihan.kd_bel+'")');
+        if (!from_back) {
+		  clear_belanja('jns', th);
+          $("#text_lihat_th"+th).html(msgRespon.title);
+          $("#btn_lihat4_th"+th).removeAttr("disabled");
+        }else if(from_back == 666){
+          $("#btn_lihat1_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat2_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat3_th"+th).attr("disabled", "disabled");
+          $("#btn_lihat4_th"+th).attr("disabled", "disabled");
+        }else if(from_back == 999){
+          $("#text_lihat_th"+th).html(msgRespon.title);
+          $("#btn_lihat1_th"+th).removeAttr("disabled");
+          $("#btn_lihat2_th"+th).removeAttr("disabled");
+          $("#btn_lihat3_th"+th).removeAttr("disabled");
+          $("#btn_lihat4_th"+th).removeAttr("disabled");
+        }else{
+          clear_belanja('jns', th);
+        }
+      }
+    });
+  }
+</script>
+
+<style type="text/css">
+  .custom2{
+    /*max-width: 300px;*/
+    min-width: 300px;
+  }
+  .custom:enabled{
+    background-color: #f4f4f4 !important;
+    margin-bottom: 5px !important;
+  }
+  .custom:disabled{
+    background-color: #ddd !important;
+    cursor: not-allowed !important;
+    margin-bottom: 5px !important;
+  }
+</style>
 
 <div style="width: 1300px">
 	<header>
@@ -482,73 +649,27 @@
 		      	<input type='button'  id="tambahuraian" onclick="save_belanja(1, 'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
 		      	<input type='button'  id="tambahdeturaian" onclick="save_belanja(1, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'>
 			</div>
-												<br>
-												<table id="listbelanja_1">
-													<thead>
-													<tr>
-														<th>No</th>
-														<th>Kelompok Belanja</th>
-														<th>Jenis Belanja</th>
-														<th>Obyek Belanja</th>
-														<th>Rincian Obyek</th>
-														<th>Rincian Belanja</th>
-										        		<th>Sumber Dana</th>
-														<th>Sub Rincian Belanja</th>
-														<th>Volume</th>
-														<th>Satuan</th>
-														<th>Nominal</th>
-										        		<th>Sub Total</th>
-														<th colspan="2">Action</th>
-													</tr>
-												</thead>
-												<tbody id="list_tahun_1">
-													<?php if(!empty($detil_kegiatan_1)){
-							              $gIndex_1 = 1;
-							              $total = 0;
-							              foreach ($detil_kegiatan_1 as $row) {
-							                  $vol = Formatting::currency($row->volume);
-							                  $nom = Formatting::currency($row->nominal_satuan);
-							                  $sub = Formatting::currency($row->subtotal);
-							                  $total += $row->subtotal;
-
-
-										      ?>
-										      <tr id="<?php echo $gIndex_1 ?>">
-										        <td> <?php echo $gIndex_1 ?> </td>
-										        <td> <?php echo $row->kode_jenis_belanja.". ".$row->jenis ?> </td>
-										        <td> <?php echo $row->kode_kategori_belanja.". ".$row->kategori ?> </td>
-										        <td> <?php echo $row->kode_sub_kategori_belanja.". ".$row->subkategori ?> </td>
-										        <td> <?php echo $row->kode_belanja.". ".$row->belanja ?> </td>
-										        <td> <?php echo $row->uraian_belanja ?> </td>
-										        <td> <?php echo $row->sumberDana ?> </td>
-										        <td> <?php echo $row->detil_uraian_belanja ?> </td>
-										        <td> <?php echo $vol; ?> </td>
-										        <td> <?php echo $row->satuan ?> </td>
-										        <td> <?php echo $nom; ?> </td>
-										        <td> <?php echo $sub; ?> </td>
-												<td> <span id="ubahrowng" class="icon-pencil" onclick="ubahrowng(<?php echo $row->id; ?>, 1)" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
-										        <td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng(<?php echo $row->id; ?>, 1)" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>
-
-										        <!-- <td style="display:none;"><input type="text" name="kd_sumber_dana_1[<?php echo $gIndex_1 ?>]" id="kd_sumber_dana_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->kode_sumber_dana ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_kd_jenis_belanja_1[<?php echo $gIndex_1 ?>]" id="r_kd_jenis_belanja_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->kode_jenis_belanja ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_kd_kategori_belanja_1[<?php echo $gIndex_1 ?>]" id="r_kd_kategori_belanja_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->kode_kategori_belanja ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_kd_subkategori_belanja_1[<?php echo $gIndex_1 ?>]" id="r_kd_subkategori_belanja_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->kode_sub_kategori_belanja ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_kd_belanja_1[<?php echo $gIndex_1 ?>]" id="r_kd_belanja_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->kode_belanja ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_uraian_1[<?php echo $gIndex_1 ?>]" id="r_uraian_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->uraian_belanja ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_det_uraian_1[<?php echo $gIndex_1 ?>]" id="r_det_uraian_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->detil_uraian_belanja ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_volume_1[<?php echo $gIndex_1 ?>]" id="r_volume_1[<?php echo $gIndex_1 ?>]" value="<?php echo str_replace('.','',$vol); ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_satuan_1[<?php echo $gIndex_1 ?>]" id="r_satuan_1[<?php echo $gIndex_1 ?>]" value="<?php echo $row->satuan ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_nominal_satuan_1[<?php echo $gIndex_1 ?>]" id="r_nominal_satuan_1[<?php echo $gIndex_1 ?>]" value="<?php echo str_replace('.','',$nom); ?>" /> </td>
-										        <td style="display:none;"><input type="text" name="r_subtotal_1[<?php echo $gIndex_1 ?>]" id="r_subtotal_1[<?php echo $gIndex_1 ?>]" value="<?php echo str_replace('.','',$sub); ?>" /> </td> -->
-
-										      </tr>
-
-										      <?php $gIndex_1++;
-										        echo "<script> document.getElementById('inIndex_1').value = $gIndex_1; </script> ";
-										        echo "<script type='text/javascript'>$('input[name=nominal]').autoNumeric('set', ".$total.");</script>";
-										      }} ?>
-										  		</tbody>
-												</table>
+			<br>
+	<div class="row">
+	    <div class="col-md-12" style="margin-bottom: 15px;">
+	    	<b id="text_lihat_th1"></b>
+	    </div>
+	    <div class="col-md-3">
+	      <button type="button" class="col-md-12 custom" id="btn_lihat1_th1" onclick='select_lihat1("1", true, "5.2")'>Jenis Belanja</button>
+	      <button type="button" class="col-md-12 custom" id="btn_lihat2_th1" disabled>Obyek Belanja</button>
+	      <button type="button" class="col-md-12 custom" id="btn_lihat3_th1" disabled>Rincian Obyek</button>
+	      <button type="button" class="col-md-12 custom" id="btn_lihat4_th1" disabled>Rincian Belanja</button>
+	    </div>
+	    <div class="col-md-9" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th1">
+	      <?php if (!empty($detil_kegiatan_1)): ?>
+	        <?php foreach ($detil_kegiatan_1 as $key => $row): ?>
+	          <?php if (!empty($row->kode_sumber_dana)): ?>
+	            <button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2('1', false, '5.2', '<?php echo $row->kode_kategori_belanja ?>')"><?php echo $row->kode_kategori_belanja.". ".$row->kategori_belanja; ?></button><br>
+	          <?php endif ?>
+	        <?php endforeach ?>
+	      <?php endif ?>
+	    </div>
+	</div>
 											</div>
 										</div>
 										<div class="tab-pane" id="tahun2">
@@ -642,72 +763,27 @@
 		      	<input type='button'  id="tambahuraian" onclick="save_belanja(2, 'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
 		      	<input type='button'  id="tambahdeturaian" onclick="save_belanja(2, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'>
 			</div>
-											<br>
-											<table id="listbelanja_2">
-											<thead>
-												<tr>
-													<th>No</th>
-													<th>Kelompok Belanja</th>
-													<th>Jenis Belanja</th>
-													<th>Obyek Belanja</th>
-													<th>Rincian Obyek</th>
-													<th>Rincian Belanja</th>
-													<th>Sumber Dana</th>
-													<th>Sub Rincian Belanja</th>
-													<th>Volume</th>
-													<th>Satuan</th>
-													<th>Nominal</th>
-													<th>Sub Total</th>
-													<th colspan="2">Action</th>
-												</tr>
-											</thead>
-											<tbody id="list_tahun_2">
-												<?php if(!empty($detil_kegiatan_2)){
-													$gIndex_2 = 1;
-													$total = 0;
-													foreach ($detil_kegiatan_2 as $row) {
-															$vol = Formatting::currency($row->volume);
-															$nom = Formatting::currency($row->nominal_satuan);
-															$sub = Formatting::currency($row->subtotal);
-															$total += $row->subtotal;
-
-
-												?>
-												<tr id="<?php echo $gIndex_2 ?>">
-													<td> <?php echo $gIndex_2 ?> </td>
-													<td> <?php echo $row->kode_jenis_belanja.". ".$row->jenis ?> </td>
-													<td> <?php echo $row->kode_kategori_belanja.". ".$row->kategori ?> </td>
-													<td> <?php echo $row->kode_sub_kategori_belanja.". ".$row->subkategori ?> </td>
-													<td> <?php echo $row->kode_belanja.". ".$row->belanja ?> </td>
-													<td> <?php echo $row->uraian_belanja ?> </td>
-													<td> <?php echo $row->sumberDana ?> </td>
-													<td> <?php echo $row->detil_uraian_belanja ?> </td>
-													<td> <?php echo $vol; ?> </td>
-													<td> <?php echo $row->satuan ?> </td>
-													<td> <?php echo $nom; ?> </td>
-													<td> <?php echo $sub; ?> </td>
-									        <td> <span id="ubahrowng" class="icon-pencil" onclick="ubahrowng(<?php echo $row->id; ?>, 2)" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
-									        <td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng(<?php echo $row->id; ?>, 2)" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>
-
-													<!-- <td style="display:none;"><input type="text" name="kd_sumber_dana_2[<?php echo $gIndex_2 ?>]" id="kd_sumber_dana_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->kode_sumber_dana ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_kd_jenis_belanja_2[<?php echo $gIndex_2 ?>]" id="r_kd_jenis_belanja_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->kode_jenis_belanja ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_kd_kategori_belanja_2[<?php echo $gIndex_2 ?>]" id="r_kd_kategori_belanja_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->kode_kategori_belanja ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_kd_subkategori_belanja_2[<?php echo $gIndex_2 ?>]" id="r_kd_subkategori_belanja_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->kode_sub_kategori_belanja ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_kd_belanja_2[<?php echo $gIndex_2 ?>]" id="r_kd_belanja_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->kode_belanja ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_uraian_2[<?php echo $gIndex_2 ?>]" id="r_uraian_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->uraian_belanja ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_det_uraian_2[<?php echo $gIndex_2 ?>]" id="r_det_uraian_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->detil_uraian_belanja ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_volume_2[<?php echo $gIndex_2 ?>]" id="r_volume_2[<?php echo $gIndex_2 ?>]" value="<?php echo str_replace('.','',$vol); ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_satuan_2[<?php echo $gIndex_2 ?>]" id="r_satuan_2[<?php echo $gIndex_2 ?>]" value="<?php echo $row->satuan ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_nominal_satuan_2[<?php echo $gIndex_2 ?>]" id="r_nominal_satuan_2[<?php echo $gIndex_2 ?>]" value="<?php echo str_replace('.','',$nom); ?>" /> </td>
-													<td style="display:none;"><input type="text" name="r_subtotal_2[<?php echo $gIndex_2 ?>]" id="r_subtotal_2[<?php echo $gIndex_2 ?>]" value="<?php echo str_replace('.','',$sub); ?>" /> </td> -->
-												</tr>
-
-												<?php $gIndex_2++;
-													echo "<script> document.getElementById('inIndex_2').value = $gIndex_2; </script> ";
-													echo "<script type='text/javascript'>$('input[name=nominal_thndpn]').autoNumeric('set', ".$total.");</script>";
-												}} ?>
-											</tbody>
-											</table>
+	<br>
+	<div class="row">
+	    <div class="col-md-12" style="margin-bottom: 15px;">
+	    	<b id="text_lihat_th2"></b>
+	    </div>
+	    <div class="col-md-3">
+	      <button type="button" class="col-md-12 custom" id="btn_lihat1_th2" onclick='select_lihat1("2", true, "5.2")'>Jenis Belanja</button>
+	      <button type="button" class="col-md-12 custom" id="btn_lihat2_th2" disabled>Obyek Belanja</button>
+	      <button type="button" class="col-md-12 custom" id="btn_lihat3_th2" disabled>Rincian Obyek</button>
+	      <button type="button" class="col-md-12 custom" id="btn_lihat4_th2" disabled>Rincian Belanja</button>
+	    </div>
+	    <div class="col-md-9" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th2">
+	      <?php if (!empty($detil_kegiatan_2)): ?>
+	        <?php foreach ($detil_kegiatan_2 as $key => $row): ?>
+	          <?php if (!empty($row->kode_sumber_dana)): ?>
+	            <button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2('2', false, '5.2', '<?php echo $row->kode_kategori_belanja ?>')"><?php echo $row->kode_kategori_belanja.". ".$row->kategori_belanja; ?></button><br>
+	          <?php endif ?>
+	        <?php endforeach ?>
+	      <?php endif ?>
+	    </div>
+	</div>
 										</div>
 								</div>
 							</div>
@@ -752,6 +828,7 @@
 		</div>
 	</div>
 </div>
+<span id="for_sum_total_ng"></span>
 
 <script src="<?php echo base_url('assets/renja/createbelanja_tahun1.js');?>"></script>
 <script src="<?php echo base_url('assets/renja/createbelanja_tahun2.js');?>"></script>
@@ -759,6 +836,10 @@
 <link href="<?php echo base_url('assets/renja/custom-alert.css') ?>" rel="stylesheet" type="text/css" />
 
 <script>
+	$(document).ready(function() {
+    	select_lihat1('1', false, '5.2');
+    	select_lihat1('2', false, '5.2');
+  	});
   function errorMessage_1(clue) {
     var jenis_belanja = $('#cb_jenis_belanja_1').val();
     var kategori_belanja = $('#cb_kategori_belanja_1').val();
@@ -974,10 +1055,18 @@
 			    },
 			    success: function(msg){
 			    	//console.log(msg);
-			    	$('#list_tahun_'+tahun).html(msg);
+			    	$("#btn_lihat1_th"+tahun).attr('onclick','select_lihat1("'+tahun+'", true, "'+jenis+'")');
+        			$("#btn_lihat2_th"+tahun).attr('onclick','select_lihat2("'+tahun+'", true, "'+jenis+'", "'+kategori+'")');
+        			$("#btn_lihat3_th"+tahun).attr('onclick','select_lihat3("'+tahun+'", true, "'+jenis+'", "'+kategori+'", "'+subkategori+'")');
+        			$("#btn_lihat4_th"+tahun).attr('onclick','select_lihat4("'+tahun+'", true, "'+jenis+'", "'+kategori+'", "'+subkategori+'", "'+belanja+'")');
+
+        			select_lihat5(tahun, 999, jenis, kategori, subkategori, belanja, uraian);
+
+			    	$('#for_sum_total_ng').html(msg);
+			    	// $('#list_tahun_'+tahun).html(msg);
 			    	$('#id_belanja_'+tahun).val('');
 
-			    	clear_belanja(clue, tahun)
+			    	clear_belanja(clue, tahun);
 			    }
 			});
 		}
@@ -996,6 +1085,8 @@
 			$("#cb_subkategori_belanja_"+tahun).trigger("chosen:updated");
 			document.getElementById("cb_belanja_"+tahun).value = '';
 			$("#cb_belanja_"+tahun).trigger("chosen:updated");
+			document.getElementById("sumberdana_"+tahun).value = '';
+			$("#sumberdana_"+tahun).trigger("chosen:updated");
 			document.getElementById("uraian_"+tahun).value = '';
 			document.getElementById("det_uraian_"+tahun).value = '';
 			document.getElementById("volume_"+tahun).value = '';
@@ -1009,6 +1100,8 @@
 	      $("#cb_subkategori_belanja_"+tahun).trigger("chosen:updated");
 	      document.getElementById("cb_belanja_"+tahun).value = '';
 	      $("#cb_belanja_"+tahun).trigger("chosen:updated");
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
@@ -1019,6 +1112,8 @@
 	      $("#cb_subkategori_belanja_"+tahun).trigger("chosen:updated");
 	      document.getElementById("cb_belanja_"+tahun).value = '';
 	      $("#cb_belanja_"+tahun).trigger("chosen:updated");
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
@@ -1027,12 +1122,16 @@
 	    }else if (clue=='belanja') {
 	      document.getElementById("cb_belanja_"+tahun).value = '';
 	      $("#cb_belanja_"+tahun).trigger("chosen:updated");
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='uraian') {
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("uraian_"+tahun).value = '';
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
@@ -1076,30 +1175,10 @@
           is_tahun : is_tahun
           },
           success: function(msg){
-            $('#list_tahun_'+tahun).html('');
+            select_lihat5(tahun, 666, msg.edit.kode_jenis_belanja, msg.edit.kode_kategori_belanja, msg.edit.kode_sub_kategori_belanja, msg.edit.kode_belanja, msg.edit.uraian_belanja, id_belanja);
             
-            var no = 1;
             var total = 0;
             for (var i = 0; i < msg.list.length; i++) {
-              
-              var row = '<tr>';
-              row += '<td>'+no+'</td>';
-              row += '<td>'+msg.list[i].kode_jenis_belanja+'. '+msg.list[i].jenis_belanja+'</td>';
-              row += '<td>'+msg.list[i].kode_kategori_belanja+'. '+msg.list[i].kategori_belanja+'</td>';
-              row += '<td>'+msg.list[i].kode_sub_kategori_belanja+'. '+msg.list[i].sub_kategori_belanja+'</td>';
-              row += '<td>'+msg.list[i].kode_belanja+'. '+msg.list[i].belanja+'</td>';
-              row += '<td>'+msg.list[i].uraian_belanja+'</td>';
-              row += '<td>'+msg.list[i].Sumber_dana+'</td>';
-              row += '<td>'+msg.list[i].detil_uraian_belanja+'</td>';
-              row += '<td>'+parseInt(msg.list[i].volume).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'</td>';
-              row += '<td>'+msg.list[i].satuan+'</td>';
-              row += '<td>'+parseInt(msg.list[i].nominal_satuan).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'</td>';
-              row += '<td>'+parseInt(msg.list[i].subtotal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'</td>';
-              row += "<td><span id='ubahrowng' class='icon-pencil' onclick='ubahrowng("+msg.list[i].id+","+tahun+")' style='cursor:pointer' title='Ubah Belanja'></span></td>";
-              row += "<td><span id='hapusrowng' class='icon-remove' onclick='hapusrowng("+msg.list[i].id+","+tahun+")' style='cursor:pointer' title='Hapus Belanja'></span></td>";
-              row += '</tr>';
-              $('#list_tahun_'+tahun).append(row);
-              no++;
               total += parseInt(msg.list[i].subtotal);
             }
             var jenis = msg.edit.kode_jenis_belanja;
@@ -1164,29 +1243,9 @@
           is_tahun : is_tahun
           },
           success: function(msg){
-            $('#list_tahun_'+tahun).html('');
-            var no = 1;
+          	select_lihat5(tahun, false, msg.edit.kode_jenis_belanja, msg.edit.kode_kategori_belanja, msg.edit.kode_sub_kategori_belanja, msg.edit.kode_belanja, msg.edit.uraian_belanja);
             var total = 0;
             for (var i = 0; i < msg.list.length; i++) {
-              
-              var row = '<tr>';
-              row += '<td>'+no+'</td>';
-              row += '<td>'+msg.list[i].kode_jenis_belanja+'. '+msg.list[i].jenis_belanja+'</td>';
-              row += '<td>'+msg.list[i].kode_kategori_belanja+'. '+msg.list[i].kategori_belanja+'</td>';
-              row += '<td>'+msg.list[i].kode_sub_kategori_belanja+'. '+msg.list[i].sub_kategori_belanja+'</td>';
-              row += '<td>'+msg.list[i].kode_belanja+'. '+msg.list[i].belanja+'</td>';
-              row += '<td>'+msg.list[i].uraian_belanja+'</td>';
-              row += '<td>'+msg.list[i].Sumber_dana+'</td>';
-              row += '<td>'+msg.list[i].detil_uraian_belanja+'</td>';
-              row += '<td>'+parseInt(msg.list[i].volume).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'</td>';
-              row += '<td>'+msg.list[i].satuan+'</td>';
-              row += '<td>'+parseInt(msg.list[i].nominal_satuan).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'</td>';
-              row += '<td>'+parseInt(msg.list[i].subtotal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'</td>';
-              row += "<td><span id='ubahrowng' class='icon-pencil' onclick='ubahrowng("+msg.list[i].id+","+tahun+")' style='cursor:pointer' title='Ubah Belanja'></span></td>";
-              row += "<td><span id='hapusrowng' class='icon-remove' onclick='hapusrowng("+msg.list[i].id+","+tahun+")' style='cursor:pointer' title='Hapus Belanja'></span></td>";
-              row += '</tr>';
-              $('#list_tahun_'+tahun).append(row);
-              no++;
               total += parseInt(msg.list[i].subtotal);
             }
             if (tahun == 1) {
