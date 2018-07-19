@@ -1787,6 +1787,24 @@ class Cik extends CI_Controller
 		echo json_encode(array('success' => '1', 'msg' => 'CIK telah ditolak.', 'href' => site_url('cik/veri_view_cik')));
 	}
 
+	function approve_cik(){
+		$this->auth->restrict();
+		$data['id'] = $this->input->post('id');
+		$bulan = $this->input->post("bulan");
+		$data['bulan'] = $bulan;
+		$this->load->view('cik/verifikasi/approve_cik', $data);
+	}
+
+	function do_approve_cik(){
+		$this->auth->restrict_ajax_login();
+
+		$id = $this->input->post('id');
+		$bulan = $this->input->post('bulan');
+		$ket = $this->input->post('ket');
+		$result = $this->m_cik->approve_cik($id, $bulan, $ket);
+		echo json_encode(array('success' => '1', 'msg' => 'CIK telah disetujui.', 'href' => site_url('cik/veri_view_cik')));
+	}
+
 	function cik_pusat_per_skpd(){
 		$this->auth->restrict();
 

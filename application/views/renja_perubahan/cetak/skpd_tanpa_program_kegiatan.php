@@ -17,8 +17,8 @@
 	<tr>
 		<th rowspan="2" colspan="2">Kode</th>
 		<th rowspan="2">Program dan Kegiatan</th>
-		<th >Renja Tahun <?php echo $tahun_renja;?></th>
-		<th >Renja Tahun <?php echo $tahun_renja;?> Perubahan</th>
+		<th >DPA Tahun <?php echo $tahun_renja;?></th>
+		<th >Renja Perubahan Tahun <?php echo $tahun_renja;?></th>
 	</tr>
 	<tr>
 		<th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
@@ -43,9 +43,9 @@
 			r.id,
 			r.penanggung_jawab,
 			r.lokasi,
-			r.catatan,
+			r.catatan_1 as catatan,
 			r.id_status,
-			r.`nominal` AS nomrenja,
+			(r.nominal_1+r.nominal_2+r.nominal_3+r.nominal_4+r.nominal_5+r.nominal_6+r.nominal_7+r.nominal_8+r.nominal_9+r.nominal_10+r.nominal_11+r.nominal_12) AS nomrenja,
 			rp.id_renja,
 			rp.`penanggung_jawab` AS penanggung_jawab_perubahan,
 			rp.`lokasi` AS lokasi_perubahan ,
@@ -53,11 +53,11 @@
 			rp.`keterangan` AS keterangan_perubahan,
 			rp.`nominal` AS nomrenja_perubahan
 			FROM (
-			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg WHERE tahun = '".$tahun_renja."' AND id_skpd = ".$row_select->id_skpd." AND kd_kegiatan IS NOT NULL
+			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM tx_dpa_prog_keg WHERE tahun = '".$tahun_renja."' AND id_skpd = ".$row_select->id_skpd." AND kd_kegiatan IS NOT NULL
 			UNION
 			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg_perubahan WHERE tahun = '".$tahun_renja."' AND id_skpd = ".$row_select->id_skpd." AND kd_kegiatan IS NOT NULL
 			) k
-			LEFT JOIN t_renja_prog_keg r
+			LEFT JOIN tx_dpa_prog_keg r
 			ON k.tahun = r.tahun
 			AND k.kd_urusan = r.kd_urusan
 			AND k.kd_bidang = r.kd_bidang
@@ -98,9 +98,9 @@
 						r.id,
 						r.penanggung_jawab,
 						r.lokasi,
-						r.catatan,
+						r.catatan_1 as catatan,
 						r.id_status,
-						r.`nominal` AS nomrenja,
+						(r.nominal_1+r.nominal_2+r.nominal_3+r.nominal_4+r.nominal_5+r.nominal_6+r.nominal_7+r.nominal_8+r.nominal_9+r.nominal_10+r.nominal_11+r.nominal_12) AS nomrenja,
 						rp.id_renja,
 						rp.`penanggung_jawab` AS penanggung_jawab_perubahan,
 						rp.`lokasi` AS lokasi_perubahan ,
@@ -108,11 +108,11 @@
 						rp.`keterangan` AS keterangan_perubahan,
 						rp.`nominal` AS nomrenja_perubahan
 						FROM (
-						SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg WHERE tahun = '".$tahun_renja."' AND id_skpd = ".$row_select->id_skpd." AND kd_kegiatan IS NOT NULL
+						SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM tx_dpa_prog_keg WHERE tahun = '".$tahun_renja."' AND id_skpd = ".$row_select->id_skpd." AND kd_kegiatan IS NOT NULL
 						UNION
 						SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg_perubahan WHERE tahun = '".$tahun_renja."' AND id_skpd = ".$row_select->id_skpd." AND kd_kegiatan IS NOT NULL
 						) k
-						LEFT JOIN t_renja_prog_keg r
+						LEFT JOIN tx_dpa_prog_keg r
 						ON k.tahun = r.tahun
 						AND k.kd_urusan = r.kd_urusan
 						AND k.kd_bidang = r.kd_bidang
@@ -173,9 +173,9 @@
 					r.id,
 					r.penanggung_jawab,
 					r.lokasi,
-					r.catatan,
+					r.catatan_1 as catatan,
 					r.id_status,
-					r.`nominal` AS nomrenja,
+					(r.nominal_1+r.nominal_2+r.nominal_3+r.nominal_4+r.nominal_5+r.nominal_6+r.nominal_7+r.nominal_8+r.nominal_9+r.nominal_10+r.nominal_11+r.nominal_12) AS nomrenja,
 					rp.id_renja,
 					rp.`penanggung_jawab` AS penanggung_jawab_perubahan,
 					rp.`lokasi` AS lokasi_perubahan ,
@@ -183,11 +183,11 @@
 					rp.`keterangan` AS keterangan_perubahan,
 					rp.`nominal` AS nomrenja_perubahan
 					FROM (
-					SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg WHERE tahun = '".$ta."' AND kd_kegiatan IS NOT NULL
+					SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM tx_dpa_prog_keg WHERE tahun = '".$ta."' AND kd_kegiatan IS NOT NULL
 					UNION
 					SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg_perubahan WHERE tahun = '".$ta."' AND kd_kegiatan IS NOT NULL
 					) k
-					LEFT JOIN t_renja_prog_keg r
+					LEFT JOIN tx_dpa_prog_keg r
 					ON k.tahun = r.tahun
 					AND k.kd_urusan = r.kd_urusan
 					AND k.kd_bidang = r.kd_bidang
@@ -229,7 +229,7 @@
         	<td colspan = "2"></td>
 			<td >
             	<strong>
-                	<?php echo "Total Nominal Renja dan Renja Perubahan SKPD ".$row_select->nama_skpd?>
+                	<?php echo "Total Nominal DPA dan Renja Perubahan SKPD ".$row_select->nama_skpd?>
                 </strong>
             </td>
 			<td align="right">
@@ -251,7 +251,7 @@
         	<td colspan = "2"></td>
 			<td >
             	<strong>
-                	Total Nominal Renja dan Renja Perubahan
+                	Total Nominal DPA dan Renja Perubahan
                 </strong>
             </td>
 			<td align="right">

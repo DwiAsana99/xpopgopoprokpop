@@ -1866,7 +1866,7 @@ class M_renstra_trx extends CI_Model
 				'2' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja', 
 				'3' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja', 
 				'4' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja',
-				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja'
+				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja, id'
 			),
 			'for_where' => array(
 				'1' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'"',
@@ -1913,5 +1913,29 @@ class M_renstra_trx extends CI_Model
 		$result = $this->db->query($query);
 		return $result->result();
 	}
+
+	function sumber_dana_rekap($tahun, $id_skpd){
+        return $this->db->query("SELECT ref.id_sumber,
+			ref.sumber_dana,
+			SUM( IF( ref.tahun = '".$tahun[0]->tahun_anggaran."', ref.subtotal, 0) ) AS 'tahun1',
+			SUM( IF( ref.tahun = '".$tahun[1]->tahun_anggaran."', ref.subtotal, 0) ) AS 'tahun2',
+			SUM( IF( ref.tahun = '".$tahun[2]->tahun_anggaran."', ref.subtotal, 0) ) AS 'tahun3',
+			SUM( IF( ref.tahun = '".$tahun[3]->tahun_anggaran."', ref.subtotal, 0) ) AS 'tahun4',
+			SUM( IF( ref.tahun = '".$tahun[4]->tahun_anggaran."', ref.subtotal, 0) ) AS 'tahun5'
+			FROM (SELECT id_kegiatan, 
+			(SELECT id_skpd FROM t_renstra_prog_keg WHERE id = id_kegiatan) AS id_skpd
+			,kode_sumber_dana AS id_sumber
+			,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
+			,subtotal
+			,tahun
+			FROM t_renstra_belanja_kegiatan AS ref1
+			WHERE kode_jenis_belanja IS NOT NULL )
+			AS ref INNER JOIN m_skpd
+			ON ref.id_skpd = m_skpd.id_skpd
+			WHERE ref.id_skpd = '".$id_skpd."'
+			GROUP BY ref.id_sumber, ref.sumber_dana
+			ORDER BY ref.id_sumber ASC");
+    }
+
 }
 ?>

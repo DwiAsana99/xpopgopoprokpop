@@ -455,7 +455,7 @@
 						<td>Kode & Nama Program</td>
 						<td colspan="2"><?php echo $kodefikasi->kd_urusan.". ".$kodefikasi->kd_bidang.". ".$kodefikasi->kd_program." - ".$kodefikasi->nama_prog_or_keg; ?></td>
 					</tr>
-					<tr>
+					<tr style="display: none;">
 						<td>Kegiatan Prioritas</td>
 						<td colspan="2">
 							<?php echo $id_prog_prioritas; ?>

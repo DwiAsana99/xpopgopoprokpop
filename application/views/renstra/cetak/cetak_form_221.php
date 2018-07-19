@@ -272,7 +272,7 @@
                     ?>
                     <tr>
                       <td class="left right"></td>
-                      <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
+                      <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja); ?></td>
                       <td class="mid" style="border-bottom-style:dashed;"></td>
                       <td class="mid" style="border-bottom-style:dashed;"></td>
                       <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -280,7 +280,7 @@
                     </tr>
                     <tr>
                       <td class="left right"></td>
-                      <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
+                      <td class="left right" style="padding-left: 30px;">- <?php echo str_replace('<', ',', $rowth->detil_uraian_belanja); ?></td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
                       <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
@@ -308,7 +308,7 @@
                   ?>
                   <tr>
                     <td class="left right"></td>
-                    <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
+                    <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja);; ?></td>
                     <td class="mid" style="border-bottom-style:dashed;"></td>
                     <td class="mid" style="border-bottom-style:dashed;"></td>
                     <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -356,7 +356,7 @@
                 ?>
                 <tr>
                   <td class="left right"></td>
-                  <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
+                  <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja);; ?></td>
                   <td class="mid" style="border-bottom-style:dashed;"></td>
                   <td class="mid" style="border-bottom-style:dashed;"></td>
                   <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -416,7 +416,7 @@
               ?>
               <tr>
                 <td class="left right"></td>
-                <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
+                <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja);; ?></td>
                 <td class="mid" style="border-bottom-style:dashed;"></td>
                 <td class="mid" style="border-bottom-style:dashed;"></td>
                 <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -502,7 +502,7 @@
             ?>
             <tr>
               <td class="left right"></td>
-              <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
+              <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja); ?></td>
               <td class="mid" style="border-bottom-style:dashed;"></td>
               <td class="mid" style="border-bottom-style:dashed;"></td>
               <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -510,7 +510,7 @@
             </tr>
             <tr>
               <td class="left right"></td>
-              <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
+              <td class="left right" style="padding-left: 30px;">- <?php echo  str_replace('<', ',', $rowth->detil_uraian_belanja); ?></td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
               <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>

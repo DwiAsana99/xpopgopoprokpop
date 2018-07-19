@@ -1384,17 +1384,24 @@ class Renja_perubahan extends CI_Controller
 			$header = $this->m_template_cetak->get_value("GAMBAR");
 			$data['logo'] = str_replace("src=\"","height=\"30px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
 			//kalo ta=0 , ta tahun +1 ,
-			$ta = '1'; $ta_tahun=$this->session->userdata('t_anggaran_aktif');
+			$ta = '1';
+			$ta_tahun=$this->session->userdata('t_anggaran_aktif');
 			$data['tahun1'] =$this->m_renja_trx_perubahan->get_renja_belanja_per_tahun221($ta,$ta_tahun,$id_kegiatan);
 
-			$tadepan ='0'; $ta_tahundepan=$this->session->userdata('t_anggaran_aktif');
-			$data['tahun11'] =$this->m_renja_trx_perubahan->get_renja_belanja_per_tahun221($tadepan,$ta_tahundepan,$id_kegiatan);
+			// $tadepan ='0';
+			// $ta_tahundepan=$this->session->userdata('t_anggaran_aktif');
+			// $data['tahun11'] =$this->m_renja_trx_perubahan->get_renja_belanja_per_tahun221($tadepan,$ta_tahundepan,$id_kegiatan);
+
+			$data['th_anggaran'] = $ta_tahun;
+			$data['kegiatan'] = $this->m_renja_trx_perubahan->get_one_kegiatan(NULL, $id_kegiatan, TRUE);
 			//print_r($data['tahun11']);exit();
 			$data['keluaran'] =$this->m_renja_trx_perubahan->get_indikator_keluaran($ta, $id_kegiatan);
-			$data['capaian'] =$this->m_renja_trx_perubahan->get_indikator_capaian($id_kegiatan);
+			$data['capaian'] =$this->m_renja_trx_perubahan->get_indikator_capaian($data['kegiatan']->parent);
 			$data['nominal'] =$this->m_renja_trx_perubahan->get_nominal_renja($id_kegiatan,$ta);
+			$data['id_kegiatan'] = $id_kegiatan;
 
 			$result = $this->load->view("renja_perubahan/cetak/cetak_form_221_perubahan",$data, TRUE);
+			// $result = $this->load->view("renja_perubahan/cetak/cetak_form_221_perubahanBCKUP",$data, TRUE);
 		//print_r($result);exit();
 
 
@@ -1407,17 +1414,31 @@ class Renja_perubahan extends CI_Controller
 					//print_r($id_kegiatan);exit();
 					$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
 					$header = $this->m_template_cetak->get_value("GAMBAR");
-					$data['logo'] = str_replace("src=\"","height=\"70px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
+					$data['logo'] = str_replace("src=\"","height=\"80px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
 					$data['header'] = $this->m_template_cetak->get_value("HEADER");
-					$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'renja_perubahan'. date("d-m-Y_H-i-s"), 1);
+					// $data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'renja_perubahan'. date("d-m-Y_H-i-s"), 1);
 					$data['cetak'] = $this->cetak_func221(TRUE,$id_kegiatan);
 					$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
-						//print_r($html);exit();
+						// print_r($html);exit();
 					 $filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
 					 pdf_create($html, $filename, "A4", "Landscape", FALSE);
 
 
 				}
+
+		function preview_cetak_kegiatan($id_kegiatan){
+			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+			$header = $this->m_template_cetak->get_value("GAMBAR");
+			$data['logo'] = str_replace("src=\"","height=\"80px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
+			$data['header'] = $this->m_template_cetak->get_value("HEADER");
+			// $data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'renja_perubahan'. date("d-m-Y_H-i-s"), 1);
+			$data['cetak'] = $this->cetak_func221(TRUE,$id_kegiatan);
+			// $html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
+			$html = $this->load->view('renstra/cetak/cetak_view', $data, TRUE);
+				print_r($html);exit();
+			 // $filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
+			 // pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		}
 
 
 

@@ -13,6 +13,7 @@ class Penentuan_skpd extends CI_Controller
         $this->load->model('m_musrenbang','',TRUE);
         $this->load->model('m_lov','',TRUE);
         $this->load->model('m_skpd','',TRUE);
+        $this->load->model('m_desa','',TRUE);
         if (!empty($this->session->userdata("db_aktif"))) {
             $this->load->database($this->session->userdata("db_aktif"), FALSE, TRUE);
         }
@@ -49,6 +50,7 @@ class Penentuan_skpd extends CI_Controller
             'satuan'			=> $this->input->post('satuan'),
             'jumlah_dana'		=> $this->input->post('jumlah_dana'),
             'id_skpd'			=> $this->input->post('id_skpd'),
+            'id_desa'           => $this->input->post('id_desa'),
             'id_kecamatan' => $this->input->post('id_kecamatan')=='' ? $this->session->userdata('id_kecamatan') : $this->input->post('id_kecamatan'),
             'id_asal_usulan' => $this->input->post('id_asal_usulan')==''? '2' : $this->input->post('id_asal_usulan'),
             'id_status_usulan' => '2'
@@ -164,8 +166,14 @@ class Penentuan_skpd extends CI_Controller
             $data['id_kecamatan'] = $result->id_kecamatan;
             $data['isEdit']				= TRUE;
             $id_skpd_edit = $result->id_skpd;
+            $id_kec_edit = $result->id_desa;
             //$data['combo_skpd']         = $this->m_musrenbang->create_lov_skpd($result->id_skpd);
 
+        }
+
+        $id_desa = array("" => "");
+        foreach ($this->m_desa->get_desa_dee($this->session->userdata('id_kecamatan')) as $row) {
+            $id_desa[$row->id] = $row->label;
         }
 
         $id_skpd = array("" => "");
@@ -173,6 +181,7 @@ class Penentuan_skpd extends CI_Controller
             $id_skpd[$row->id] = $row->id .". ". $row->label;
         }
         $data['id_skpd'] = form_dropdown('id_skpd', $id_skpd, $id_skpd_edit, 'data-placeholder="Pilih SKPD" class="common chosen-select" id="id_skpd"');
+        $data['id_desa_dee'] = form_dropdown('id_desa', $id_desa, $id_desa_edit, 'data-placeholder="Pilih Desa Sasaran" class="common chosen-select" id="id_desa_dee"');
         //var_dump($data['id_skpd']);
 
 

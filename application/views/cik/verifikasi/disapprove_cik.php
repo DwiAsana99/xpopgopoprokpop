@@ -29,6 +29,8 @@
 		});		
 	});
 </script>
+<h3>Tidak Setujui Seluruh CIK</h3>
+<br>
 <form id="disapprove_cik" method="POST" name="disapprove_cik">
 	<input type="hidden" name="id" value="<?php echo $id; ?>">
     <input type="hidden" name="bulan" value="<?php echo $bulan; ?>">

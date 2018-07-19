@@ -72,9 +72,15 @@
                   </td>
                 </tr>
                 <tr>
+                    <td>Nama Desa</td>
+                    <td>
+                        <?php echo $id_desa_dee; ?>
+                    </td>
+                </tr>
+                <tr>
                     <td>Lokasi</td>
                     <td>
-                        <input name='lokasi' type='text' id="lokasi"
+                        <input name='lokasi' type='text' id="lokasi" placeholder="Lokasi"
                          value="<?php
                         echo isset($lokasi) ? $lokasi : ''
                       ?>" style="width:40%">

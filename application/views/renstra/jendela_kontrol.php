@@ -135,6 +135,7 @@
 <footer>
 	<div class="submit_link">
 		<a href="<?php echo site_url('renstra/preview_renstra'); ?>"><input type="button" value="Lihat Renstra" /></a>
+		<a href="<?php echo site_url('renstra/rekap_sumber_dana'); ?>"><input type="button" value="Rekap Sumber Dana" /></a>
 	<?php
 		if (!empty($jendela_kontrol->veri2)) {
 	?>

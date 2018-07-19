@@ -1033,10 +1033,17 @@ class Renstra extends CI_Controller
 
 		$result = $this->m_renstra_trx->get_one_kegiatan(NULL, NULL, NULL, $id, TRUE);
 		if (!empty($result)) {
+			$th_anggaran = $this->m_settings->get_tahun_anggaran_db();
+			$data['th_anggaran'] = $th_anggaran;
 			$data['renstra'] = $result;
 			$data['indikator_sasaran'] = $this->m_renstra_trx->get_indikator_sasaran($result->id_sasaran);
 			$data['indikator_kegiatan'] = $this->m_renstra_trx->get_indikator_prog_keg_status_kat($result->id, TRUE, TRUE);
-			$data['detil_kegiatan'] = $this->m_renstra_trx->get_kegiatan($id);
+			$data['belanja_1'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[0]->tahun_anggaran);
+			// print_r($this->db->last_query());
+			$data['belanja_2'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[1]->tahun_anggaran);
+			$data['belanja_3'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[2]->tahun_anggaran);
+			$data['belanja_4'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[3]->tahun_anggaran);
+			$data['belanja_5'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[4]->tahun_anggaran);
 			//print_r($data['indikator_kegiatan']);
 			//exit;
 			$this->load->view('renstra/preview', $data);
@@ -1658,5 +1665,30 @@ function view_renstra_skpd(){
 
 		$arrayName = array('title' => $title, 'pilihan' => $pilihan, 'html' => $html);
 		echo json_encode($arrayName);
+	}
+
+	function rekap_sumber_dana($cetak=FALSE){
+		$this->auth->restrict();
+		// $th = $this->session->userdata('t_anggaran_aktif');
+		$th = $this->m_settings->get_tahun_anggaran_db();
+		$id_skpd = $this->session->userdata('id_skpd');
+// print_r($th);exit();
+		$data['cetak'] = $cetak;
+		$data['tahun'] = $th;
+		$data['id_skpd'] = $id_skpd;
+		$data['data1'] = $this->m_renstra_trx->sumber_dana_rekap($th, $id_skpd)->result();
+
+		if (!$cetak) {
+			$this->template->load('template','renstra/cetak/cetak_sumber_dana', $data);
+		}else{
+
+			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+			$header = $this->m_template_cetak->get_value("GAMBAR");
+			$data['logo'] = str_replace("src=\"","height=\"90px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
+			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Usulan '. date("d-m-Y H-i-s"), 2);
+
+			$html = $this->load->view('renstra/cetak/cetak_sumber_dana', $data, TRUE);
+			$this->create_pdf->load_ng($html,'Rekap_Sumber_Dana_'.$this->session->userdata("username").'_'.date("d-m-Y_H:i:s"), 'A4-L','');
+		}
 	}
 }

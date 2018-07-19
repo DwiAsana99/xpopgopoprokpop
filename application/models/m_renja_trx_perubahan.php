@@ -435,13 +435,40 @@ class M_renja_trx_perubahan extends CI_Model
 
 			$result = $this->db->query($query);
 		}else {
-			$id_skpd = $this->m_skpd->get_kode_unit($id_skpd);
-			$query = "SELECT * FROM (`$this->table_program_kegiatan`)
-			WHERE `id_skpd` = '$id_skpd'
-			AND `tahun` = '$ta' AND `is_prog_or_keg` = $this->is_program
-			ORDER BY `kd_urusan` asc, `kd_bidang` asc, `kd_program` asc";
+			$cek = $this->m_skpd->get_kode_unit($id_skpd);
+			if ($cek == $id_skpd) {
+				$query = "SELECT * FROM (SELECT *, id AS id_a,
+				(SELECT SUM(nominal) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom1,
+				(SELECT SUM(nominal_thndpn) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom2
+				FROM ".$this->table_program_kegiatan." WHERE `id_skpd` IN 
+				(SELECT id_skpd FROM m_skpd WHERE kode_unit = '".$id_skpd."')
+				AND `tahun` = '".$ta."' 
+				AND `is_prog_or_keg` = ".$this->is_program." 
+				) AS tref
+				WHERE (tref.nom1 > 0)
+				ORDER BY `kd_urusan` ASC, `kd_bidang` ASC, `kd_program` ASC";
 
-			$result = $this->db->query($query);
+				$result = $this->db->query($query);
+			}else{
+				$query = "SELECT * FROM (SELECT *, id AS id_a,
+				(SELECT SUM(nominal) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom1,
+				(SELECT SUM(nominal_thndpn) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom2
+				FROM ".$this->table_program_kegiatan." WHERE `id_skpd` = '".$id_skpd."' AND `tahun` = '".$ta."' 
+				AND `is_prog_or_keg` = ".$this->is_program." 
+				) AS tref
+				WHERE (tref.nom1 > 0)
+				ORDER BY `kd_urusan` ASC, `kd_bidang` ASC, `kd_program` ASC";
+
+				$result = $this->db->query($query);
+			}
+
+			// $id_skpd = $this->m_skpd->get_kode_unit($id_skpd);
+			// $query = "SELECT * FROM (`$this->table_program_kegiatan`)
+			// WHERE `id_skpd` = '$id_skpd'
+			// AND `tahun` = '$ta' AND `is_prog_or_keg` = $this->is_program
+			// ORDER BY `kd_urusan` asc, `kd_bidang` asc, `kd_program` asc";
+
+			// $result = $this->db->query($query);
 			// $cek = $this->m_skpd->get_kode_unit($id_skpd);
 			// if ($cek == $id_skpd) {
 			// 	$query = "SELECT * FROM (`$this->table_program_kegiatan`)
@@ -852,14 +879,17 @@ class M_renja_trx_perubahan extends CI_Model
 			$this->db->where('parent', $id_program);
 		}
 
+		// $this->db->select('*');
+		$this->db->select($this->table_program_kegiatan.".*");
 		if ($detail) {
-			$this->db->select($this->table_program_kegiatan.".*");
 			$this->db->select("nama_skpd");
 
 			$this->db->join("m_skpd", $this->table_program_kegiatan.".id_skpd = m_skpd.id_skpd","inner");
 
 			$this->db->select("m_urusan.Nm_Urusan");
 			$this->db->select("m_bidang.Nm_Bidang");
+			$this->db->select("m_urusan.Kd_Urusan as kode_urusan, m_urusan.Nm_Urusan as nama_urusan");
+			$this->db->select("m_bidang.Kd_Bidang as kode_bidang, m_bidang.Nm_Bidang as nama_bidang");
 			$this->db->select("m_program.Ket_Program");
 			$this->db->join("m_urusan",$this->table_program_kegiatan.".kd_urusan = m_urusan.Kd_Urusan","inner");
 			$this->db->join("m_bidang",$this->table_program_kegiatan.".kd_urusan = m_bidang.Kd_Urusan AND ".$this->table_program_kegiatan.".kd_bidang = m_bidang.Kd_Bidang","inner");
@@ -1177,7 +1207,6 @@ class M_renja_trx_perubahan extends CI_Model
 					where kd_urusan = '".$kd_urusan."'
 					and kd_bidang = '".$kd_bidang."'
 					and kd_program = '".$kd_program."'
-					and id_renja IS NOT NULL
 					order by kd_urusan asc,kd_bidang asc,kd_program asc,kd_kegiatan asc
 					";
 		//$data = array($id_program,$id_skpd,$ta);
@@ -1609,8 +1638,8 @@ class M_renja_trx_perubahan extends CI_Model
 		$this->db->from($this->table_indikator_program);
 
 		if ($satuan) {
-			$this->db->select("m_lov.nama_value");
-			$this->db->join("m_lov",$this->table_indikator_program.".satuan_target = m_lov.kode_value AND kode_app='1'","inner");
+			// $this->db->select("m_lov.nama_value");
+			// $this->db->join("m_lov",$this->table_indikator_program.".satuan_target = m_lov.kode_value AND kode_app='1'","inner");
 		}
 
 		$result = $this->db->get();
@@ -1706,8 +1735,8 @@ class M_renja_trx_perubahan extends CI_Model
 
 
 		$result = $this->db->query($query, $id_skpd);
-
-
+// print_r($result->result());
+// exit();
 		$renja_baru = $result->result_array();
 
 		foreach ($renja_baru as $row) {
@@ -2174,6 +2203,26 @@ class M_renja_trx_perubahan extends CI_Model
             return 0;
 	}
 
+	function get_id_renja_from_renja($id_skpd, $tahun, $kd_urusan, $kd_bidang, $kd_program){
+		$query = "
+						SELECT id
+						FROM t_renja_prog_keg
+						WHERE id_skpd=?
+						AND tahun=?
+						AND kd_urusan = ?
+						AND kd_bidang = ?
+						AND kd_program = ?
+						AND is_prog_or_keg =1
+						";
+			$data = array($id_skpd, $tahun,$kd_urusan,$kd_bidang,$kd_program);
+			$result = $this->db->query($query, $data);
+			if($result->row()!=NULL){
+                $result = $result->row();
+                return $result->id;
+            }
+            return 0;
+	}
+
 	function get_id_renja_perubahan($id_skpd, $tahun, $kd_urusan, $kd_bidang, $kd_program){
 		$query = "
 						SELECT id
@@ -2218,9 +2267,9 @@ class M_renja_trx_perubahan extends CI_Model
 			r.id,
 			r.penanggung_jawab,
 			r.lokasi,
-			r.catatan,
+			r.catatan_1 as catatan,
 			r.id_status,
-			r.`nominal` AS nomrenja,
+			(r.nominal_1+r.nominal_2+r.nominal_3+r.nominal_4+r.nominal_5+r.nominal_6+r.nominal_7+r.nominal_8+r.nominal_9+r.nominal_10+r.nominal_11+r.nominal_12) AS nomrenja,
 			rp.id_renja,
 			rp.`penanggung_jawab` AS penanggung_jawab_perubahan,
 			rp.`lokasi` AS lokasi_perubahan ,
@@ -2228,11 +2277,11 @@ class M_renja_trx_perubahan extends CI_Model
 			rp.`keterangan` AS keterangan_perubahan,
 			rp.`nominal` AS nomrenja_perubahan
 			FROM (
-			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg ".$where." AND kd_kegiatan IS NOT NULL
+			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM tx_dpa_prog_keg ".$where." AND kd_kegiatan IS NOT NULL
 			UNION
 			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg_perubahan ".$where." AND kd_kegiatan IS NOT NULL
 			) k
-			LEFT JOIN t_renja_prog_keg r
+			LEFT JOIN tx_dpa_prog_keg r
 			ON k.tahun = r.tahun
 			AND k.kd_urusan = r.kd_urusan
 			AND k.kd_bidang = r.kd_bidang
@@ -2396,14 +2445,16 @@ class M_renja_trx_perubahan extends CI_Model
 								( SELECT Ket_Kegiatan FROM m_kegiatan WHERE Kd_Urusan = a.kode_urusan AND Kd_Bidang = a.kode_bidang AND Kd_Prog = a.kode_program AND Kd_Keg = a.kode_kegiatan ) AS nama_kegiatan,
 								( SELECT Nm_Bidang FROM m_bidang WHERE Kd_Urusan = a.kode_urusan AND Kd_Bidang = a.kode_bidang ) AS nama_bidang,( SELECT id FROM m_tahun_anggaran WHERE tahun_anggaran = '1' ) AS tahun_anggaran,
 								( SELECT id FROM `t_renja_prog_keg_perubahan` WHERE kd_urusan = a.kode_urusan AND Kd_bidang = a.kode_bidang AND kd_program = a.kode_program AND is_prog_or_keg ='1' ) AS id_program,
-								( SELECT nominal FROM `t_renja_prog_keg_perubahan` WHERE id = '$id_kegiatan' ) AS nominal_tahun, a.uraian_belanja,a.detil_uraian_belanja,a.volume,a.satuan,a.nominal_satuan,a.subtotal,a.tahun,a.id_keg , a.kode_urusan , a.kode_bidang , a.kode_program, a.kode_kegiatan
+								( SELECT nominal FROM `t_renja_prog_keg_perubahan` WHERE id = '$id_kegiatan' ) AS nominal_tahun, a.uraian_belanja,a.detil_uraian_belanja, 
+								REPLACE(UPPER(a.uraian_belanja), ' ','') AS uraian_upper,
+								a.volume,a.satuan,a.nominal_satuan,a.subtotal,a.tahun,a.id_keg , a.kode_urusan , a.kode_bidang , a.kode_program, a.kode_kegiatan
 								,b.`volume` AS volumeperubahan,b.satuan AS satuanperubahan, b.`nominal_satuan` AS nominalperubahan , b.subtotal AS subtotalperubahan
 								 FROM t_renja_perubahan_belanja_kegiatan a
 								INNER JOIN t_renja_perubahan_belanja_kegiatan b
 								ON (a.kode_jenis_belanja = b.kode_jenis_belanja AND a.kode_kategori_belanja = b.kode_kategori_belanja AND a.kode_sub_kategori_belanja = b.kode_sub_kategori_belanja
 								    AND a.kode_belanja = b.kode_belanja AND a.uraian_belanja = b.uraian_belanja AND a.detil_uraian_belanja = b.detil_uraian_belanja
 								    AND a.id_keg = b.id_keg AND b.is_tahun_sekarang =0)
-								    WHERE a.is_tahun_sekarang = '$ta' AND a.tahun = '$ta_tahun' AND a.id_keg = '$id_kegiatan' ORDER BY a.kode_jenis_belanja ASC, a.kode_kategori_belanja ASC, a.kode_sub_kategori_belanja ASC, a.kode_belanja ASC");
+								WHERE a.is_tahun_sekarang = '$ta' AND a.tahun = '$ta_tahun' AND a.id_keg = '$id_kegiatan' ORDER BY a.kode_jenis_belanja ASC, a.kode_kategori_belanja ASC, a.kode_sub_kategori_belanja ASC, a.kode_belanja ASC, a.uraian_belanja ASC, a.detil_uraian_belanja ASC");
 						return $query->result();
 
 		}

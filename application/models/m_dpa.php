@@ -104,7 +104,7 @@ class M_dpa extends CI_Model
 				id in 
 				(SELECT tx_dpa_prog_keg.parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta' )
 				GROUP BY parent)
-				OR id_rka = 0
+				OR id_rka IS NULL
 				)
 				ORDER BY `kd_urusan` asc, `kd_bidang` asc, `kd_program` asc";
 
@@ -119,7 +119,7 @@ class M_dpa extends CI_Model
 				id in 
 				(SELECT tx_dpa_prog_keg.parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta' )
 				GROUP BY parent)
-				OR id_rka = 0
+				OR id_rka IS NULL
 				)
 				ORDER BY `kd_urusan` asc, `kd_bidang` asc, `kd_program` asc";
 

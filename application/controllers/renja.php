@@ -161,9 +161,14 @@ class Renja extends CI_Controller
 			$id_prog_rpjmd[$row->id_nya] = $row->nama_prog;
 		}
 
+		// $id_prog_prioritas = array("0" => "Non Prioritas");
+		// foreach ($this->m_prioritas_pembangunan_rkpd->get_prog_prioritas_by_skpd($id_skpd, $ta, '3')->result() as $row) {
+		// 	$id_prog_prioritas[$row->id] = $row->id_prog_or_keg;
+		// }
+
 		$id_prog_prioritas = array("0" => "Non Prioritas");
-		foreach ($this->m_prioritas_pembangunan_rkpd->get_prog_prioritas_by_skpd($id_skpd, $ta, '1')->result() as $row) {
-			$id_prog_prioritas[$row->id] = $row->id_prog_or_keg;
+		foreach ($this->m_prioritas_pembangunan_rkpd->get_prog_prioritas_by_skpd($id_skpd, $ta, '3')->result() as $row) {
+			$id_prog_prioritas[$row->id] = $row->sasaran;
 		}
 
 		$status_indikator = array("" => "~~ Pilih Positif / Negatif ~~");
@@ -1446,9 +1451,11 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		ini_set("memory_limit","512M");
 
 		$data['cetak'] = $this->cetak_func221(TRUE, $ta, $is_thn_sekarang, $idK);
-		$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
-	 	$filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
-		pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		// $html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
+		$html = $this->load->view('renstra/cetak/cetak_view', $data, true);
+		print_r($html);exit();
+	 	// $filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
+		// pdf_create($html, $filename, "A4", "Landscape", FALSE);
 	}
 
 

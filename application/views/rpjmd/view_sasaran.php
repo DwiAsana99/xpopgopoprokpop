@@ -68,38 +68,38 @@
 
 		$("#sasaran td.td-click").click(function(){
 			close_all();
-			element_sasaran = $(this);
+			// element_sasaran = $(this);
 
-			$("tr.tr-frame-strategi").hide();
-			$.blockUI({
-				css: window._css,
-				overlayCSS: window._ovcss
-			});
+			// $("tr.tr-frame-strategi").hide();
+			// $.blockUI({
+			// 	css: window._css,
+			// 	overlayCSS: window._ovcss
+			// });
 
-			var idt = $(this).parent().attr("id-t");
-			var idr = $(this).parent().attr("id-r");
-			var ids = $(this).parent().attr("id-s");
-			var idp = $(this).parent().attr("id-p");
-			$.ajax({
-				type: "POST",
-				url: '<?php echo site_url("rpjmd/get_strategi"); ?>',
-				data: {id_rpjmd: idr, id_tujuan: idt, id_sasaran: ids, id_program : idp},
-				success: function(msg){
-					if (msg!="") {
-						close_program();
-						$("#indikator-frame").html(msg);
-						if (tab_element == "") {
-							$("a[href='#strategi_tab']").trigger('click');
-							tab_element = "program";
-						}
-						$.blockUI({
-							timeout: 1000,
-							css: window._css,
-							overlayCSS: window._ovcss
-						});
-					};
-				}
-			});
+			// var idt = $(this).parent().attr("id-t");
+			// var idr = $(this).parent().attr("id-r");
+			// var ids = $(this).parent().attr("id-s");
+			// var idp = $(this).parent().attr("id-p");
+			// $.ajax({
+			// 	type: "POST",
+			// 	url: '<?php echo site_url("rpjmd/get_strategi"); ?>',
+			// 	data: {id_rpjmd: idr, id_tujuan: idt, id_sasaran: ids, id_program : idp},
+			// 	success: function(msg){
+			// 		if (msg!="") {
+			// 			close_program();
+			// 			$("#indikator-frame").html(msg);
+			// 			if (tab_element == "") {
+			// 				$("a[href='#strategi_tab']").trigger('click');
+			// 				tab_element = "program";
+			// 			}
+			// 			$.blockUI({
+			// 				timeout: 1000,
+			// 				css: window._css,
+			// 				overlayCSS: window._ovcss
+			// 			});
+			// 		};
+			// 	}
+			// });
 		});
 	});
 </script>
@@ -120,7 +120,7 @@
 		if (!empty($sasaran)) {
 			$i=0;
 			foreach ($sasaran as $row) {
-				$indikator = $this->m_rpjmd_trx->get_indikator_program_per_sasaran($row->id)->result();
+				$indikator = $this->m_rpjmd_trx->get_indikator_sasaran($row->id);
 				$i++;
 	?>
 		<tr class="tr-click" id-r="<?php echo $row->id_rpjmd; ?>" id-t="<?php echo $row->id_tujuan; ?>" id-s="<?php echo $row->id; ?>">
