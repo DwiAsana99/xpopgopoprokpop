@@ -113,8 +113,13 @@
 	$(document).ready(function(){
 		$('#nominal_satuan_1').autoNumeric(numOptionsNotRound);
 		$('#volume_1').autoNumeric(numOptionsNotRound);
+		$('#volume2_1').autoNumeric(numOptionsNotRound);
+		$('#volume3_1').autoNumeric(numOptionsNotRound);
 		$('#nominal_satuan_2').autoNumeric(numOptionsNotRound);
 		$('#volume_2').autoNumeric(numOptionsNotRound);
+		$('#volume_2').autoNumeric(numOptionsNotRound);
+		$('#volume2_2').autoNumeric(numOptionsNotRound);
+		$('#volume3_2').autoNumeric(numOptionsNotRound);
 
 		prepare_chosen();
 		$(document).on("change", "#cb_jenis_belanja_1", function () {
@@ -628,62 +633,82 @@
 				<input type="hidden" id="tahun_1" name="tahun_1" value=<?php if(!empty($detil_kegiatan_1)){echo $detil_kegiatan_1[0]->tahun;} ?> />
 				<input type="hidden" id="isEdit_1" value="0"/>
 				<tr>
-					<td width="20%">Kelompok Belanja</td>
-					<td width="80%" id="combo_jenis_belanja_1">
+					<td>Kelompok Belanja</td>
+					<td id="combo_jenis_belanja_1" colspan="3">
 					    <?php echo $cb_jenis_belanja_1; ?>
 		            </td>
 		        </tr>
 		        <tr>
 		           	<td>Jenis Belanja</td>
-		           	<td id="combo_kategori_1">
+		           	<td id="combo_kategori_1" colspan="3">
 		                <?php echo $cb_kategori_belanja_1; ?>
 		            </td>
 		        </tr>
 				<tr>
 					<td>Obyek Belanja</td>
-					<td id="combo_subkategori_1">
+					<td id="combo_subkategori_1" colspan="3">
 					    <?php echo $cb_subkategori_belanja_1; ?>
 					</td>
 				</tr>
 				<tr >
 					<td>Rincian Obyek</td>
-					<td id="combo_belanja_1">
+					<td id="combo_belanja_1" colspan="3">
 					   <?php echo $cb_belanja_1; ?>
 					</td>
 				</tr>
 				<tr>
 					<td>Rincian Belanja</td>
-					<td>
+					<td colspan="3">
 				      <input type="text" id="uraian_1" name="uraian_1" class="common" value="<?php if(!empty($uraian_1)){echo $uraian_1;} ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>Sumber Dana </td>
-					<td id="combo_sumberdana_1">
+					<td id="combo_sumberdana_1" colspan="3">
 						<?php echo form_dropdown('sumberdana_1', $sumber_dana, NULL, 'data-placeholder="Pilih Sumber Dana" class="common chosen-select" id="sumberdana_1" name="sumberdana_1"'); ?>
 				</tr>
 				<tr>
 					<td>Sub Rincian Belanja</td>
-					<td>
+					<td colspan="3">
 				      <input type="text" id="det_uraian_1" name="det_uraian_1" class="common" value="<?php if(!empty($deturaian_1)){echo $deturaian_1;} ?>" />
 					</td>
 				</tr>
 				<tr>
-					<td>Volume</td>
-					<td>
-						<input class="common" type="text" name="volume_1" id="volume_1" value="<?php if(!empty($volume_1)){echo $volume_1;} ?>"/>
+					<td width="20%">Volume 1</td>
+					<td width="30%">
+						<input class="common" type="text" name="volume1_1" id="volume_1" value="<?php if(!empty($volume_1)){echo $volume_1;} ?>"/>
+					</td>
+					<td width="20%">Satuan 1</td>
+					<td width="30%">
+				  <!-- <?php //echo form_dropdown('satuan_1', $satuan, NULL, 'class="common " id="satuan_1" name="satuan_1"'); ?> -->
+						<input class="common" type="text" name="satuan1_1" id="satuan_1" />
 					</td>
 				</tr>
 				<tr>
-					<td>Satuan</td>
+					<td>Volume 2</td>
 					<td>
-				  <!-- <?php echo form_dropdown('satuan_1', $satuan, NULL, 'class="common " id="satuan_1" name="satuan_1"'); ?> -->
-						<input class="common" type="text" name="satuan_1" id="satuan_1" />
+						<input class="common" type="text" name="volume2_1" id="volume2_1"/>
+					</td>
+					<td>Satuan 2</td>
+					<td>
+				  <!-- <?php //echo form_dropdown('satuan_1', $satuan, NULL, 'class="common " id="satuan_1" name="satuan_1"'); ?> -->
+						<input class="common" type="text" name="satuan2_1" id="satuan2_1" />
+					</td>
+				</tr>
+				<tr>
+					<td>Volume 3</td>
+					<td>
+						<input class="common" type="text" name="volume3_1" id="volume3_1"/>
+					</td>
+					<td>Satuan 3</td>
+					<td>
+				  <!-- <?php //echo form_dropdown('satuan_1', $satuan, NULL, 'class="common " id="satuan_1" name="satuan_1"'); ?> -->
+						<input class="common" type="text" name="satuan3_1" id="satuan3_1" />
 					</td>
 				</tr>
 				<tr>
 					<td>Nominal Satuan</td>
-					<td>
+					<td colspan="3">
 						<input class="common" type="text" name="nominal_satuan_1" id="nominal_satuan_1" value="<?php if(!empty($nominal_satuan_1)){echo $nominal_satuan_1;} ?>"/>
 					</td>
 				</tr>
@@ -710,13 +735,13 @@
 	    <div class="col-md-12" style="margin-bottom: 15px;">
 	    	<b id="text_lihat_th1"></b>
 	    </div>
-	    <div class="col-md-3">
+	    <div class="col-md-2">
 	      <button type="button" class="col-md-12 custom" id="btn_lihat1_th1" onclick='select_lihat1("1", true, "5.2")'>Jenis Belanja</button>
 	      <button type="button" class="col-md-12 custom" id="btn_lihat2_th1" disabled>Obyek Belanja</button>
 	      <button type="button" class="col-md-12 custom" id="btn_lihat3_th1" disabled>Rincian Obyek</button>
 	      <button type="button" class="col-md-12 custom" id="btn_lihat4_th1" disabled>Rincian Belanja</button>
 	    </div>
-	    <div class="col-md-9" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th1">
+	    <div class="col-md-10" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th1">
 	      <?php if (!empty($detil_kegiatan_1)): ?>
 	        <?php foreach ($detil_kegiatan_1 as $key => $row): ?>
 	          <?php if (!empty($row->kode_sumber_dana)): ?>
@@ -737,40 +762,40 @@
 												<input type="hidden" id="isEdit_2" value="0"/>
 
 												<tr>
-														<td width="20%">Kelompok Belanja</td>
-														<td width="80%" id="combo_jenis_belanja_2">
+														<td>Kelompok Belanja</td>
+														<td id="combo_jenis_belanja_2" colspan="3">
 															<?php echo $cb_jenis_belanja_2; ?>
 
 														</td>
 												</tr>
 												<tr>
 														<td>Jenis Belanja</td>
-														<td id="combo_kategori_2">
+														<td id="combo_kategori_2" colspan="3">
 															<?php echo $cb_kategori_belanja_2; ?>
 
 														</td>
 												</tr>
 												<tr>
 													<td>Obyek Belanja</td>
-													<td id="combo_subkategori_2">
+													<td id="combo_subkategori_2" colspan="3">
 															<?php echo $cb_subkategori_belanja_2; ?>
 													</td>
 												</tr>
 												<tr >
 													<td>Rincian Obyek</td>
-													<td id="combo_belanja_2">
+													<td id="combo_belanja_2" colspan="3">
 															 <?php echo $cb_belanja_2; ?>
 													</td>
 												</tr>
 												<tr>
 													<td>Rincian Belanja</td>
-													<td>
+													<td colspan="3">
 																<input type="text" id="uraian_2" name="uraian_2" class="common" value="<?php if(!empty($uraian_2)){echo $uraian_2;} ?>" />
 													</td>
 												</tr>
 												<tr>
 													<td>Sumber Dana </td>
-													<td id="combo_sumberdana_2">
+													<td id="combo_sumberdana_2" colspan="3">
 														<?php echo form_dropdown('sumberdana_2', $sumber_dana, NULL, 'data-placeholder="Pilih Sumber Dana" class="common chosen-select" id="sumberdana_2" name="sumberdana_2"'); ?>
 														 <!-- <select id="sumberdana_2" name="sumberdana_2" class="common" >
 																<option value="1"  >DAU/PAD</option>
@@ -783,24 +808,46 @@
 												</tr>
 												<tr>
 													<td>Sub Rincian Belanja</td>
-													<td>
+													<td colspan="3">
 																<input type="text" id="det_uraian_2" name="det_uraian_2" class="common" value="<?php if(!empty($deturaian_2)){echo $deturaian_2;} ?>" />
 													</td>
 												</tr>
 												<tr>
-													<td>Volume</td>
-													<td><input class="common" type="text" name="volume_2" id="volume_2" value="<?php if(!empty($volume_2)){echo $volume_2;} ?>"/></td>
+													<td width="20%">Volume 1</td>
+													<td width="30%">
+														<input class="common" type="text" name="volume1_2" id="volume_2" value="<?php if(!empty($volume_1)){echo $volume_1;} ?>"/>
+													</td>
+													<td width="20%">Satuan 1</td>
+													<td width="30%">
+												  <!-- <?php //echo form_dropdown('satuan_1', $satuan, NULL, 'class="common " id="satuan_1" name="satuan_1"'); ?> -->
+														<input class="common" type="text" name="satuan1_2" id="satuan_2" />
+													</td>
 												</tr>
 												<tr>
-													<td>Satuan</td>
+													<td>Volume 2</td>
 													<td>
-														<input class="common" type="text" name="satuan_2" id="satuan_2" />
-														<!-- <?php echo form_dropdown('satuan_2', $satuan, NULL, 'class="common " id="satuan_2" name="satuan_2"'); ?> -->
+														<input class="common" type="text" name="volume2_2" id="volume2_2"/>
+													</td>
+													<td>Satuan 2</td>
+													<td>
+												  <!-- <?php //echo form_dropdown('satuan_1', $satuan, NULL, 'class="common " id="satuan_1" name="satuan_1"'); ?> -->
+														<input class="common" type="text" name="satuan2_2" id="satuan2_2" />
+													</td>
+												</tr>
+												<tr>
+													<td>Volume 3</td>
+													<td>
+														<input class="common" type="text" name="volume3_2" id="volume3_2"/>
+													</td>
+													<td>Satuan 3</td>
+													<td>
+												  <!-- <?php //echo form_dropdown('satuan_1', $satuan, NULL, 'class="common " id="satuan_1" name="satuan_1"'); ?> -->
+														<input class="common" type="text" name="satuan3_2" id="satuan3_2" />
 													</td>
 												</tr>
 												<tr>
 													<td>Nominal Satuan</td>
-													<td><input class="common" type="text" name="nominal_satuan_2" id="nominal_satuan_2" value="<?php if(!empty($nominal_satuan_2)){echo $nominal_satuan_2;} ?>"/></td>
+													<td colspan="3"><input class="common" type="text" name="nominal_satuan_2" id="nominal_satuan_2" value="<?php if(!empty($nominal_satuan_2)){echo $nominal_satuan_2;} ?>"/></td>
 												</tr>
 											</table>
 
@@ -1077,14 +1124,20 @@
 		var uraian = $('#uraian_'+tahun).val();
 		var sumberdana = $('#sumberdana_'+tahun).val();
 		var deturaian = $('#det_uraian_'+tahun).val();
-		var volume = $('#volume_'+tahun).autoNumeric('get');
-		var satuan = $('#satuan_'+tahun).val();
+		var volume1 = $('#volume_'+tahun).autoNumeric('get');
+		var satuan1 = $('#satuan_'+tahun).val();
+		var volume2 = (($('#volume2_'+tahun).val() != '' && $('#volume2_'+tahun).autoNumeric('get')>=1) ? $('#volume2_'+tahun).autoNumeric('get') : '1');
+		var volume2db = (($('#volume2_'+tahun).val() != '' && $('#volume2_'+tahun).autoNumeric('get')>=1) ? $('#volume2_'+tahun).autoNumeric('get') : '0');
+		var satuan2 = $('#satuan2_'+tahun).val();
+		var volume3 = (($('#volume3_'+tahun).val() != '' && $('#volume3_'+tahun).autoNumeric('get')>=1) ? $('#volume3_'+tahun).autoNumeric('get') : '1');
+		var volume3db = (($('#volume3_'+tahun).val() != '' && $('#volume3_'+tahun).autoNumeric('get')>=1) ? $('#volume3_'+tahun).autoNumeric('get') : '0');
+		var satuan3 = $('#satuan3_'+tahun).val();
 		var nomsatuan = $('#nominal_satuan_'+tahun).autoNumeric('get');
 
-		var subtotal = parseInt(nomsatuan) * parseInt(volume);
+		var subtotal = parseFloat(volume1) * parseFloat(volume2) * parseFloat(volume3) * parseFloat(nomsatuan);
 
 // var status = true;
-		var status = eliminationName(jenis, kategori, subkategori, belanja, uraian, deturaian, volume, satuan, nomsatuan, sumberdana, clue, '#cusAlert_'+tahun, 'pesan_'+tahun);
+		var status = eliminationName(jenis, kategori, subkategori, belanja, uraian, deturaian, volume1, satuan1, nomsatuan, sumberdana, clue, '#cusAlert_'+tahun, 'pesan_'+tahun);
 
 		if (status) {
 			$.ajax({
@@ -1108,8 +1161,12 @@
 			    uraian_belanja : uraian,
 			    kode_sumber_dana : sumberdana,
 			    detil_uraian_belanja : deturaian,
-			    volume : volume,
-			    satuan : satuan,
+			    volume : volume1,
+			    satuan : satuan1,
+			    volume_2 : volume2db,
+			    satuan_2 : satuan2,
+			    volume_3 : volume3db,
+			    satuan_3 : satuan3,
 			    nominal_satuan : nomsatuan,
 			    subtotal : subtotal
 			    },
@@ -1151,6 +1208,10 @@
 			document.getElementById("det_uraian_"+tahun).value = '';
 			document.getElementById("volume_"+tahun).value = '';
 			document.getElementById("satuan_"+tahun).value = '';
+			document.getElementById("volume2_"+tahun).value = '';
+			document.getElementById("satuan2_"+tahun).value = '';
+			document.getElementById("volume3_"+tahun).value = '';
+			document.getElementById("satuan3_"+tahun).value = '';
 			document.getElementById("nominal_satuan_"+tahun).value='';
 	    }
 	    else if (clue=='kat') {
@@ -1166,6 +1227,10 @@
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
+			document.getElementById("volume2_"+tahun).value = '';
+			document.getElementById("satuan2_"+tahun).value = '';
+			document.getElementById("volume3_"+tahun).value = '';
+			document.getElementById("satuan3_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='subkat') {
 	      document.getElementById("cb_subkategori_belanja_"+tahun).value = '';
@@ -1178,6 +1243,10 @@
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
+			document.getElementById("volume2_"+tahun).value = '';
+			document.getElementById("satuan2_"+tahun).value = '';
+			document.getElementById("volume3_"+tahun).value = '';
+			document.getElementById("satuan3_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='belanja') {
 	      document.getElementById("cb_belanja_"+tahun).value = '';
@@ -1188,6 +1257,10 @@
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
+			document.getElementById("volume2_"+tahun).value = '';
+			document.getElementById("satuan2_"+tahun).value = '';
+			document.getElementById("volume3_"+tahun).value = '';
+			document.getElementById("satuan3_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='uraian') {
 		  document.getElementById("sumberdana_"+tahun).value = '';
@@ -1196,11 +1269,19 @@
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
+			document.getElementById("volume2_"+tahun).value = '';
+			document.getElementById("satuan2_"+tahun).value = '';
+			document.getElementById("volume3_"+tahun).value = '';
+			document.getElementById("satuan3_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='deturaian') {
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
+			document.getElementById("volume2_"+tahun).value = '';
+			document.getElementById("satuan2_"+tahun).value = '';
+			document.getElementById("volume3_"+tahun).value = '';
+			document.getElementById("satuan3_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }
 	}
@@ -1257,6 +1338,10 @@
 	            $('#det_uraian_1').val(msg.edit.detil_uraian_belanja);
 	            $('#volume_1').autoNumeric('set', msg.edit.volume);
 	            $('#satuan_1').val(msg.edit.satuan);
+	            $('#volume2_1').autoNumeric('set', msg.edit.volume_2);
+	            $('#satuan2_1').val(msg.edit.satuan_2);
+	            $('#volume3_1').autoNumeric('set', msg.edit.volume_3);
+	            $('#satuan3_1').val(msg.edit.satuan_3);
 	            $('#nominal_satuan_1').autoNumeric('set', msg.edit.nominal_satuan);
 	            $('#nominal').autoNumeric('set', total);
         	}else{
@@ -1269,6 +1354,10 @@
 	            $('#det_uraian_2').val(msg.edit.detil_uraian_belanja);
 	            $('#volume_2').autoNumeric('set', msg.edit.volume);
 	            $('#satuan_2').val(msg.edit.satuan);
+	            $('#volume2_2').autoNumeric('set', msg.edit.volume_2);
+	            $('#satuan2_2').val(msg.edit.satuan_2);
+	            $('#volume3_2').autoNumeric('set', msg.edit.volume_3);
+	            $('#satuan3_2').val(msg.edit.satuan_3);
 	            $('#nominal_satuan_2').autoNumeric('set', msg.edit.nominal_satuan);
 	            $('#nominal_thndpn').autoNumeric('set', total);
         	}

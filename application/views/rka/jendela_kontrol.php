@@ -63,6 +63,7 @@
 	?>
     	<input type="button" class="button-action" id="export_simda" value="Singkron Data Ke Simda" />
     	<a href="<?php echo site_url('rka/preview_rka'); ?>"><input type="button" value="Lihat RKA" /></a>
+		<a href="<?php echo site_url('rka/rekap_sumber_dana'); ?>"><input type="button" value="Rekap Sumber Dana" /></a>
     <?php } ?>
 	  	<!--<input type="button" class="button-action" id="cetak" value="Cetak" />-->
 	 	<input type="button" value="Back" onclick="history.go(-1)" />

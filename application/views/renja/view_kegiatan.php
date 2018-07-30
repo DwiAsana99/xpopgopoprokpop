@@ -146,6 +146,29 @@
 				}
 			});
 		});
+
+		$(".copy-kegiatan").click(function(){
+			prepare_facebox();
+			$.blockUI({
+				css: window._css,
+				overlayCSS: window._ovcss
+			});
+			$.ajax({
+				type: "POST",
+				url: '<?php echo site_url("renja/copy_belanja_kegiatan"); ?>',
+				data: {id: $(this).attr("idK")},
+				success: function(msg){
+					if (msg!="") {
+						$.facebox(msg);
+						$.blockUI({
+							timeout: 500,
+							css: window._css,
+							overlayCSS: window._ovcss
+						});
+					};
+				}
+			});
+		});
 	});
 </script>
 <table id="kegiatan" class="table-common" style="width: 99%">
@@ -205,6 +228,7 @@
 				if ($enable_edit) {
 			?>
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-pencil edit-kegiatan" title="Edit Kegiatan"/>
+				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-list copy-kegiatan" title="Copy Belanja Kegiatan"/>
             <?php
 				}
 

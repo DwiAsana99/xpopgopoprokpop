@@ -1407,4 +1407,27 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$result = $this->db->query($query);
 		return $result->result();
 	}
+
+	function sumber_dana_rekap($tahun, $id_skpd){
+		return $this->db->query("SELECT * FROM (
+			SELECT ref.id_sumber,
+			ref.sumber_dana,
+			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 1, ref.subtotal, 0) ) AS 'tahun1',
+			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 0, ref.subtotal, 0) ) AS 'tahun2'
+			FROM (SELECT id_keg, 
+			(SELECT id_skpd FROM t_ppas_prog_keg WHERE id = id_keg) AS id_skpd
+			,kode_sumber_dana AS id_sumber
+			,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
+			,subtotal
+			,tahun
+			,is_tahun_sekarang
+			FROM t_ppas_belanja_kegiatan AS ref1
+			WHERE kode_jenis_belanja IS NOT NULL )
+			AS ref INNER JOIN m_skpd
+			ON ref.id_skpd = m_skpd.id_skpd
+			WHERE ref.id_skpd = '$id_skpd'
+			GROUP BY ref.id_sumber, ref.sumber_dana
+			ORDER BY ref.id_sumber ASC) AS las
+			WHERE las.tahun1 > 0 OR las.tahun2 > 0");	
+	}
 }

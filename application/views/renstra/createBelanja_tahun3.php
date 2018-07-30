@@ -411,12 +411,13 @@ $(document).on("change", "#cb_subkategori_belanja_3", function () {
 
 		<div class="submit_link">
       <input type='button' id="ambilbelanjasebelumnya" onclick="copyrowng(3);" style="cursor:pointer;" value='+ Ambil Tahun -1'>
-      <input type='button' id="tambahjnsbelanja" onclick="save_belanja_renstra(3, 'jns');" style="cursor:pointer;" value='+ Kelompok Belanja'>
+      <!-- <input type='button' id="tambahjnsbelanja" onclick="save_belanja_renstra(3, 'jns');" style="cursor:pointer;" value='+ Kelompok Belanja'>
       <input type='button'  id="tambahkatbelanja" onclick="save_belanja_renstra(3,'kat');" style="cursor:pointer;" value='+ Jenis Belanja'>
       <input type='button'  id="tambahsubkatbelanja" onclick="save_belanja_renstra(3,'subkat');" style="cursor:pointer;" value='+ Obyek Belanja'>
       <input type='button'  id="tambahbelanja" onclick="save_belanja_renstra(3,'belanja');" style="cursor:pointer;" value='+ Rincian Obyek'>
       <input type='button'  id="tambahuraian" onclick="save_belanja_renstra(3,'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
-      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(3,'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'>
+      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(3,'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'> -->
+      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(3,'deturaian');" style="cursor:pointer;" value='Tambah Belanja'>
 
 		</div>
 		

@@ -187,6 +187,7 @@
 	?>
 		<input type="button" class="button-action" id="cetak_aksi" value="Cetak Rencana Aksi" />
     	<a href="<?php echo site_url('dpa/preview_dpa'); ?>"><input type="button" value="Lihat DPA" /></a>
+		<a href="<?php echo site_url('dpa/rekap_sumber_dana'); ?>"><input type="button" value="Rekap Sumber Dana" /></a>
     <?php } ?>
 	 	<input type="button" value="Back" onclick="history.go(-1)" />
 	</div>

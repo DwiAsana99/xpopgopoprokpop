@@ -414,12 +414,13 @@ $(document).on("change", "#sumberdana_1", function () {
     </div>
 
 		<div class="submit_link">
-      <input type='button' id="tambahjnsbelanja" onclick="save_belanja_renstra(1, 'jns');" style="cursor:pointer;" value="+ Kelompok Belanja">
+<!--  <input type='button' id="tambahjnsbelanja" onclick="save_belanja_renstra(1, 'jns');" style="cursor:pointer;" value="+ Kelompok Belanja">
       <input type='button'  id="tambahkatbelanja" onclick="save_belanja_renstra(1, 'kat');" style="cursor:pointer;" value='+ Jenis Belanja'>
       <input type='button'  id="tambahsubkatbelanja" onclick="save_belanja_renstra(1, 'subkat');" style="cursor:pointer;" value='+ Obyek Belanja'>
       <input type='button'  id="tambahbelanja" onclick="save_belanja_renstra(1, 'belanja');" style="cursor:pointer;" value='+ Rincian Obyek'>
       <input type='button'  id="tambahuraian" onclick="save_belanja_renstra(1, 'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
-      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(1, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'>
+      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(1, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'> -->
+      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(1, 'deturaian');" style="cursor:pointer;" value='Tambah Belanja'>
 
 		</div>
 		

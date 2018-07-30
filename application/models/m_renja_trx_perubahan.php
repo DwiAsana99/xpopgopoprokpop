@@ -2444,7 +2444,7 @@ class M_renja_trx_perubahan extends CI_Model
 								( SELECT Ket_Program FROM m_program WHERE Kd_Urusan = a.kode_urusan AND Kd_Bidang = a.kode_bidang AND Kd_Prog = a.kode_program ) AS nama_program,
 								( SELECT Ket_Kegiatan FROM m_kegiatan WHERE Kd_Urusan = a.kode_urusan AND Kd_Bidang = a.kode_bidang AND Kd_Prog = a.kode_program AND Kd_Keg = a.kode_kegiatan ) AS nama_kegiatan,
 								( SELECT Nm_Bidang FROM m_bidang WHERE Kd_Urusan = a.kode_urusan AND Kd_Bidang = a.kode_bidang ) AS nama_bidang,( SELECT id FROM m_tahun_anggaran WHERE tahun_anggaran = '1' ) AS tahun_anggaran,
-								( SELECT id FROM `t_renja_prog_keg_perubahan` WHERE kd_urusan = a.kode_urusan AND Kd_bidang = a.kode_bidang AND kd_program = a.kode_program AND is_prog_or_keg ='1' ) AS id_program,
+								( SELECT id FROM `t_renja_prog_keg_perubahan` WHERE tahun = '$ta_tahun' AND kd_urusan = a.kode_urusan AND Kd_bidang = a.kode_bidang AND kd_program = a.kode_program AND is_prog_or_keg ='1' ) AS id_program,
 								( SELECT nominal FROM `t_renja_prog_keg_perubahan` WHERE id = '$id_kegiatan' ) AS nominal_tahun, a.uraian_belanja,a.detil_uraian_belanja, 
 								REPLACE(UPPER(a.uraian_belanja), ' ','') AS uraian_upper,
 								a.volume,a.satuan,a.nominal_satuan,a.subtotal,a.tahun,a.id_keg , a.kode_urusan , a.kode_bidang , a.kode_program, a.kode_kegiatan

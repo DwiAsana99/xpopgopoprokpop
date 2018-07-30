@@ -1598,11 +1598,18 @@ function view_renstra_skpd(){
 		switch ($group) {
 			case 1:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; left: 789px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2 Belanja Langsung';
 					$pilihan = array('kd_jenis' => '5.2');
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\')">'.$row->kode_kategori_belanja.' - '.$row->kategori_belanja.'</button><br>';
+					$html .= '
+						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\')">'.$row->kode_kategori_belanja.' - '.$row->kategori_belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
@@ -1612,7 +1619,13 @@ function view_renstra_skpd(){
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.' '.$row->kategori_belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat3(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">'.$row->kode_sub_kategori_belanja.' - '.$row->sub_kategori_belanja.'</button><br>';
+					$html .= '
+						<div style="display: inline; position: absolute; left: 789px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$row->kode_kategori_belanja.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat3(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">'.$row->kode_sub_kategori_belanja.' - '.$row->sub_kategori_belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
@@ -1622,7 +1635,13 @@ function view_renstra_skpd(){
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.' '.$row->sub_kategori_belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat4(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">'.$row->kode_belanja.' - '.$row->belanja.'</button><br>';
+					$html .= '
+						<div style="display: inline; position: absolute; left: 789px;">
+				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat4(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">'.$row->kode_belanja.' - '.$row->belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
@@ -1632,13 +1651,26 @@ function view_renstra_skpd(){
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat5(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\', \''.$row->uraian_belanja.'\')">'.$row->uraian_belanja.'</button><br>';
+					$html .= '
+						<div style="display: inline; position: absolute; left: 789px;">
+				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat5(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\', \''.$row->uraian_belanja.'\')">'.$row->uraian_belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
 			case 5:
 				$total = 0;
-				$html .= '<table><tr><th>Sumber Dana</th><th>Sub Rincian</th><th>Volume</th><th>Satuan</th><th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
+				$html .= '
+						<div style="display: block; position: absolute; left: 789px;">
+				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$data[0]->kode_kategori_belanja.'\', \''.$data[0]->kode_sub_kategori_belanja.'\', \''.$data[0]->kode_belanja.'\', \''.$data[0]->uraian_belanja.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+					      <p style="height: 25px;"></p>
+						<table><tr><th>Sumber Dana</th><th>Sub Rincian</th><th>Volume</th><th>Satuan</th><th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->uraian_belanja;
@@ -1659,7 +1691,11 @@ function view_renstra_skpd(){
 			default:
 				$title = '';
 				$pilihan = '';
-				$html = '';
+				$html = '<div style="display: inline; position: absolute; left: 789px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>';
 				break;
 		}
 
@@ -1685,10 +1721,10 @@ function view_renstra_skpd(){
 			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
 			$header = $this->m_template_cetak->get_value("GAMBAR");
 			$data['logo'] = str_replace("src=\"","height=\"90px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
-			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Usulan '. date("d-m-Y H-i-s"), 2);
+			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Usulan Renstra '. date("d-m-Y H-i-s"), 2);
 
 			$html = $this->load->view('renstra/cetak/cetak_sumber_dana', $data, TRUE);
-			$this->create_pdf->load_ng($html,'Rekap_Sumber_Dana_'.$this->session->userdata("username").'_'.date("d-m-Y_H:i:s"), 'A4-L','');
+			$this->create_pdf->load_ng($html,'Rekap_Sumber_Dana_Renstra_'.$this->session->userdata("username").'_'.date("d-m-Y_H-i-s"), 'A4-L','');
 		}
 	}
 }

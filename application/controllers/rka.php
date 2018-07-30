@@ -1166,4 +1166,29 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$arrayName = array('title' => $title, 'pilihan' => $pilihan, 'html' => $html);
 		echo json_encode($arrayName);
 	}
+
+	function rekap_sumber_dana($cetak=FALSE){
+		$this->auth->restrict();
+
+		$th = $this->session->userdata('t_anggaran_aktif');
+		$id_skpd = $this->session->userdata('id_skpd');
+
+		$data['cetak'] = $cetak;
+		$data['tahun'] = $th;
+		$data['id_skpd'] = $id_skpd;
+		$data['data1'] = $this->m_rka->sumber_dana_rekap($th, $id_skpd)->result();
+
+		if (!$cetak) {
+			$this->template->load('template','rka/cetak/cetak_sumber_dana', $data);
+		}else{
+
+			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+			$header = $this->m_template_cetak->get_value("GAMBAR");
+			$data['logo'] = str_replace("src=\"","height=\"90px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
+			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Sumber Dana RKA '. date("d-m-Y H-i-s"), 2);
+
+			$html = $this->load->view('rka/cetak/cetak_sumber_dana', $data, TRUE);
+			$this->create_pdf->load_ng($html,'Rekap_Sumber_Dana_RKA_'.$this->session->userdata("username").'_'.date("d-m-Y_H-i-s"), 'A4-L','');
+		}
+	}
 }

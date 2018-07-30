@@ -625,14 +625,18 @@ class M_renja_trx extends CI_Model
 		return $this->db->trans_status();
 	}
 
-	function get_all_kegiatan($id, $id_skpd, $ta){
+	function get_all_kegiatan($id, $id_skpd, $ta, $with_parent=TRUE){
+		$parent = '';
+		if ($with_parent) {
+			$parent = "AND parent = $id";
+		}
 		if ($this->session->userdata("id_skpd") > 100) {
 			$id_skpd = $this->session->userdata("id_skpd");
 			$query = "SELECT * FROM (`$this->table_program_kegiatan`)
 			WHERE `id_skpd` in (SELECT id_skpd FROM m_asisten_sekda WHERE id_asisten = '$id_skpd')
-			AND `tahun` = '$ta' AND parent = $id
+			AND `tahun` = '$ta' $parent
 			AND `is_prog_or_keg` = $this->is_kegiatan
-			AND (nominal > 0)
+			AND (nominal > 0 OR id_renstra = 0)
 			ORDER BY `kd_urusan` asc, `kd_bidang` asc, `kd_program` asc, `kd_kegiatan` asc";
 
 			$result = $this->db->query($query);
@@ -641,9 +645,9 @@ class M_renja_trx extends CI_Model
 			if ($cek == $id_skpd) {
 				$query = "SELECT * FROM (`$this->table_program_kegiatan`)
 				WHERE `id_skpd` in (SELECT id_skpd FROM m_skpd WHERE kode_unit = '$id_skpd')
-				AND `tahun` = '$ta' AND parent = $id
+				AND `tahun` = '$ta' $parent
 				AND `is_prog_or_keg` = $this->is_kegiatan
-				AND (nominal > 0)
+				AND (nominal > 0 OR id_renstra = 0)
 				ORDER BY `kd_urusan` asc, `kd_bidang` asc, `kd_program` asc, `kd_kegiatan` asc";
 
 				$result = $this->db->query($query);
@@ -651,9 +655,13 @@ class M_renja_trx extends CI_Model
 				$this->db->select($this->table_program_kegiatan.".*");
 				$this->db->where('id_skpd', $id_skpd);
 				$this->db->where('tahun', $ta);
-				$this->db->where('parent', $id);
+				if ($with_parent) {
+					$this->db->where('parent', $id);
+				}
 				$this->db->where('is_prog_or_keg', $this->is_kegiatan);
-				$this->db->where('nominal >', '0');
+				// $this->db->where('nominal >', '0');
+				// $this->db->or_where('id_renstra', '0');
+				$this->db->where('(nominal > 0 OR id_renstra = 0)');
 				$this->db->from($this->table_program_kegiatan);
 				$this->db->order_by('kd_urusan','asc');
 				$this->db->order_by('kd_bidang','asc');
@@ -2361,7 +2369,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 								kode_belanja AS kode_belanja,(
 									SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 								) AS belanja,
-								uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+								uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 								FROM t_renja_belanja_kegiatan
 								WHERE id_keg = '$id_kegiatan' ".$th." ".$not." 
 								ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC";
@@ -2387,7 +2395,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				kode_belanja AS kode_belanja,(
 					SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 				) AS belanja,
-				uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+				uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 				FROM t_renja_belanja_kegiatan
 				WHERE id = '$id_belanja'
 				ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC";
@@ -2492,7 +2500,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 						kode_belanja AS kode_belanja,(
 							SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 						) AS belanja,
-						uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+						uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 						FROM t_renja_belanja_kegiatan
 						WHERE id_keg = '$id_kegiatan' ".$th." ".$not." ".$where_tambahan."
 						".$group_by."
@@ -2500,6 +2508,88 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		$result = $this->db->query($query);
 		return $result->result();
+	}
+
+	function sumber_dana_rekap($tahun, $id_skpd){
+		return $this->db->query("SELECT * FROM (
+			SELECT ref.id_sumber,
+			ref.sumber_dana,
+			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 1, ref.subtotal, 0) ) AS 'tahun1',
+			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 0, ref.subtotal, 0) ) AS 'tahun2'
+			FROM (SELECT id_keg, 
+			(SELECT id_skpd FROM t_renja_prog_keg WHERE id = id_keg) AS id_skpd
+			,kode_sumber_dana AS id_sumber
+			,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
+			,subtotal
+			,tahun
+			,is_tahun_sekarang
+			FROM t_renja_belanja_kegiatan AS ref1
+			WHERE kode_jenis_belanja IS NOT NULL )
+			AS ref INNER JOIN m_skpd
+			ON ref.id_skpd = m_skpd.id_skpd
+			WHERE ref.id_skpd = '$id_skpd'
+			GROUP BY ref.id_sumber, ref.sumber_dana
+			ORDER BY ref.id_sumber ASC) AS las
+			WHERE las.tahun1 > 0 OR las.tahun2 > 0");	
+	}
+
+	function copy_belanja_kegiatan($id_keg, $keg_tujuan){
+		$this->db->trans_strict(FALSE);
+		$this->db->trans_start();
+
+		$this->db->query("
+			INSERT INTO  t_renja_belanja_kegiatan (
+			tahun,
+			kode_urusan,
+			kode_bidang,
+			kode_program,
+			kode_kegiatan,
+			kode_sumber_dana,
+			kode_jenis_belanja,
+			kode_kategori_belanja,
+			kode_sub_kategori_belanja,
+			kode_belanja,
+			uraian_belanja,
+			detil_uraian_belanja,
+			volume,
+			nominal_satuan,
+			subtotal,
+			is_tahun_sekarang,
+			volume_2,
+			satuan_2,
+			volume_3,
+			satuan_3,
+			id_keg,
+			created_date)
+			SELECT 
+			tahun,
+			kode_urusan,
+			kode_bidang,
+			kode_program,
+			kode_kegiatan,
+			kode_sumber_dana,
+			kode_jenis_belanja,
+			kode_kategori_belanja,
+			kode_sub_kategori_belanja,
+			kode_belanja,
+			uraian_belanja,
+			detil_uraian_belanja,
+			volume,
+			nominal_satuan,
+			subtotal,
+			is_tahun_sekarang,
+			volume_2,
+			satuan_2,
+			volume_3,
+			satuan_3,
+			'$keg_tujuan',
+			'".date('Y-m-d H:i:s')."'
+			FROM t_renja_belanja_kegiatan
+			WHERE id_keg = $id_keg
+			");
+
+		$this->db->trans_complete();
+		return $this->db->trans_status();
 	}
 }
 ?>

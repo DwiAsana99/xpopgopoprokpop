@@ -117,7 +117,8 @@
     ?>
                 <input type="button" class="button-action" id="get_renstra" value="Ambil Data Renstra" />
     <?php }} ?>
-    <a href="<?php echo site_url('renja/preview_renja'); ?>"><input type="button" value="Lihat Renja" /></a>
+        <a href="<?php echo site_url('renja/preview_renja'); ?>"><input type="button" value="Lihat Renja" /></a>
+        <a href="<?php echo site_url('renja/rekap_sumber_dana'); ?>"><input type="button" value="Rekap Sumber Dana" /></a>
 	<?php
 		if (!empty($jendela_kontrol->baru) || !empty($jendela_kontrol->baru2)){
 	?>

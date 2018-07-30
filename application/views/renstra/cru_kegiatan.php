@@ -1072,4 +1072,80 @@ function do_hitung(kategori_target, status_target, index, forakhir){
         result = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 		return result;
 	}
+
+	function tambah_belanja(th, kd_jenis=null, kd_kat=null, kd_sub=null, kd_bel=null, uraian=null) {
+		if (kd_jenis != null) {
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+		}
+		if (kd_kat != null) {
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+		}
+		if (kd_sub != null) {
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+		}
+		if (kd_bel != null) {
+			belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, kd_bel, th);
+		}
+		if (uraian != null) {
+			$('#uraian_'+th).val(uraian);
+		}
+		// sumber_dananya_1("sumberdana_"+th, sumber_dana);
+	}
+
+  function jenis_belanjanya(p_nama, p_jenis, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_jenis_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis},
+      success: function(msg){
+        $("#combo_jenis_belanja_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+  function kategori_belanjanya(p_nama, p_jenis, p_kategori, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_kategori_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis, kategori: p_kategori},
+      success: function(msg){
+        $("#combo_kategori_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+  function sub_belanjanya(p_nama, p_jenis, p_kategori, p_sub, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_sub_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis, kategori: p_kategori, sub: p_sub},
+      success: function(msg){
+        $("#combo_subkategori_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+  function belanja_belanjanya(p_nama, p_jenis, p_kategori, p_sub, p_belanja, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_belanja_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis, kategori: p_kategori, sub: p_sub, belanja: p_belanja},
+      success: function(msg){
+        $("#combo_belanja_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+
+  function sumber_dananya(p_nama, p_id, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
+      data: {nama: p_nama, id: p_id},
+      success: function(msg){
+        $("#combo_sumberdana_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
 </script>

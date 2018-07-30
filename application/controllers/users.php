@@ -171,12 +171,13 @@ class Users extends CI_Controller {
 			$crud->set_theme('datatables');
 			$crud->set_table('m_desa');
 			$crud->set_subject('Desa');
-			$crud->fields('id_kec','kode_desa','nip','kades','nama_desa','alamat','kodepost_desa');
+			$crud->fields('id_kec','kode_desa','nip','kades','nama_jabatan','nama_desa','alamat','kodepost_desa');
 			$crud->set_relation('id_kec','m_kecamatan','nama_kec');
 			$crud->display_as('kode_desa','Kode Desa');
 			$crud->display_as('nama_desa','Nama Desa');
 			$crud->display_as('nip','NIP');
 			$crud->display_as('kades','Nama Kepala Desa');
+			$crud->display_as('nama_jabatan','Nama Jabatan');
 			$crud->display_as('alamat','Alamat Desa');
             $crud->display_as('kodepost_desa','Kode Pos Desa');
 
@@ -212,6 +213,7 @@ class Users extends CI_Controller {
 		$user_logs_update = array(
 			'kaskpd_nip' => $post_array['nip'],
 			'kaskpd_nama' => $post_array['kades'],
+			'nama_jabatan' => $post_array['nama_jabatan'],
 			'alamat' => $post_array['alamat'],
 			'kodepos_skpd' => $post_array['kodepost_desa']
 		);

@@ -1451,11 +1451,11 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		ini_set("memory_limit","512M");
 
 		$data['cetak'] = $this->cetak_func221(TRUE, $ta, $is_thn_sekarang, $idK);
-		// $html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
-		$html = $this->load->view('renstra/cetak/cetak_view', $data, true);
-		print_r($html);exit();
-	 	// $filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
-		// pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
+	 	$filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
+		pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		// $html = $this->load->view('renstra/cetak/cetak_view', $data, true);
+		// print_r($html);exit();
 	}
 
 
@@ -1537,13 +1537,22 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				break;
 			case 5:
 				$total = 0;
-				$html .= '<table><tr><th>Sumber Dana</th><th>Sub Rincian</th><th>Volume</th><th>Satuan</th><th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
+				$html .= '<table><tr><th>Sumber Dana</th><th>Sub Rincian</th>
+					<th>Volume 1</th><th>Satuan 1</th>
+					<th>Volume 2</th><th>Satuan 2</th>
+					<th>Volume 3</th><th>Satuan 3</th>
+					<th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->uraian_belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
 					$html .= '<tr>
-						<td>'.$row->Sumber_dana.'</td><td>'.$row->detil_uraian_belanja.'</td><td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td><td>'.Formatting::currency($row->nominal_satuan, 2).'</td><td>'.Formatting::currency($row->subtotal, 2).'</td>';
+						<td>'.$row->Sumber_dana.'</td><td>'.$row->detil_uraian_belanja.'</td>
+						<td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td>
+						<td>'.Formatting::currency($row->volume_2, 2).'</td><td>'.$row->satuan_2.'</td>
+						<td>'.Formatting::currency($row->volume_3, 2).'</td><td>'.$row->satuan_3.'</td>
+						<td>'.Formatting::currency($row->nominal_satuan, 2).'</td>
+						<td>'.Formatting::currency($row->subtotal, 2).'</td>';
 					if (empty($not_in)) {
 						$html .= '<td><span id="ubahrowng" class="icon-pencil" onclick="ubahrowng('.$row->id.', '.$th.')" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
 						<td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng('.$row->id.', '.$th.')" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>';
@@ -1566,5 +1575,86 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		echo json_encode($arrayName);
 	}
 
+	function preview_rekap_sumberdana($per){
+		$ta = $this->session->userdata('t_anggaran_aktif');
 
+		if ($per == 1) {
+			$data['data1'] = $this->m_rkpd->sumber_dana_rekap($ta, 'skpd')->result();
+			// print_r($this->db->last_query());
+		}elseif ($per == 2) {
+			$data['data1'] = $this->m_rkpd->sumber_dana_rekap($ta, 'sumber')->result();
+		}
+
+		$data['ta'] = $ta;
+		$data['per'] = $per;
+		// print_r($data['data1']);
+		// print_r($this->db->last_query());
+		$this->template->load('template', 'rkpd/rekap/sumber_dana_view', $data);
+
+
+	}
+
+	function rekap_sumber_dana($cetak=FALSE){
+		$this->auth->restrict();
+
+		$th = $this->session->userdata('t_anggaran_aktif');
+		$id_skpd = $this->session->userdata('id_skpd');
+
+		$data['cetak'] = $cetak;
+		$data['tahun'] = $th;
+		$data['id_skpd'] = $id_skpd;
+		$data['data1'] = $this->m_renja_trx->sumber_dana_rekap($th, $id_skpd)->result();
+
+		if (!$cetak) {
+			$this->template->load('template','renja/cetak/cetak_sumber_dana', $data);
+		}else{
+
+			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+			$header = $this->m_template_cetak->get_value("GAMBAR");
+			$data['logo'] = str_replace("src=\"","height=\"90px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
+			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Sumber Dana Renja '. date("d-m-Y H-i-s"), 2);
+
+			$html = $this->load->view('renja/cetak/cetak_sumber_dana', $data, TRUE);
+			$this->create_pdf->load_ng($html,'Rekap_Sumber_Dana_Renja_'.$this->session->userdata("username").'_'.date("d-m-Y_H-i-s"), 'A4-L','');
+		}
+	}
+
+	function copy_belanja_kegiatan(){
+		$this->auth->restrict();
+		$id_keg = $this->input->post('id');
+		
+		$th = $this->session->userdata('t_anggaran_aktif');
+		$id_skpd = $this->session->userdata('id_skpd');
+		$pilihan = $this->m_renja_trx->get_all_kegiatan(NULL, $id_skpd, $th, FALSE);
+
+		$keg = array("" => "");
+		foreach ($pilihan as $row) {
+			if ($id_keg != $row->id) {
+				$keg[$row->id] = $row->kd_urusan.".".$row->kd_bidang.".".$row->kd_program.".".$row->kd_kegiatan." - ".$row->nama_prog_or_keg;
+			}else{
+				$data['keg_lama'] = $row->kd_urusan.".".$row->kd_bidang.".".$row->kd_program.".".$row->kd_kegiatan." - ".$row->nama_prog_or_keg;
+			}
+		}
+
+		$data['id_keg'] = $id_keg;
+		$data['tahun'] = $th;
+		$data['keg_tujuan'] = form_dropdown('keg_tujuan', $keg, NULL, 'data-placeholder="Pilih Kegiatan yang Dituju" class="common chosen-select" id="keg_tujuan"');
+
+		$this->load->view('renja/view_copy_kegiatan', $data);	
+	}
+
+	function do_copy_belanja_kegiatan(){
+		$this->auth->restrict();
+		$id_keg = $this->input->post('id');
+		$keg_tujuan = $this->input->post('keg_tujuan');
+
+		$result = $this->m_renja_trx->copy_belanja_kegiatan($id_keg, $keg_tujuan);
+
+		if ($result) {
+			echo json_encode('Data belanja berhasil di copy');	
+		}else{
+			echo json_encode('Data belanja gagal di copy. Mohon hubungi Administrator');	
+		}
+
+	}
 }
