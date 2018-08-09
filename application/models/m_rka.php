@@ -1884,4 +1884,77 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			ORDER BY ref.id_sumber ASC) AS las
 			WHERE las.tahun1 > 0 OR las.tahun2 > 0");	
 	}
+
+	function get_kegiatan_for_211_new($ta, $idK){
+		$query = $this->db->query("SELECT kd_urusan AS kode_urusan, kd_bidang AS kode_bidang, kd_program AS kode_program, kd_kegiatan AS kode_kegiatan
+			,(SELECT Kd_Fungsi FROM m_bidang WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang) AS kode_fungsi
+			,(SELECT Nm_Fungsi FROM m_fungsi WHERE Kd_Fungsi = kode_fungsi) AS nama_fungsi
+			,(SELECT Nm_Urusan FROM m_urusan WHERE Kd_Urusan = kode_urusan) AS nama_urusan
+			,(SELECT Nm_Bidang FROM m_bidang WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang) AS nama_bidang
+			,(SELECT Ket_Program FROM m_program WHERE Kd_Urusan = kode_urusan  AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program) AS nama_program
+			,(SELECT Ket_Kegiatan FROM m_kegiatan WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program AND Kd_Keg = kode_kegiatan) AS nama_kegiatan
+			,nominal,nominal_thndpn, parent, lokasi, id_skpd
+			FROM tx_rka_prog_keg
+			WHERE id = '$idK'");
+		return $query->row();
+	}
+
+	function copy_belanja_kegiatan($keg_dari, $keg_tujuan){
+		$this->db->trans_strict(FALSE);
+		$this->db->trans_start();
+
+		$this->db->query("
+			INSERT INTO  tx_rka_belanja_kegiatan (
+			tahun,
+			kode_urusan,
+			kode_bidang,
+			kode_program,
+			kode_kegiatan,
+			kode_sumber_dana,
+			kode_jenis_belanja,
+			kode_kategori_belanja,
+			kode_sub_kategori_belanja,
+			kode_belanja,
+			uraian_belanja,
+			detil_uraian_belanja,
+			volume,
+			nominal_satuan,
+			subtotal,
+			is_tahun_sekarang,
+			id_keg,
+			created_date)
+			SELECT 
+			tahun,
+			kode_urusan,
+			kode_bidang,
+			kode_program,
+			kode_kegiatan,
+			kode_sumber_dana,
+			kode_jenis_belanja,
+			kode_kategori_belanja,
+			kode_sub_kategori_belanja,
+			kode_belanja,
+			uraian_belanja,
+			detil_uraian_belanja,
+			volume,
+			nominal_satuan,
+			subtotal,
+			is_tahun_sekarang,
+			'$keg_tujuan',
+			'".date('Y-m-d H:i:s')."'
+			FROM tx_rka_belanja_kegiatan
+			WHERE id_keg = '$keg_dari'
+			");
+
+		$total = $this->db->query("SELECT 
+			SUM( IF(ref.is_tahun_sekarang = 1, ref.subtotal, 0)) AS total_skr,
+			SUM( IF(ref.is_tahun_sekarang = 0, ref.subtotal, 0)) AS total_dpn
+			FROM tx_rka_belanja_kegiatan AS ref
+			WHERE id_keg = '$keg_tujuan'")->row();
+		$this->db->query("UPDATE tx_rka_prog_keg SET nominal = '".$total->total_skr."', nominal_thndpn = '".$total->total_dpn."'
+			WHERE id = '$keg_tujuan'");
+
+		$this->db->trans_complete();
+		return $this->db->trans_status();
+	}
 }

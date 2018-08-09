@@ -104,6 +104,33 @@
 			});
 		});
 
+		$(".preview-cetak-kegiatan").click(function(){
+			window.open('<?php echo site_url("ppas/preview_cetak_kegiatan_for_veri"); ?>/1/'+$(this).attr("idK"), '_blank');
+		});
+
+		$(".copy-kegiatan").click(function(){
+			prepare_facebox();
+			$.blockUI({
+				css: window._css,
+				overlayCSS: window._ovcss
+			});
+			$.ajax({
+				type: "POST",
+				url: '<?php echo site_url("ppas/copy_belanja_kegiatan"); ?>',
+				data: {id: $(this).attr("idK")},
+				success: function(msg){
+					if (msg!="") {
+						$.facebox(msg);
+						$.blockUI({
+							timeout: 500,
+							css: window._css,
+							overlayCSS: window._ovcss
+						});
+					};
+				}
+			});
+		});
+
 		$("#kegiatan td.td-click").click(function(){
 			prepare_facebox();
 			$.blockUI({
@@ -195,6 +222,7 @@
 				if ($enable_edit) {
 			?>
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-pencil edit-kegiatan" title="Edit Kegiatan"/>
+				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-retweet copy-kegiatan" title="Copy Belanja Kegiatan"/>
              <?php
 				}
 
@@ -205,6 +233,7 @@
 				}
 			?>
 			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="cetak-kegiatan" title="Cetak Rincian Kegiatan"> <i style="color:black;" class="fa fa-book"></i></a>
+			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="preview-cetak-kegiatan" title="Preview Rincian Kegiatan"> <i style="color:black;" class="icon-file"></i></a>
 			</td>
 		</tr>
 	<?php

@@ -11,7 +11,7 @@ class Ppas extends CI_Controller
         $this->load->database();
         //$this->load->model('m_musrenbang','',TRUE);
         $this->load->model(array('m_ppas','m_skpd','m_lov','m_urusan', 'm_bidang', 'm_program', 'm_kegiatan', 'm_jenis_belanja', 'm_kategori_belanja', 'm_subkategori_belanja', 'm_kode_belanja',
-															'm_template_cetak', 'm_rpjmd_trx'));
+															'm_template_cetak', 'm_settings', 'm_rpjmd_trx'));
         if (!empty($this->session->userdata("db_aktif"))) {
             $this->load->database($this->session->userdata("db_aktif"), FALSE, TRUE);
         }
@@ -47,6 +47,84 @@ class Ppas extends CI_Controller
 			$msg = array('success' => '0', 'msg' => 'ERROR! PPAS gagal dikirim, mohon menghubungi administrator.');
 			echo json_encode($msg);
 		}
+	}
+
+	function copy_belanja_kegiatan(){
+		$this->auth->restrict();
+		$id_keg = $this->input->post('id');
+		
+		$th = $this->session->userdata('t_anggaran_aktif');
+		$id_skpd = $this->session->userdata('id_skpd');
+
+		$one_keg  = $this->m_ppas->get_one_kegiatan(NULL, $id_keg);
+		$data['keg_tujuan'] = $one_keg->kd_urusan.".".$one_keg->kd_bidang.".".$one_keg->kd_program.".".$one_keg->kd_kegiatan." - ".$one_keg->nama_prog_or_keg;
+
+		$data['id_keg'] = $id_keg;
+		$data['tahun'] = $th;
+		$data['id_skpd'] = $id_skpd;
+		// $data['keg_tujuan'] = form_dropdown('keg_tujuan', $keg, NULL, 'data-placeholder="Pilih Kegiatan yang Dituju" class="common chosen-select" id="keg_tujuan"');
+		
+		$this->load->view('ppas/view_copy_kegiatan', $data);	
+	}
+
+	function do_copy_belanja_kegiatan(){
+		$this->auth->restrict();
+		$keg_dari = $this->input->post('keg_dari');
+		$keg_tujuan = $this->input->post('keg_tujuan');
+
+		$result = $this->m_ppas->copy_belanja_kegiatan($keg_dari, $keg_tujuan);
+
+		if ($result) {
+			echo json_encode('Data belanja berhasil di copy');	
+		}else{
+			echo json_encode('Data belanja gagal di copy. Mohon hubungi Administrator');	
+		}
+
+	}
+
+	function combo_copy_belanja(){
+		$id_keg = $this->input->post('id_keg');
+		$kd_urusan = $this->input->post('kd_urusan');
+		$kd_bidang = $this->input->post('kd_bidang');
+		$kd_program = $this->input->post('kd_program');
+
+		$tahun = $this->session->userdata('t_anggaran_aktif');
+		$id_skpd = $this->session->userdata('id_skpd');
+
+		$datas = array('' => '');
+		if (!empty($kd_program)) {
+			$result = $this->db->query("SELECT *, t_ppas_prog_keg.id as id_keg FROM t_ppas_prog_keg 
+				INNER JOIN m_kegiatan 
+				ON t_ppas_prog_keg.kd_urusan = m_kegiatan.kd_urusan AND t_ppas_prog_keg.kd_bidang = m_kegiatan.kd_bidang AND t_ppas_prog_keg.kd_program = m_kegiatan.kd_prog AND t_ppas_prog_keg.kd_kegiatan = m_kegiatan.kd_keg
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_ppas_prog_keg.kd_urusan = '$kd_urusan' AND t_ppas_prog_keg.kd_bidang = '$kd_bidang' AND t_ppas_prog_keg.kd_program = '$kd_program' AND t_ppas_prog_keg.id <> $id_keg 
+				GROUP BY t_ppas_prog_keg.kd_urusan, t_ppas_prog_keg.kd_bidang, t_ppas_prog_keg.kd_program, t_ppas_prog_keg.kd_kegiatan")->result();
+			foreach ($result as $row) {
+				$datas[$row->id_keg] = $row->Kd_Keg.' - '.$row->Ket_Kegiatan;
+			}
+			$combox = form_dropdown('cmb_keg', $datas, NULL, 'data-placeholder="Pilih Kegiatan" class="common chosen-select" id="cmb_keg"');
+		}elseif (!empty($kd_bidang)) {
+			$result = $this->db->query("SELECT * FROM t_ppas_prog_keg 
+				INNER JOIN m_program 
+				ON t_ppas_prog_keg.kd_urusan = m_program.kd_urusan AND t_ppas_prog_keg.kd_bidang = m_program.kd_bidang AND t_ppas_prog_keg.kd_program = m_program.kd_prog
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_ppas_prog_keg.kd_urusan = '$kd_urusan' AND t_ppas_prog_keg.kd_bidang = '$kd_bidang' AND t_ppas_prog_keg.id <> $id_keg 
+				GROUP BY t_ppas_prog_keg.kd_urusan, t_ppas_prog_keg.kd_bidang, t_ppas_prog_keg.kd_program")->result();
+			foreach ($result as $row) {
+				$datas[$row->Kd_Prog] = $row->Kd_Prog.' - '.$row->Ket_Program;
+			}
+			$combox = form_dropdown('cmb_prog', $datas, NULL, 'data-placeholder="Pilih Program" class="common chosen-select" id="cmb_prog"');
+		}elseif (!empty($kd_urusan)) {
+			$result = $this->db->query("SELECT * FROM t_ppas_prog_keg 
+				INNER JOIN m_bidang 
+				ON t_ppas_prog_keg.kd_urusan = m_bidang.kd_urusan AND t_ppas_prog_keg.kd_bidang = m_bidang.kd_bidang
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_ppas_prog_keg.kd_urusan = '$kd_urusan' AND t_ppas_prog_keg.id <> $id_keg 
+				GROUP BY t_ppas_prog_keg.kd_urusan, t_ppas_prog_keg.kd_bidang")->result();
+			foreach ($result as $row) {
+				$datas[$row->kd_bidang] = $row->kd_bidang.' - '.$row->Nm_Bidang;
+			}
+			$combox = form_dropdown('cmb_bidang', $datas, NULL, 'data-placeholder="Pilih Bidang" class="common chosen-select" id="cmb_bidang"');
+		}
+
+		echo $combox;
 	}
 
 	function get_jendela_kontrol(){
@@ -946,6 +1024,15 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 	 	$filename='ppas '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
 		pdf_create($html, $filename, "A4", "Landscape", FALSE);
 
+	}
+
+	function preview_cetak_kegiatan_for_veri($is_thn_sekarang, $idK)
+	{
+		$ta = $this->m_settings->get_tahun_anggaran();
+		$keg = $this->m_ppas->get_kegiatan_for_211_new($ta, $idK);
+		$html = $this->cetak_func221(TRUE, $ta, $is_thn_sekarang, $idK, $keg->id_skpd);
+
+		print_r($html);
 	}
 
 	function preview_periode_221(){

@@ -2528,3 +2528,74 @@ ERROR - 2018-08-09 23:13:48 --> Severity: Notice  --> Undefined property: stdCla
 ERROR - 2018-08-09 23:13:48 --> Severity: Notice  --> Trying to get property of non-object D:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 136
 ERROR - 2018-08-09 23:13:48 --> Severity: Notice  --> Trying to get property of non-object D:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 262
 ERROR - 2018-08-09 23:24:06 --> Severity: Notice  --> Undefined property: stdClass::$dummy D:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 105
+ERROR - 2018-08-09 23:25:42 --> Severity: Notice  --> Undefined property: stdClass::$dummy C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 105
+ERROR - 2018-08-09 23:26:30 --> Severity: Notice  --> Undefined property: stdClass::$dummy C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 105
+ERROR - 2018-08-09 23:40:25 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1467
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1442
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 105
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 106
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 107
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 144
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 145
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 149
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 149
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 150
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 154
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 154
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 160
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:40:26 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:40:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:40:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 165
+ERROR - 2018-08-09 23:40:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 169
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1467
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1442
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 105
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 106
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 107
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 144
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 145
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 149
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 149
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 150
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 154
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 154
+ERROR - 2018-08-09 23:51:27 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 160
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 165
+ERROR - 2018-08-09 23:51:28 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 169
+ERROR - 2018-08-09 23:51:31 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1467
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1442
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 105
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 106
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 107
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 144
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 145
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 149
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 149
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 150
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 154
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 154
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 159
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 160
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 164
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 165
+ERROR - 2018-08-09 23:51:32 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\renja\cetak\cetak_form_221.php 169
+ERROR - 2018-08-09 23:52:34 --> Severity: Notice  --> Undefined property: stdClass::$id_skpd C:\xampp\htdocs\sirenbangda\application\controllers\ppas.php 955
+ERROR - 2018-08-09 23:52:35 --> Severity: Notice  --> Undefined property: stdClass::$dummy C:\xampp\htdocs\sirenbangda\application\views\ppas\cetak\cetak_form_221.php 105
+ERROR - 2018-08-09 23:53:00 --> Severity: Notice  --> Undefined property: stdClass::$dummy C:\xampp\htdocs\sirenbangda\application\views\ppas\cetak\cetak_form_221.php 105
