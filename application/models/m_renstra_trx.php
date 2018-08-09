@@ -255,7 +255,7 @@ class M_renstra_trx extends CI_Model
 				kode_belanja AS kode_belanja,(
 					SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 				) AS belanja,
-				uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_kegiatan
+				uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_kegiatan, volume_2, satuan_2, volume_3, satuan_3
 				FROM t_renstra_belanja_kegiatan
 				WHERE id = '$id_belanja'
 				ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC";

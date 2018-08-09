@@ -314,16 +314,22 @@ $(document).on("change", "#sumberdana_1", function () {
  	<div class="module_content">
 
  			<input type="hidden" name="id_belanja_renstra_1"  id='id_belanja_renstra_1' value="<?php if(!empty($id_belanja_renstra_1)){echo $id_belanja_renstra_1;} ?>" />
- 			<table class="fcari" width="100%">
+      <tr>
+        <td>&nbsp;&nbsp;Lokasi Tahun 1</td>
+        <td>
+          <textarea class="common" id="lokasi_1" name="lokasi_1" onchange="<?php ?>"><?php echo (!empty($kegiatan->lokasi_1))?$kegiatan->lokasi_1:''; ?></textarea>
+        </td>
+      </tr>
+ 			<table class="fcari" width="100%" style="display: none;">
  				<tbody>
           <input type="hidden" id="inIndex_1" name="inIndex_1" value="1"/>
           <input type="hidden" id="isEdit_1" value="0"/>
-                  <tr>
+                  <!-- <tr>
                     <td>&nbsp;&nbsp;Lokasi Tahun 1</td>
                     <td>
                       <textarea class="common" id="lokasi_1" name="lokasi_1" onchange="<?php ?>"><?php echo (!empty($kegiatan->lokasi_1))?$kegiatan->lokasi_1:''; ?></textarea>
                     </td>
-                  </tr>
+                  </tr> -->
 
 						<textarea style="display: none;" class="common" id="uraian_kegiatan_1" name="uraian_kegiatan_1">-<?php echo (!empty($kegiatan->uraian_kegiatan_1))?'':''; ?></textarea>
 
@@ -357,6 +363,7 @@ $(document).on("change", "#sumberdana_1", function () {
           	<td>Rincian Belanja</td>
           	<td>
                   <input type="text" id="uraian_1" name="uraian_1" class="common" value="<?php if(!empty($uraian_1)){echo $uraian_1;} ?>" />
+                  
             </td>
           </tr>
           <tr >
@@ -391,6 +398,16 @@ $(document).on("change", "#sumberdana_1", function () {
             </td>
           </tr>
           <tr>
+            <td>
+              Volume2 <input class="common" type="text" name="volume2_1" id="volume2_1"/>
+              Satuan2 <input class="common" type="text" name="satuan2_1" id="satuan2_1"/>
+            </td>
+            <td>
+              Volume3 <input class="common" type="text" name="volume3_1" id="volume3_1"/>
+              Satuan3 <input class="common" type="text" name="satuan3_1" id="satuan3_1"/>
+            </td>
+          </tr>
+          <tr>
 						<td>Nominal Satuan</td>
 						<td><input class="common" type="text" name="nominal_satuan_1" id="nominal_satuan_1" value="<?php if(!empty($nominal_satuan_1)){echo $nominal_satuan_1;} ?>"/></td>
 					</tr>
@@ -420,7 +437,7 @@ $(document).on("change", "#sumberdana_1", function () {
       <input type='button'  id="tambahbelanja" onclick="save_belanja_renstra(1, 'belanja');" style="cursor:pointer;" value='+ Rincian Obyek'>
       <input type='button'  id="tambahuraian" onclick="save_belanja_renstra(1, 'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
       <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(1, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'> -->
-      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(1, 'deturaian');" style="cursor:pointer;" value='Tambah Belanja'>
+      <!-- <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(1, 'deturaian');" style="cursor:pointer;" value='Tambah Belanja'> -->
 
 		</div>
 		
@@ -435,13 +452,13 @@ $(document).on("change", "#sumberdana_1", function () {
     <div class="col-md-12" style="margin-bottom: 15px;">
       <b id="text_lihat_th1"></b>
     </div>
-    <div class="col-md-3">
-      <button type="button" class="col-md-12 custom" id="btn_lihat1_th1" onclick='select_lihat1("1", true, "5.2")'>Jenis Belanja</button>
-      <button type="button" class="col-md-12 custom" id="btn_lihat2_th1" disabled>Obyek Belanja</button>
-      <button type="button" class="col-md-12 custom" id="btn_lihat3_th1" disabled>Rincian Obyek</button>
-      <button type="button" class="col-md-12 custom" id="btn_lihat4_th1" disabled>Rincian Belanja</button>
+    <div class="col-md-2">
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat1_th1" onclick='select_lihat1("1", true, "5.2")'>Jenis Belanja</button>
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat2_th1" disabled>Obyek Belanja</button>
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat3_th1" disabled>Rincian Obyek</button>
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat4_th1" disabled>Rincian Belanja</button>
     </div>
-    <div class="col-md-9" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th1">
+    <div class="col-md-10" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th1">
       <?php if (!empty($detil_kegiatan_th1)): ?>
         <?php foreach ($detil_kegiatan_th1 as $key => $row): ?>
           <?php if (!empty($row->kode_sumber_dana)): ?>
@@ -496,6 +513,18 @@ $(document).on("change", "#sumberdana_1", function () {
           var sub = msg.edit.kode_sub_kategori_belanja;
           var belanja = msg.edit.kode_belanja;
           var sumber_dana = msg.edit.kode_sumber_dana;
+          setTimeout(function(){ 
+            sumber_dananya_1("lihat5_sumberdana_th1", sumber_dana, 'lihat5_sumberdana_th1');
+            $("#lihat5_subrincian_th1").val(msg.edit.detil_uraian_belanja);
+            $("#lihat5_vol1_th1").val(msg.edit.volume);
+            $("#lihat5_satuan1_th1").val(msg.edit.satuan);
+            $("#lihat5_vol2_th1").val(msg.edit.volume_2);
+            $("#lihat5_satuan2_th1").val(msg.edit.satuan_2);
+            $("#lihat5_vol3_th1").val(msg.edit.volume_3);
+            $("#lihat5_satuan3_th1").val(msg.edit.satuan_3);
+            $("#lihat5_nominalsatuan_th1").val(msg.edit.nominal_satuan);
+          }, 2500);
+
           jenis_belanjanya_1("cb_jenis_belanja_1", jenis);
           kategori_belanjanya_1("cb_kategori_belanja_1", jenis, kategori);
           sub_belanjanya_1("cb_subkategori_belanja_1", jenis, kategori, sub);
@@ -505,8 +534,13 @@ $(document).on("change", "#sumberdana_1", function () {
           $('#det_uraian_1').val(msg.edit.detil_uraian_belanja);
           $('#volume_1').autoNumeric('set', msg.edit.volume);
           $('#satuan_1').val(msg.edit.satuan);
+          $('#volume2_1').val(msg.edit.volume_2);
+          $('#satuan2_1').val(msg.edit.satuan_2);
+          $('#volume3_1').val(msg.edit.volume_3);
+          $('#satuan3_1').val(msg.edit.satuan_3);
           $('#nominal_satuan_1').autoNumeric('set', msg.edit.nominal_satuan);
           $('#nominal_1').autoNumeric('set', total);
+
         }
       });
     }
@@ -607,13 +641,17 @@ $(document).on("change", "#sumberdana_1", function () {
     });
   }
 
-  function sumber_dananya_1(p_nama, p_id) {
+  function sumber_dananya_1(p_nama, p_id, slctor=null) {
     $.ajax({
       type: "POST",
       url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
       data: {nama: p_nama, id: p_id},
       success: function(msg){
-        $("#combo_sumberdana_1").html(msg);
+        if (slctor!=null) {
+          $("#combox_sumberdana_th1").html(msg);
+        }else{
+          $("#combo_sumberdana_1").html(msg);
+        }
         prepare_chosen();
       }
     });

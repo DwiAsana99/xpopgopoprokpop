@@ -1262,11 +1262,13 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 	}
 
 	function get_total_nominal_renja($id_skpd=NULL){
+		if (!empty($id_skpd)) {
+			$proses = $this->count_jendela_kontrol($id_skpd, $this->session->userdata('t_anggaran_aktif'));
+		}
 		$this->db->select('COUNT(t_renja_prog_keg.id) AS count');
 		$this->db->select_sum('nominal');
 		$this->db->select_sum('nominal_thndpn');
 
-		$proses = $this->count_jendela_kontrol($id_skpd);
 		if (!empty($proses->veri2)) {
 			$this->db->where("id_status", $this->id_status_approved2);
 		}else{
@@ -2425,7 +2427,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			,(SELECT Nm_Bidang FROM m_bidang WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang) AS nama_bidang
 			,(SELECT Ket_Program FROM m_program WHERE Kd_Urusan = kode_urusan  AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program) AS nama_program
 			,(SELECT Ket_Kegiatan FROM m_kegiatan WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program AND Kd_Keg = kode_kegiatan) AS nama_kegiatan
-			,nominal,nominal_thndpn, parent, lokasi
+			,nominal,nominal_thndpn, parent, lokasi, id_skpd
 			FROM t_renja_prog_keg
 			WHERE id = '$idK'");
 		return $query->row();
@@ -2533,7 +2535,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			WHERE las.tahun1 > 0 OR las.tahun2 > 0");	
 	}
 
-	function copy_belanja_kegiatan($id_keg, $keg_tujuan){
+	function copy_belanja_kegiatan($keg_dari, $keg_tujuan){
 		$this->db->trans_strict(FALSE);
 		$this->db->trans_start();
 
@@ -2585,8 +2587,16 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			'$keg_tujuan',
 			'".date('Y-m-d H:i:s')."'
 			FROM t_renja_belanja_kegiatan
-			WHERE id_keg = $id_keg
+			WHERE id_keg = '$keg_dari'
 			");
+
+		$total = $this->db->query("SELECT 
+			SUM( IF(ref.is_tahun_sekarang = 1, ref.subtotal, 0)) AS total_skr,
+			SUM( IF(ref.is_tahun_sekarang = 0, ref.subtotal, 0)) AS total_dpn
+			FROM t_renja_belanja_kegiatan AS ref
+			WHERE id_keg = '$keg_tujuan'")->row();
+		$this->db->query("UPDATE t_renja_prog_keg SET nominal = '".$total->total_skr."', nominal_thndpn = '".$total->total_dpn."'
+			WHERE id = '$keg_tujuan'");
 
 		$this->db->trans_complete();
 		return $this->db->trans_status();

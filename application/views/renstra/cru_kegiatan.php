@@ -37,8 +37,11 @@ if (!empty($revisi_rpjmd)) {
     min-width: 300px;
   }
   .custom:enabled{
-    background-color: #f4f4f4 !important;
+    background-color: #8cf5ff !important;
     margin-bottom: 5px !important;
+  }
+  .custom:hover{
+    background-color: #64f1ff !important;
   }
   .custom:disabled{
     background-color: #ddd !important;
@@ -70,9 +73,18 @@ function select_lihat1(th, from_back, kd_jenis) {
         kd_jenis: kd_jenis
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat1_th"+th).attr('onclick','select_lihat1("'+th+'", true, "'+msg.pilihan.kd_jenis+'")');
+        $.ajax({
+	      type: "POST",
+	      url: '<?php echo site_url("common/edit_kategori_belanja"); ?>',
+	      data: {nama: 'lihat1_th'+th, jenis: '5.2', kategori: ''},
+	      success: function(msg){
+			$("#combox_th"+th).html(msg);
+	        prepare_chosen();
+	      }
+	    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat1_th"+th).removeAttr("disabled");
@@ -98,9 +110,18 @@ function select_lihat1(th, from_back, kd_jenis) {
         kd_kat: kd_kat
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat2_th"+th).attr('onclick','select_lihat2("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'")');
+        $.ajax({
+	      type: "POST",
+	      url: '<?php echo site_url("common/edit_sub_belanja"); ?>',
+	      data: {nama: 'lihat2_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: ''},
+	      success: function(msg){
+	        $("#combox_th"+th).html(msg);
+	        prepare_chosen();
+	      }
+	    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat2_th"+th).removeAttr("disabled");
@@ -126,9 +147,18 @@ function select_lihat1(th, from_back, kd_jenis) {
         kd_sub: kd_sub
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat3_th"+th).attr('onclick','select_lihat3("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'")');
+        $.ajax({
+	      type: "POST",
+	      url: '<?php echo site_url("common/edit_belanja_belanja"); ?>',
+	      data: {nama: 'lihat3_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: kd_sub, belanja: ''},
+	      success: function(msg){
+	        $("#combox_th"+th).html(msg);
+	        prepare_chosen();
+	      }
+	    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat3_th"+th).removeAttr("disabled");
@@ -154,7 +184,7 @@ function select_lihat1(th, from_back, kd_jenis) {
         kd_bel: kd_bel
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'", "'+msg.pilihan.kd_bel+'")');
         if (!from_back) {
@@ -184,11 +214,21 @@ function select_lihat1(th, from_back, kd_jenis) {
       },
       success: function(msgRespon){
         $("#box_lihat_th"+th).html(msgRespon.html);
+        $.ajax({
+	      type: "POST",
+	      url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
+	      data: {nama: 'lihat5_sumberdana_th'+th, id: ''},
+	      success: function(msg){
+	        $("#combox_sumberdana_th"+th).html(msg);
+	        $("#lihat5_sumberdana_th"+th).attr('onchange', 'onchange_sumberdana($(this), "'+th+'")');
+	        prepare_chosen();
+	      }
+	    });
         $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", false, "'+msgRespon.pilihan.kd_jenis+'", "'+msgRespon.pilihan.kd_kat+'", "'+msgRespon.pilihan.kd_sub+'", "'+msgRespon.pilihan.kd_bel+'")');
         if (!from_back) {
-		  clear_belanja('jns', th);
           $("#text_lihat_th"+th).html(msgRespon.title);
           $("#btn_lihat4_th"+th).removeAttr("disabled");
+		  clear_belanja('deturaian', th);
         }else if(from_back == 666){
           $("#btn_lihat1_th"+th).attr("disabled", "disabled");
           $("#btn_lihat2_th"+th).attr("disabled", "disabled");
@@ -200,8 +240,9 @@ function select_lihat1(th, from_back, kd_jenis) {
           $("#btn_lihat2_th"+th).removeAttr("disabled");
           $("#btn_lihat3_th"+th).removeAttr("disabled");
           $("#btn_lihat4_th"+th).removeAttr("disabled");
+		  clear_belanja('deturaian', th);
         }else{
-          clear_belanja('jns', th);
+          clear_belanja('deturaian', th);
         }
       }
     });
@@ -408,7 +449,7 @@ $(document).on("click", ".hapus_indikator_kegiatan", function(){
 });
 </script>
 
-<div style="width: 1120px">
+<div style="width: 1200px">
 	<header>
 		<h3>
 			<?php
@@ -879,13 +920,19 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 		var uraian = $('#uraian_'+tahun).val();
 		var sumberdana = $('#sumberdana_'+tahun).val();
 		var deturaian = $('#det_uraian_'+tahun).val();
-		var volume = parseFloat($('#volume_'+tahun).autoNumeric('get'));
-		var satuan = $('#satuan_'+tahun).val();
+		var volume1 = parseFloat($('#volume_'+tahun).autoNumeric('get'));
+		var satuan1 = $('#satuan_'+tahun).val();
+		var volume2 = (($('#volume2_'+tahun).val() != '' && $('#volume2_'+tahun).val() >= 1) ? parseFloat($('#volume2_'+tahun).val()) : 1);
+		var volume2db = parseFloat($('#volume2_'+tahun).val());
+		var satuan2 = $('#satuan2_'+tahun).val();
+		var volume3 = (($('#volume3_'+tahun).val() != '' && $('#volume3_'+tahun).val() >= 1) ? parseFloat($('#volume3_'+tahun).val()) : 1);
+		var volume3db = parseFloat($('#volume3_'+tahun).val());
+		var satuan3 = $('#satuan3_'+tahun).val();
 		var nomsatuan = parseFloat($('#nominal_satuan_'+tahun).autoNumeric('get'));
 
-		var subtotal = parseFloat(nomsatuan) * parseFloat(volume);
+		var subtotal =  parseFloat(volume_1) * parseFloat(volume_2) * parseFloat(volume_3) * parseFloat(nomsatuan);
 
-		var status = eliminationName(lokasi, uraian_kegiatan, jenis, kategori, subkategori, belanja, uraian, deturaian, volume, satuan, nomsatuan, sumberdana, clue, '#cusAlert_'+tahun, 'pesan_'+tahun);
+		var status = eliminationName(lokasi, uraian_kegiatan, jenis, kategori, subkategori, belanja, uraian, deturaian, volume1, satuan1, nomsatuan, sumberdana, clue, '#cusAlert_'+tahun, 'pesan_'+tahun);
 
 		if (status) {
 			$.ajax({
@@ -908,8 +955,12 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 			    uraian_belanja : uraian,
 			    kode_sumber_dana : sumberdana,
 			    detil_uraian_belanja : deturaian,
-			    volume : volume,
-			    satuan : satuan,
+			    volume : volume1,
+			    satuan : satuan1,
+			    volume_2 : volume2db,
+			    satuan_2 : satuan2,
+			    volume_3 : volume3db,
+			    satuan_3 : satuan3,
 			    nominal_satuan : nomsatuan,
 			    subtotal : subtotal
 			    },
@@ -1019,9 +1070,15 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 	      document.getElementById("satuan_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='deturaian') {
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';
+	      document.getElementById("volume2_"+tahun).value = '';
+	      document.getElementById("satuan2_"+tahun).value = '';
+	      document.getElementById("volume3_"+tahun).value = '';
+	      document.getElementById("satuan3_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }
 	}
@@ -1073,22 +1130,51 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 		return result;
 	}
 
-	function tambah_belanja(th, kd_jenis=null, kd_kat=null, kd_sub=null, kd_bel=null, uraian=null) {
-		if (kd_jenis != null) {
+	function tambah_belanja(th, kd_jenis, kd_kat=null, kd_sub=null, kd_bel=null, uraian=null) {
+		if(kd_kat!=null && kd_sub!=null && kd_bel!=null && uraian!=null){
 			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
-		}
-		if (kd_kat != null) {
 			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
-		}
-		if (kd_sub != null) {
 			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
-		}
-		if (kd_bel != null) {
 			belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, kd_bel, th);
+			$("#uraian_"+th).val(uraian);
+			setTimeout(function(){
+				save_belanja_renstra(th, 'deturaian');
+			}, 2500);
+		}else if(kd_kat!=null && kd_sub!=null && kd_bel!=null && uraian==null){
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+			belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, kd_bel, th);
+			$("#uraian_"+th).val($('#lihat4_th'+th).val());
+			select_lihat5(th, false, kd_jenis, kd_kat, kd_sub, kd_bel, $('#lihat4_th'+th).val());
+		}else if(kd_kat!=null && kd_sub!=null && kd_bel==null && uraian==null){
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+			belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, $('#lihat3_th'+th).val(), th);
+			select_lihat4(th, false, kd_jenis, kd_kat, kd_sub, $('#lihat3_th'+th).val());
+		}else if(kd_kat!=null && kd_sub==null && kd_bel==null && uraian==null){
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, $('#lihat2_th'+th).val(), th);
+			select_lihat3(th, false, kd_jenis, kd_kat, $('#lihat2_th'+th).val());
+		}else if (kd_kat==null && kd_sub==null && kd_bel==null && uraian==null) {
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, $('#lihat1_th'+th).val(), th);
+			select_lihat2(th, false, kd_jenis, $('#lihat1_th'+th).val());
 		}
-		if (uraian != null) {
-			$('#uraian_'+th).val(uraian);
-		}
+		// if (kd_kat != null) {
+		// 	kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+		// }
+		// if (kd_sub != null) {
+		// 	sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+		// }
+		// if (kd_bel != null) {
+		// 	belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, kd_bel, th);
+		// }
+		// if (uraian != null) {
+		// 	$('#uraian_'+th).val(uraian);
+		// }
 		// sumber_dananya_1("sumberdana_"+th, sumber_dana);
 	}
 
@@ -1148,4 +1234,17 @@ function do_hitung(kategori_target, status_target, index, forakhir){
       }
     });
   }
+
+  function onchange_sumberdana(ini, th) {
+  	$("#sumberdana_"+th).val(ini.val());
+  }
+
+  function inputAtas(ini, itu) {
+  	itu.val(ini.val());
+  	// console.log(itu);
+  	// console.log(ini);
+  	// alert(itu);
+  }
+
+
 </script>

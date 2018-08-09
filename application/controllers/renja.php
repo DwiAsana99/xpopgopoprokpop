@@ -749,8 +749,8 @@ class Renja extends CI_Controller
 		$all_skpd = $this->m_skpd->get_data_dropdown_skpd(NULL, TRUE);
 		$data['dd_skpd'] = form_dropdown('ss_skpd', $all_skpd, $id_skpd, 'id="ss_skpd"');
 		$data['id'] = $id_skpd;
-
 		$data['total_nominal_renja'] = $this->m_renja_trx->get_total_nominal_renja($id_skpd);
+
 		$this->template->load('template','renja/cetak/view', $data);
 	}
 
@@ -1426,13 +1426,16 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$this->load->view('renja/periode_221', $data);
 	}
 
-	private function cetak_func221($cetak=FALSE, $ta, $is_thn_sekarang, $idK) {
+	private function cetak_func221($cetak=FALSE, $ta, $is_thn_sekarang, $idK, $id_skpd=NULL) {
 		$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
 		$header = $this->m_template_cetak->get_value("GAMBAR");
 		$data['logo'] = str_replace("src=\"","height=\"45px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
 		$data['id_keg'] = $idK;
 		$data['th_anggaran'] = $this->db->query("SELECT * FROM m_tahun_anggaran WHERE tahun_anggaran = '".$ta."'")->row();
 		$data['is_tahun_sekarang'] = $is_thn_sekarang;
+		if (!empty($id_skpd)) {
+			$data['id_skpd'] = $id_skpd;
+		}
 
 		$data['keluaran'] =$this->m_renja_trx->get_indikator_keluaran($ta, $idK);
 		$data['kegiatan'] = $this->m_renja_trx->get_kegiatan_for_211_new($ta, $idK);
@@ -1458,6 +1461,13 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		// print_r($html);exit();
 	}
 
+	function preview_cetak_kegiatan_for_veri($is_thn_sekarang, $idK) {
+		$ta = $this->m_settings->get_tahun_anggaran();
+		$keg = $this->m_renja_trx->get_kegiatan_for_211_new($ta, $idK);
+		$html = $this->cetak_func221(TRUE, $ta, $is_thn_sekarang, $idK, $keg->id_skpd);
+
+		print_r($html);
+	}
 
 
 	function select_belanja_lihat(){
@@ -1625,30 +1635,79 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		
 		$th = $this->session->userdata('t_anggaran_aktif');
 		$id_skpd = $this->session->userdata('id_skpd');
-		$pilihan = $this->m_renja_trx->get_all_kegiatan(NULL, $id_skpd, $th, FALSE);
+		// $pilihan = $this->m_renja_trx->get_all_kegiatan(NULL, $id_skpd, $th, FALSE);
 
-		$keg = array("" => "");
-		foreach ($pilihan as $row) {
-			if ($id_keg != $row->id) {
-				$keg[$row->id] = $row->kd_urusan.".".$row->kd_bidang.".".$row->kd_program.".".$row->kd_kegiatan." - ".$row->nama_prog_or_keg;
-			}else{
-				$data['keg_lama'] = $row->kd_urusan.".".$row->kd_bidang.".".$row->kd_program.".".$row->kd_kegiatan." - ".$row->nama_prog_or_keg;
-			}
-		}
+		// $keg = array("" => "");
+		// foreach ($pilihan as $row) {
+		// 	if ($id_keg != $row->id) {
+		// 		$keg[$row->id] = $row->kd_urusan.".".$row->kd_bidang.".".$row->kd_program.".".$row->kd_kegiatan." - ".$row->nama_prog_or_keg;
+		// 	}else{
+		// 		$data['keg_lama'] = $row->kd_urusan.".".$row->kd_bidang.".".$row->kd_program.".".$row->kd_kegiatan." - ".$row->nama_prog_or_keg;
+		// 	}
+		// }
+
+		$one_keg  = $this->m_renja_trx->get_one_kegiatan(NULL, $id_keg);
+		$data['keg_tujuan'] = $one_keg->kd_urusan.".".$one_keg->kd_bidang.".".$one_keg->kd_program.".".$one_keg->kd_kegiatan." - ".$one_keg->nama_prog_or_keg;
 
 		$data['id_keg'] = $id_keg;
 		$data['tahun'] = $th;
-		$data['keg_tujuan'] = form_dropdown('keg_tujuan', $keg, NULL, 'data-placeholder="Pilih Kegiatan yang Dituju" class="common chosen-select" id="keg_tujuan"');
+		$data['id_skpd'] = $id_skpd;
+		// $data['keg_tujuan'] = form_dropdown('keg_tujuan', $keg, NULL, 'data-placeholder="Pilih Kegiatan yang Dituju" class="common chosen-select" id="keg_tujuan"');
 
 		$this->load->view('renja/view_copy_kegiatan', $data);	
 	}
 
+	function combo_copy_belanja(){
+		$id_keg = $this->input->post('id_keg');
+		$kd_urusan = $this->input->post('kd_urusan');
+		$kd_bidang = $this->input->post('kd_bidang');
+		$kd_program = $this->input->post('kd_program');
+
+		$tahun = $this->session->userdata('t_anggaran_aktif');
+		$id_skpd = $this->session->userdata('id_skpd');
+
+		$datas = array('' => '');
+		if (!empty($kd_program)) {
+			$result = $this->db->query("SELECT *, t_renja_prog_keg.id as id_keg FROM t_renja_prog_keg 
+				INNER JOIN m_kegiatan 
+				ON t_renja_prog_keg.kd_urusan = m_kegiatan.kd_urusan AND t_renja_prog_keg.kd_bidang = m_kegiatan.kd_bidang AND t_renja_prog_keg.kd_program = m_kegiatan.kd_prog AND t_renja_prog_keg.kd_kegiatan = m_kegiatan.kd_keg
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.kd_bidang = '$kd_bidang' AND t_renja_prog_keg.kd_program = '$kd_program' AND t_renja_prog_keg.id <> $id_keg 
+				GROUP BY t_renja_prog_keg.kd_urusan, t_renja_prog_keg.kd_bidang, t_renja_prog_keg.kd_program, t_renja_prog_keg.kd_kegiatan")->result();
+			foreach ($result as $row) {
+				$datas[$row->id_keg] = $row->Kd_Keg.' - '.$row->Ket_Kegiatan;
+			}
+			$combox = form_dropdown('cmb_keg', $datas, NULL, 'data-placeholder="Pilih Kegiatan" class="common chosen-select" id="cmb_keg"');
+		}elseif (!empty($kd_bidang)) {
+			$result = $this->db->query("SELECT * FROM t_renja_prog_keg 
+				INNER JOIN m_program 
+				ON t_renja_prog_keg.kd_urusan = m_program.kd_urusan AND t_renja_prog_keg.kd_bidang = m_program.kd_bidang AND t_renja_prog_keg.kd_program = m_program.kd_prog
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.kd_bidang = '$kd_bidang' AND t_renja_prog_keg.id <> $id_keg 
+				GROUP BY t_renja_prog_keg.kd_urusan, t_renja_prog_keg.kd_bidang, t_renja_prog_keg.kd_program")->result();
+			foreach ($result as $row) {
+				$datas[$row->Kd_Prog] = $row->Kd_Prog.' - '.$row->Ket_Program;
+			}
+			$combox = form_dropdown('cmb_prog', $datas, NULL, 'data-placeholder="Pilih Program" class="common chosen-select" id="cmb_prog"');
+		}elseif (!empty($kd_urusan)) {
+			$result = $this->db->query("SELECT * FROM t_renja_prog_keg 
+				INNER JOIN m_bidang 
+				ON t_renja_prog_keg.kd_urusan = m_bidang.kd_urusan AND t_renja_prog_keg.kd_bidang = m_bidang.kd_bidang
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.id <> $id_keg 
+				GROUP BY t_renja_prog_keg.kd_urusan, t_renja_prog_keg.kd_bidang")->result();
+			foreach ($result as $row) {
+				$datas[$row->kd_bidang] = $row->kd_bidang.' - '.$row->Nm_Bidang;
+			}
+			$combox = form_dropdown('cmb_bidang', $datas, NULL, 'data-placeholder="Pilih Bidang" class="common chosen-select" id="cmb_bidang"');
+		}
+
+		echo $combox;
+	}
+
 	function do_copy_belanja_kegiatan(){
 		$this->auth->restrict();
-		$id_keg = $this->input->post('id');
+		$keg_dari = $this->input->post('keg_dari');
 		$keg_tujuan = $this->input->post('keg_tujuan');
 
-		$result = $this->m_renja_trx->copy_belanja_kegiatan($id_keg, $keg_tujuan);
+		$result = $this->m_renja_trx->copy_belanja_kegiatan($keg_dari, $keg_tujuan);
 
 		if ($result) {
 			echo json_encode('Data belanja berhasil di copy');	

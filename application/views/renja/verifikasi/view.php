@@ -52,6 +52,11 @@
 			$(location).attr('href', '<?php echo site_url("renja/veri_view"); ?>')
 		});
 
+		$(".lihat").click(function(){
+			window.open('<?php echo site_url("renja/preview_cetak_kegiatan_for_veri"); ?>/1/'+$(this).attr("id-r"), '_blank');
+			// $(location).attr('href', '<?php //echo site_url("renja/preview_cetak_kegiatan"); ?>/1/'+$(this).attr("id-r"));
+		});
+
 		$("#disapprove_renja").click(function(){
 			prepare_facebox();
 			$.blockUI({
@@ -115,7 +120,10 @@
 				<?php
 						if ($row->id_status == 2) {
 				?>
-							<a href="javascript:void(0)" class="<?php echo ($row->is_prog_or_keg==1)?'icon-th-large veri_prog':'icon-list veri_keg';?>" id-r="<?php echo $row->id; ?>"></a>
+						<a href="javascript:void(0)" class="<?php echo ($row->is_prog_or_keg==1)?'icon-th-large veri_prog':'icon-list veri_keg';?>" id-r="<?php echo $row->id; ?>"></a>
+						<?php if ($row->is_prog_or_keg==2): ?>
+							<a href="javascript:void(0)" class="icon-file lihat" id-r="<?php echo $row->id; ?>" title="Preview Kegiatan"></a>
+						<?php endif ?>
 				<?php				
 						}elseif ($row->id_status == 3) {
 				?>

@@ -308,17 +308,17 @@ $(document).ready(function(){
 <article class="module width_full">
  	<div class="module_content">
 
- 			<input type="hidden" name="id_belanja_renstra_2"  id='id_belanja_renstra_2' value="<?php if(!empty($id_belanja_renstra_2)){echo $id_belanja_renstra_2;} ?>" />
- 			<table class="fcari" width="100%">
- 				<tbody>
+      <input type="hidden" name="id_belanja_renstra_2"  id='id_belanja_renstra_2' value="<?php if(!empty($id_belanja_renstra_2)){echo $id_belanja_renstra_2;} ?>" />
+			<tr>
+				<td>&nbsp;&nbsp;Lokasi Tahun 2</td>
+				<td>
+					<textarea class="common" id="lokasi_2" name="lokasi_2"><?php echo (!empty($kegiatan->lokasi_2))?$kegiatan->lokasi_2:''; ?></textarea>
+				</td>
+			</tr>
+      <table class="fcari" width="100%" style="display: none;">
+        <tbody>
           <input type="hidden" id="inIndex_2" name="inIndex_2" value="1"/>
           <input type="hidden" id="isEdit_2" value="0"/>
-									<tr>
-										<td>&nbsp;&nbsp;Lokasi Tahun 2</td>
-										<td>
-											<textarea class="common" id="lokasi_2" name="lokasi_2"><?php echo (!empty($kegiatan->lokasi_2))?$kegiatan->lokasi_2:''; ?></textarea>
-										</td>
-									</tr>
 											<textarea style="display: none;" class="common" id="uraian_kegiatan_2" name="uraian_kegiatan_2">-<?php echo (!empty($kegiatan->uraian_kegiatan_2))?'':''; ?></textarea>
 
           <tr>
@@ -384,6 +384,16 @@ $(document).ready(function(){
             </td>
           </tr>
           <tr>
+            <td>
+              Volume2 <input class="common" type="text" name="volume2_2" id="volume2_2"/>
+              Satuan2 <input class="common" type="text" name="satuan2_2" id="satuan2_2"/>
+            </td>
+            <td>
+              Volume3 <input class="common" type="text" name="volume3_2" id="volume3_2"/>
+              Satuan3 <input class="common" type="text" name="satuan3_2" id="satuan3_2"/>
+            </td>
+          </tr>
+          <tr>
 						<td>Nominal Satuan</td>
 						<td><input class="common" type="text" name="nominal_satuan_2" id="nominal_satuan_2" value="<?php if(!empty($nominal_satuan_2)){echo $nominal_satuan_2;} ?>"/></td>
 					</tr>
@@ -414,7 +424,7 @@ $(document).ready(function(){
       <input type='button'  id="tambahbelanja" onclick="save_belanja_renstra(2,'belanja');" style="cursor:pointer;" value='+ Rincian Obyek'>
       <input type='button'  id="tambahuraian" onclick="save_belanja_renstra(2,'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
       <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(2,'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'> -->
-      <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(2,'deturaian');" style="cursor:pointer;" value='Tambah Belanja'>
+      <!-- <input type='button'  id="tambahdeturaian" onclick="save_belanja_renstra(2,'deturaian');" style="cursor:pointer;" value='Tambah Belanja'> -->
 
 		</div>
 		
@@ -428,13 +438,13 @@ $(document).ready(function(){
     <div class="col-md-12" style="margin-bottom: 15px;">
       <b id="text_lihat_th2"></b>
     </div>
-    <div class="col-md-3">
-      <button type="button" class="col-md-12 custom" id="btn_lihat1_th2" onclick='select_lihat1("2", true, "5.2")'>Jenis Belanja</button>
-      <button type="button" class="col-md-12 custom" id="btn_lihat2_th2" disabled>Obyek Belanja</button>
-      <button type="button" class="col-md-12 custom" id="btn_lihat3_th2" disabled>Rincian Obyek</button>
-      <button type="button" class="col-md-12 custom" id="btn_lihat4_th2" disabled>Rincian Belanja</button>
+    <div class="col-md-2">
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat1_th2" onclick='select_lihat1("2", true, "5.2")'>Jenis Belanja</button>
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat2_th2" disabled>Obyek Belanja</button>
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat3_th2" disabled>Rincian Obyek</button>
+      <button type="button" class="col-md-12 btn custom" id="btn_lihat4_th2" disabled>Rincian Belanja</button>
     </div>
-    <div class="col-md-9" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th2">
+    <div class="col-md-10" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th2">
       <?php if (!empty($detil_kegiatan_th2)): ?>
         <?php foreach ($detil_kegiatan_th2 as $key => $row): ?>
           <?php if (!empty($row->kode_sumber_dana)): ?>
@@ -488,6 +498,18 @@ $(document).ready(function(){
           var sub = msg.edit.kode_sub_kategori_belanja;
           var belanja = msg.edit.kode_belanja;
           var sumber_dana = msg.edit.kode_sumber_dana;
+          setTimeout(function(){ 
+            sumber_dananya_2("lihat5_sumberdana_th2", sumber_dana, 'lihat5_sumberdana_th2');
+            $("#lihat5_subrincian_th2").val(msg.edit.detil_uraian_belanja);
+            $("#lihat5_vol1_th2").val(msg.edit.volume);
+            $("#lihat5_satuan1_th2").val(msg.edit.satuan);
+            $("#lihat5_vol2_th2").val(msg.edit.volume_2);
+            $("#lihat5_satuan2_th2").val(msg.edit.satuan_2);
+            $("#lihat5_vol3_th2").val(msg.edit.volume_3);
+            $("#lihat5_satuan3_th2").val(msg.edit.satuan_3);
+            $("#lihat5_nominalsatuan_th2").val(msg.edit.nominal_satuan);
+          }, 2500);
+
           jenis_belanjanya_2("cb_jenis_belanja_2", jenis);
           kategori_belanjanya_2("cb_kategori_belanja_2", jenis, kategori);
           sub_belanjanya_2("cb_subkategori_belanja_2", jenis, kategori, sub);
@@ -497,6 +519,10 @@ $(document).ready(function(){
           $('#det_uraian_2').val(msg.edit.detil_uraian_belanja);
           $('#volume_2').autoNumeric('set', msg.edit.volume);
           $('#satuan_2').val(msg.edit.satuan);
+          $('#volume2_2').val(msg.edit.volume_2);
+          $('#satuan2_2').val(msg.edit.satuan_2);
+          $('#volume3_2').val(msg.edit.volume_3);
+          $('#satuan3_2').val(msg.edit.satuan_3);
           $('#nominal_satuan_2').autoNumeric('set', msg.edit.nominal_satuan);
           $('#nominal_2').autoNumeric('set', total);
         }

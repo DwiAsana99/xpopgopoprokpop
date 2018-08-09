@@ -1275,6 +1275,8 @@
 			document.getElementById("satuan3_"+tahun).value = '';
 	      document.getElementById("nominal_satuan_"+tahun).value='';
 	    }else if (clue=='deturaian') {
+		  document.getElementById("sumberdana_"+tahun).value = '';
+		  $("#sumberdana_"+tahun).trigger("chosen:updated");
 	      document.getElementById("det_uraian_"+tahun).value = '';
 	      document.getElementById("volume_"+tahun).value = '';
 	      document.getElementById("satuan_"+tahun).value = '';

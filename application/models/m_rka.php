@@ -1520,7 +1520,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					,NULL AS Nilai_2
 					,NULL AS Sat_3
 					,NULL AS Nilai_3
-					,NULL AS Satuan123
+					,c.satuan AS Satuan123
 					,c.volume AS Jml_Satuan
 					,c.nominal_satuan AS Nilai_Rp
 					,c.subtotal AS Total
@@ -1575,7 +1575,8 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$ta_belanja_rinc_sub = $this->db->query('SELECT * FROM simda_ta_belanja_rinc_sub WHERE tahun = '.$ta.' AND kd_urusan = '.$kd_urusan.' AND kd_bidang = '.$kd_bidang.' AND kd_unit = '.$kd_unit.' AND kd_sub ='.$kd_sub.'')->result();
 		
 		
-		$serverName = "192.168.2.147\sqlexpress";
+		$serverName = "202.52.11.227\SERVER";
+		// $serverName = "192.168.2.147\sqlexpress";
 		// $serverName = "192.168.1.245\sqlexpress";
 		// $serverName = "192.168.1.245";
 		$connectionInfo = array("Database"=>"latihan", "UID"=>"admino", "PWD"=>"admin");

@@ -78,7 +78,13 @@
       return $temp;
     }
     
-    $kode_skpd = $this->db->query('SELECT m_skpd.*, MID(kode_skpd, 1, 1) AS urusan ,MID(kode_skpd, 3, 2) AS bidang ,MID(kode_skpd, 6, 2) AS unit ,MID(kode_skpd, 9, 2) AS sub_unit FROM m_skpd WHERE id_skpd = "'.$this->session->userdata("id_skpd").'"')->row();
+
+    if (!empty($id_skpd)) {
+      $ids = $id_skpd;
+    }else{
+      $ids = $this->session->userdata("id_skpd");
+    }
+    $kode_skpd = $this->db->query('SELECT m_skpd.*, MID(kode_skpd, 1, 1) AS urusan ,MID(kode_skpd, 3, 2) AS bidang ,MID(kode_skpd, 6, 2) AS unit ,MID(kode_skpd, 9, 2) AS sub_unit FROM m_skpd WHERE id_skpd = "'.$ids.'"')->row();
 
     if ($is_tahun_sekarang == 1) {
       $target_n = 'target';
@@ -146,7 +152,7 @@
       <tr>
         <td class="left bolder">Organisasi</td>
         <td>: <?php echo $kegiatan->kode_urusan.' . '.$kegiatan->kode_bidang.' . '.$kode_skpd->unit.' . '.$kode_skpd->sub_unit; ?></td>
-        <td class="right"><?php echo $this->session->userdata('nama_skpd'); ?></td>
+        <td class="right"><?php echo $kode_skpd->nama_skpd; ?></td>
       </tr>
       <tr>
         <td class="left bolder">Program</td>

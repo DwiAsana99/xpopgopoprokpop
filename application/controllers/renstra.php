@@ -1101,6 +1101,7 @@ function view_detil_renstra_skpd($id_skpd){
 		$this->auth->restrict();
 
 		$skpd_visi = $this->m_renstra_trx->get_one_renstra_skpd($id_skpd, TRUE);
+
 		$data1['skpd_visi'] = $skpd_visi;
 		$data1['misi'] = $this->m_renstra_trx->get_all_renstra_misi($skpd_visi->id, FALSE);
 		$data1['tujuan'] = $this->m_renstra_trx->get_all_renstra_tujuan($skpd_visi->id, FALSE);
@@ -1125,13 +1126,13 @@ function view_detil_renstra_skpd($id_skpd){
 		$data1['tujuan'] = $this->m_renstra_trx->get_all_renstra_tujuan($skpd_visi->id, FALSE);
 
 		$data3['sasaran'] = $this->m_renstra_trx->get_all_sasaran($skpd_visi->id, NULL, TRUE);
+		$data3['id_skpd'] = $id_skpd;
 		$data1['sasaran'] = "<table class=\"table-common\">".$this->load->view('renstra/cetak/header_sasaran', $data3, TRUE)."</table>";
 
 		$data['header'] = $this->load->view('renstra/cetak/header', $data1, TRUE);
 
 		$data['program'] = $this->m_renstra_trx->get_program_skpd_4_cetak($id_skpd);
 		$data['skpd_visi'] = $skpd_visi;
-
 		$this->template->load('template','renstra/verifikasi/view', $data);
 	}
 
@@ -1599,84 +1600,131 @@ function view_renstra_skpd(){
 			case 1:
 				$total = 0;
 				$html .= '
-						<div style="display: inline; position: absolute; left: 789px;">
+						<div style="display: inline; position: absolute; right: 0px;">
 					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\')">
 					          <i class="fa fa-plus" style="font-size: 20px;"></i>
 					        </button>
-					      </div>';
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+					        
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2 Belanja Langsung';
 					$pilihan = array('kd_jenis' => '5.2');
-					$html .= '
-						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\')">'.$row->kode_kategori_belanja.' - '.$row->kategori_belanja.'</button><br>';
+					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\')">'.$row->kode_kategori_belanja.' - '.$row->kategori_belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
 			case 2:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; right: 0px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+					        
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.' '.$row->kategori_belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja);
-					$html .= '
-						<div style="display: inline; position: absolute; left: 789px;">
-					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$row->kode_kategori_belanja.'\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat3(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">'.$row->kode_sub_kategori_belanja.' - '.$row->sub_kategori_belanja.'</button><br>';
+					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat3(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">'.$row->kode_sub_kategori_belanja.' - '.$row->sub_kategori_belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
 			case 3:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; right: 0px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+					        
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.' '.$row->sub_kategori_belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja);
-					$html .= '
-						<div style="display: inline; position: absolute; left: 789px;">
-				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat4(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">'.$row->kode_belanja.' - '.$row->belanja.'</button><br>';
+					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat4(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">'.$row->kode_belanja.' - '.$row->belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
 			case 4:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; right: 0px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\', \''.$kd_bel.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+					        <input type="text" id="lihat4_th'.$th.'" class="common" placeholder="Rincian Belanja"/>
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
-					$html .= '
-						<div style="display: inline; position: absolute; left: 789px;">
-				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-						<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat5(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\', \''.$row->uraian_belanja.'\')">'.$row->uraian_belanja.'</button><br>';
+					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat5(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\', \''.$row->uraian_belanja.'\')">'.$row->uraian_belanja.'</button><br>';
 				}
 				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
 				break;
 			case 5:
 				$total = 0;
 				$html .= '
-						<div style="display: block; position: absolute; left: 789px;">
-				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$data[0]->kode_kategori_belanja.'\', \''.$data[0]->kode_sub_kategori_belanja.'\', \''.$data[0]->kode_belanja.'\', \''.$data[0]->uraian_belanja.'\')">
+						<div style="display: block; position: absolute; right: 0px;">
+				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\', \''.$kd_bel.'\', \''.$uraian.'\')">
 					          <i class="fa fa-plus" style="font-size: 20px;"></i>
 					        </button>
 					      </div>
-					      <p style="height: 25px;"></p>
-						<table><tr><th>Sumber Dana</th><th>Sub Rincian</th><th>Volume</th><th>Satuan</th><th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
+					      <div style="display: inline; position: absolute; right: 45px; max-width: 970px;" id="combox_th'.$th.'">
+					      	<div style="width:467px;display: inline;position: absolute;right: 471px;" id="combox_sumberdana_th'.$th.'">
+					           
+					        </div>
+					      	<div style="width:467px;display: inline;position: absolute;right: 0px;">
+					        	<input type="text" id="lihat5_subrincian_th'.$th.'" class="common" placeholder="Sub Rincian Belanja" oninput="inputAtas($(this), $(\'#det_uraian_'.$th.'\'))"/>
+					        </div>
+
+					        <div style="width:467px;display: inline;position: absolute;right: 471px; top: 36px;">
+					           <input type="text" id="lihat5_vol1_th'.$th.'" class="common" placeholder="Volume 1" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume_'.$th.'\'))"/>
+					           <input type="text" id="lihat5_satuan1_th'.$th.'" class="common" placeholder="Satuan 1" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan_'.$th.'\'))"/>
+					        </div>
+					        <div style="width:467px;display: inline;position: absolute;right: 0px; top: 36px;">
+					           <input type="text" id="lihat5_vol2_th'.$th.'" class="common" placeholder="Volume 2" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume2_'.$th.'\'))"/>
+					           <input type="text" id="lihat5_satuan2_th'.$th.'" class="common" placeholder="Satuan 2" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan2_'.$th.'\'))"/>
+					        </div>
+
+					        <div style="width:467px;display: inline;position: absolute;right: 471px; top: 72px;">
+					           <input type="text" id="lihat5_vol3_th'.$th.'" class="common" placeholder="Volume 3" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume3_'.$th.'\'))"/>
+					           <input type="text" id="lihat5_satuan3_th'.$th.'" class="common" placeholder="Satuan 3" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan3_'.$th.'\'))"/>
+					        </div>
+					      	<div style="width:467px;display: inline;position: absolute;right: 0px; top: 72px;">
+					        	<input type="text" id="lihat5_nominalsatuan_th'.$th.'" class="common" placeholder="Nominal Satuan" oninput="inputAtas($(this), $(\'#nominal_satuan_'.$th.'\'))"/>
+					        </div>
+					      </div>
+					      <p style="height: 111px;"></p>
+						<table><tr><th>Sumber Dana</th><th>Sub Rincian</th>
+						<th>Volume 1</th><th>Satuan 1</th>
+						<th>Volume 2</th><th>Satuan 2</th>
+						<th>Volume 3</th><th>Satuan 3</th><th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->uraian_belanja;
 					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
 					$html .= '<tr>
-						<td>'.$row->Sumber_dana.'</td><td>'.$row->detil_uraian_belanja.'</td><td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td><td>'.Formatting::currency($row->nominal_satuan, 2).'</td><td>'.Formatting::currency($row->subtotal, 2).'</td>';
+						<td>'.$row->Sumber_dana.'</td><td>'.$row->detil_uraian_belanja.'</td>
+						<td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td>
+						<td>'.Formatting::currency($row->volume_2, 2).'</td><td>'.$row->satuan_2.'</td>
+						<td>'.Formatting::currency($row->volume_3, 2).'</td><td>'.$row->satuan_3.'</td>
+						<td>'.Formatting::currency($row->nominal_satuan, 2).'</td><td>'.Formatting::currency($row->subtotal, 2).'</td>';
 					if (empty($not_in)) {
 						$html .= '<td><span id="ubahrowng" class="icon-pencil" onclick="ubahrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
 						<td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>';
