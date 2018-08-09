@@ -233,7 +233,11 @@
 </table>
 </div>
 
-<div style="margin-top:-50px;">
+<?php if($status === 'cetak') { ?>
+  <div style="margin-top:-50px;">
+<?php } else { ?>
+  <div style="margin-top:0px;">
+<?php } ?>
 <table  width="100%"  style=" font-family:'Droid Sans', Helvetica, Arial, sans-serif;" style="margin-top:0px;">
   <thead>
   <tr>

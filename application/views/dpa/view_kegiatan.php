@@ -31,9 +31,21 @@
 				timeout: 2000,
 				overlayCSS: window._ovcss
 			});
-			var link = "<?php echo site_url("dpa/cetak_kegiatan"); ?>/"+id;
+			var link = "<?php echo site_url("dpa/cetak_kegiatan"); ?>/"+id +"/cetak";
 			window.open(link);
 			// $(location).attr('href',link);
+		});
+
+		$(".preview-kegiatan").click(function() {
+			var id = $(this).attr("idK");
+			$.blockUI({
+				message: 'Preview dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
+				css: window._css,
+				timeout: 2000,
+				overlayCSS: window._ovcss
+			});
+			var link = "<?php echo site_url("dpa/cetak_kegiatan"); ?>/"+id+"/preview";
+			window.open(link);
 		});
 
 		$(".tbh_kegiatan").click(function(){
@@ -179,6 +191,7 @@
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-pencil edit-kegiatan" title="Edit Kegiatan"/>
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-remove remove-kegiatan" title="Hapus Kegiatan"/>
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="cetak-kegiatan" title="Cetak Rincian Kegiatan"> <i style="color:black;" class="fa fa-book"></i></a>
+				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="preview-kegiatan" title="Preview Rincian Kegiatan"> <i style="color:black;" class="fa fa-list"></i></a>
 			</td>
 		</tr>
 	<?php

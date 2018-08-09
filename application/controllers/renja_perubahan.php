@@ -1374,7 +1374,7 @@ class Renja_perubahan extends CI_Controller
 	}
 
 
-	private function cetak_func221($cetak=FALSE ,  $id_kegiatan){
+	private function cetak_func221($cetak=FALSE ,  $id_kegiatan, $status){
 			if (!$cetak) {
 				$temp['class_table']='class="table-common"';
 			}else{
@@ -1393,6 +1393,7 @@ class Renja_perubahan extends CI_Controller
 			$data['keluaran'] =$this->m_renja_trx_perubahan->get_indikator_keluaran($ta, $id_kegiatan);
 			$data['capaian'] =$this->m_renja_trx_perubahan->get_indikator_capaian($id_kegiatan);
 			$data['nominal'] =$this->m_renja_trx_perubahan->get_nominal_renja($id_kegiatan,$ta);
+			$data['status'] = $status; #status cetak / preview
 
 			$result = $this->load->view("renja_perubahan/cetak/cetak_form_221_perubahan",$data, TRUE);
 		//print_r($result);exit();
@@ -1403,21 +1404,25 @@ class Renja_perubahan extends CI_Controller
 
 
 
-		function cetak_kegiatan($id_kegiatan){
+		function cetak_kegiatan($id_kegiatan, $status){
 					//print_r($id_kegiatan);exit();
-					$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-					$header = $this->m_template_cetak->get_value("GAMBAR");
-					$data['logo'] = str_replace("src=\"","height=\"70px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
-					$data['header'] = $this->m_template_cetak->get_value("HEADER");
-					$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'renja_perubahan'. date("d-m-Y_H-i-s"), 1);
-					$data['cetak'] = $this->cetak_func221(TRUE,$id_kegiatan);
-					$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
-						//print_r($html);exit();
-					 $filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
-					 pdf_create($html, $filename, "A4", "Landscape", FALSE);
+			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+			$header = $this->m_template_cetak->get_value("GAMBAR");
+			$data['logo'] = str_replace("src=\"","height=\"70px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
+			$data['header'] = $this->m_template_cetak->get_value("HEADER");
+			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'renja_perubahan'. date("d-m-Y_H-i-s"), 1);
+			$data['cetak'] = $this->cetak_func221(TRUE,$id_kegiatan,$status);
+			$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
+			// print_r($html);exit();
+			$filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
+			if($status === 'cetak') {
+				pdf_create($html, $filename, "A4", "Landscape", FALSE);
+			} else {
+				print_r($this->load->view('renstra/cetak/cetak_view', $data, TRUE)); exit();
+			}
 
 
-				}
+		}
 
 
 

@@ -1451,18 +1451,23 @@ function view_detil_renstra_skpd($id_skpd){
 		return $result;
 	}
 
-		function cetak_kegiatan($ta, $idK){
+		function cetak_kegiatan($ta, $idK, $status){
 			set_time_limit(1200);
 			ini_set("memory_limit","512M");
 			
 			$data['cetak'] = $this->cetak_func(TRUE, $ta, $idK);
 			$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
 		 	$filename='renstra '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
-			pdf_create($html, $filename, "A4", "Landscape", FALSE);
+			if($status === 'cetak') {
+				pdf_create($html, $filename, "A4", "Landscape", FALSE);
+			} else {
+				print_r($this->load->view('renstra/cetak/cetak_view', $data, TRUE)); exit();
+			}
 		}
 
 		function preview_periode_221(){
 			$data['id_keg'] = $this->input->post('id');
+			$data['status'] = $this->input->post('status');
 			$this->load->view('renstra/periode_221', $data);
 		}
 

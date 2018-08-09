@@ -43,7 +43,7 @@
 			$.ajax({
 				type: "POST",
 				url: '<?php echo site_url("renstra/preview_periode_221"); ?>',
-				data: {id: $(this).attr("idK")},
+				data: {id: $(this).attr("idK"), status: 'cetak'},
 				success: function(msg){
 					if (msg!="") {
 						$.facebox(msg);
@@ -56,6 +56,30 @@
 				}
 			});
 		});
+
+		// preview kegiatan
+		$(".preview-kegiatan").click(function() {
+			prepare_facebox();
+			$.blockUI({
+				css: window._css,
+				overlayCSS: window._ovcss
+			});
+			$.ajax({
+				type: "POST",
+				url: '<?php echo site_url("renstra/preview_periode_221") ?>',
+				data: {id: $(this).attr("idK"), status: 'preview'},
+				success: function(msg){
+					if (msg!="") {
+						$.facebox(msg);
+						$.blockUI({
+							timeout: 500,
+							css: window._css,
+							overlayCSS: window._ovcss
+						});
+					};
+				}
+			});
+		})
 		$(".cetak-kegiatanlama").click(function(){
 			$.blockUI({
 				message: 'Cetak dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
@@ -257,6 +281,7 @@
 			?>
 			<a href="<?php echo site_url('renstra/tampilkan/'.$row->id); ?>" target="_blank" class="icon-file" title="View Detail Belanja"></a>
 			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="cetak-kegiatan" title="Cetak Rincian Kegiatan"> <i style="color:black;" class="fa fa-book"></i></a>
+			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="preview-kegiatan" title="Preview Rincian Kegiatan"> <i style="color:black;" class="fa fa-list"></i></a>
 			</td>
 		</tr>
 	<?php
