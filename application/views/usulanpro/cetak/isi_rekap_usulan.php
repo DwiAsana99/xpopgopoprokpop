@@ -1,71 +1,9 @@
-<?php if ($for_print): ?>
-	<style type="text/css">
-		table, td {
-			font-size: 12px;
-			vertical-align: top;
-			padding: 2px 5px 2px 5px; 
-		},
-		th {
-			font-size: 12px;
-			vertical-align: middle;
-			padding: 2px 5px 2px 5px; 
-		}
-	</style>
-	<table border="1" style="border-collapse: collapse;"  width="100%">
-		<tbody>
-			<tr>
-				<th rowspan="2" width="10%">
-					<?php echo $logo; ?>
-				</th>
-				<th style="font-size: 18px;">
-					REKAP USULAN 
-					<p style="font-size: 11px; text-transform: uppercase;">
-						ASAL USULAN : <?php echo $m_asal_head; ?><br>
-						STATUS USULAN : <?php echo $m_status_head; ?><br>
-						KECAMATAN : <?php echo $m_kecamatan_head; ?><br>
-						DESA : <?php echo $m_desa_head; ?>
-					</p>
-				</th>
-				<th rowspan="2" width="10%">
-					<?php echo $qr['qrcode']; ?>
-				</th>
-			</tr>
-			<tr>
-				<td align="center" style="vertical-align: middle !important;">
-					<strong>Pemerintah Kabupaten Klungkung</strong><br>
-					Tahun Anggaran : <?php echo $ta; ?>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<table border="1" style="border-collapse: collapse;"  width="100%">
-		<thead>
-			<tr>
-				<th colspan="4">Kode</th>
-				<th >Program dan Kegiatan</th>
-				<th >Jenis Pekerjaan</th>
-				<th >Volume</th>
-				<th >Satuan</th>
-				<th >Jumlah Dana (Rp.)</th>
-		        <th >Nama Desa</th>
-		        <th >Nama Kecamatan</th>
-		        <th >SKPD Penanggungjawab</th>
-		        <th >Asal Usulan</th>
-		        <th >Alasan</th>
-			</tr>
-		</thead>
-		<tbody>
-<?php endif ?>
-
-
-
-
 <?php
 	$urusan = $this->db->query("SELECT t.*,u.Nm_Urusan AS nama_urusan FROM (
 		SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 		WHERE tahun = '".$ta."'
 		AND flag_delete = 0
-		".$id_usulan."
+		".$id_groups."
 		".$status."
 		".$kec."
 		".$desa."
@@ -103,7 +41,7 @@
 			SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 			WHERE tahun = '".$ta."'
 			AND flag_delete = 0
-			".$id_usulan."
+			".$id_groups."
 			".$status."
 			".$kec."
 			".$desa."
@@ -141,7 +79,7 @@
 				SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 				WHERE tahun = '".$ta."'
 				AND flag_delete = 0
-				".$id_usulan."
+				".$id_groups."
 				".$status."
 				".$kec."
 				".$desa."
@@ -177,12 +115,11 @@
 					$kode_program = NULL;
 				}
 
-				$kegiatan = $this->db->query("SELECT t.*, k.ket_kegiatan AS nama_kegiatan, kec.nama_kec AS nama_kecamatan, 
-					des.nama_desa AS nama_desa, skpd.nama_skpd FROM (
+				$kegiatan = $this->db->query("SELECT t.*, k.ket_kegiatan AS nama_kegiatan FROM (
 					SELECT * FROM t_musrenbang
 					WHERE tahun = '".$ta."'
 					AND flag_delete = 0
-					".$id_usulan."
+					".$id_groups."
 					".$status."
 					".$kec."
 					".$desa."
@@ -192,10 +129,7 @@
 					ORDER BY kd_kegiatan ASC
 					) AS t
 					LEFT JOIN m_kegiatan AS k ON t.kd_urusan = k.kd_urusan AND t.kd_bidang = k.kd_bidang 
-					AND t.kd_program = k.kd_prog AND t.kd_kegiatan = k.kd_keg
-					LEFT JOIN m_kecamatan AS kec ON t.id_kecamatan = kec.id_kec
-					LEFT JOIN m_desa AS des ON t.id_kecamatan = des.id_kec AND t.id_desa = des.id_desa
-					LEFT JOIN m_skpd AS skpd ON t.id_skpd = skpd.id_skpd")->result();
+					AND t.kd_program = k.kd_prog AND t.kd_kegiatan = k.kd_keg")->result();
 
 				foreach ($kegiatan as $row_kegiatan){
 					if($row_kegiatan->nama_kegiatan!=NULL){
@@ -205,7 +139,6 @@
 					}
 ?>
 					<tr >
-						<!-- <td><?php print_r($this->db->last_query()); ?></td> -->
                         <td><?php echo $row_urusan->kd_urusan; ?></td>
                         <td><?php echo $row_bidang->kd_bidang; ?></td>
                         <td><?php echo $row_program->kd_program; ?></td>
@@ -218,7 +151,7 @@
                         <td><?php echo $row_kegiatan->nama_desa; ?></td>
                         <td><?php echo $row_kegiatan->nama_kecamatan; ?></td>
                         <td><?php echo $row_kegiatan->nama_skpd; ?></td>
-                        <td><?php echo $m_asal_usulan[$row_kegiatan->start_from]; ?></td>
+                        <td><?php echo $row_kegiatan->asal_usulan; ?></td>
                         <td><?php echo $row_kegiatan->alasan_keputusan; ?></td>
                     </tr>
 <?php
@@ -227,11 +160,3 @@
 		}
 	}
 ?>
-
-
-
-
-<?php if ($for_print): ?>
-		</tbody>
-	</table>
-<?php endif ?>

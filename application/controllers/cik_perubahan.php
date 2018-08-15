@@ -1308,24 +1308,6 @@ class Cik_perubahan extends CI_Controller
 		echo json_encode(array('success' => '1', 'msg' => 'CIK telah ditolak.', 'href' => site_url('cik_perubahan/veri_view_cik')));
 	}
 
-	function approve_cik(){
-		$this->auth->restrict();
-		$data['id'] = $this->input->post('id');
-		$bulan = $this->input->post("bulan");
-		$data['bulan'] = $bulan;
-		$this->load->view('cik_perubahan/verifikasi/approve_cik', $data);
-	}
-
-	function do_approve_cik(){
-		$this->auth->restrict_ajax_login();
-
-		$id = $this->input->post('id');
-		$bulan = $this->input->post('bulan');
-		$ket = $this->input->post('ket');
-		$result = $this->m_cik_perubahan->approve_cik($id, $bulan, $ket);
-		echo json_encode(array('success' => '1', 'msg' => 'CIK telah disetujui.', 'href' => site_url('cik/veri_view_cik')));
-	}
-
 	function do_export_pusat($bulan = NULL){
 
 		if (empty($bulan)) {

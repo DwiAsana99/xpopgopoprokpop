@@ -11,7 +11,7 @@ class Rka extends CI_Controller
         $this->load->database();
         //$this->load->model('m_musrenbang','',TRUE);
         $this->load->model(array('m_rka','m_skpd','m_lov','m_urusan', 'm_bidang', 'm_program', 'm_kegiatan', 'm_jenis_belanja', 'm_kategori_belanja', 'm_subkategori_belanja', 'm_kode_belanja',
-															'm_template_cetak', 'm_settings', 'm_rpjmd_trx'));
+															'm_template_cetak', 'm_rpjmd_trx'));
         if (!empty($this->session->userdata("db_aktif"))) {
             $this->load->database($this->session->userdata("db_aktif"), FALSE, TRUE);
         }
@@ -898,6 +898,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 	function preview_periode_221(){
 		$data['id_keg'] = $this->input->post('id');
+		$data['status'] = $this->input->post('status');
 		$this->load->view('rka/periode_221', $data);
 	}
 
@@ -912,31 +913,31 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			return $result;
 		}else{
 			foreach ($result as $row) {
-				// $vol = Formatting::currency($row->volume);
-				// $nom = Formatting::currency($row->nominal_satuan);
-				// $sub = Formatting::currency($row->subtotal);
+				$vol = Formatting::currency($row->volume);
+				$nom = Formatting::currency($row->nominal_satuan);
+				$sub = Formatting::currency($row->subtotal);
 
-				// echo "<tr id='".$row->id."'>
-				// <td>".$i.".</td>
-				// <td>".$row->kode_jenis_belanja.". ".$row->jenis_belanja."</td>
-				// <td>".$row->kode_kategori_belanja.". ".$row->kategori_belanja."</td>
-				// <td>".$row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja."</td>
-				// <td>".$row->kode_belanja.". ".$row->belanja."</td>
-				// <td>".$row->uraian_belanja."</td>
-				// <td>".$row->Sumber_dana."</td>
-				// <td>".$row->detil_uraian_belanja."</td>
-				// <td>".$vol."</td>
-				// <td>".$row->satuan."</td>
-				// <td>".$nom."</td>
-				// <td>".$sub."</td>
-				// <td>
-				// 	<span id='ubahrowng' class='icon-pencil' onclick='ubahrowng(".$row->id.",".$tahun.")' style='cursor:pointer' title='Ubah Belanja'></span>
-				// </td>
-				// <td>
-				// 	<span id='hapusrowng' class='icon-remove' onclick='hapusrowng(".$row->id.",".$tahun.")' style='cursor:pointer' title='Hapus Belanja'></span>
-				// </td>
-				// </tr>";
-				// $i++;
+				echo "<tr id='".$row->id."'>
+				<td>".$i.".</td>
+				<td>".$row->kode_jenis_belanja.". ".$row->jenis_belanja."</td>
+				<td>".$row->kode_kategori_belanja.". ".$row->kategori_belanja."</td>
+				<td>".$row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja."</td>
+				<td>".$row->kode_belanja.". ".$row->belanja."</td>
+				<td>".$row->uraian_belanja."</td>
+				<td>".$row->Sumber_dana."</td>
+				<td>".$row->detil_uraian_belanja."</td>
+				<td>".$vol."</td>
+				<td>".$row->satuan."</td>
+				<td>".$nom."</td>
+				<td>".$sub."</td>
+				<td>
+					<span id='ubahrowng' class='icon-pencil' onclick='ubahrowng(".$row->id.",".$tahun.")' style='cursor:pointer' title='Ubah Belanja'></span>
+				</td>
+				<td>
+					<span id='hapusrowng' class='icon-remove' onclick='hapusrowng(".$row->id.",".$tahun.")' style='cursor:pointer' title='Hapus Belanja'></span>
+				</td>
+				</tr>";
+				$i++;
 				$total += $row->subtotal;
 			}
 			if ($is_tahun == 1) {
@@ -998,8 +999,6 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		// $th = $this->m_settings->get_tahun_anggaran_db();
 
-		$data['edit'] = $this->m_rka->get_one_belanja($id);
-
 		$this->m_rka->delete_one_kegiatan($id);
 
 		$data['list'] = $this->belanja_kegiatan_lihat(TRUE, $id_kegiatan, $ta, $tahun, $is_tahun);
@@ -1026,7 +1025,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 	}
 
-	function cetak_kegiatan($ta, $is_tahun, $idK){
+	function cetak_kegiatan($ta, $is_tahun, $idK, $status){
 		set_time_limit(1200);
 		ini_set("memory_limit","512M");
 
@@ -1034,7 +1033,11 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$data['cetak'] = $this->cetak_func221(TRUE, $ta, $is_tahun, $idK);
 		$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
 		$filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
-		pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		if($status === 'cetak') {
+			pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		} else {
+			print_r($this->load->view('renstra/cetak/cetak_view', $data, true)); exit();
+		}
 
 	}
 
@@ -1059,222 +1062,5 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		// exit();
 		// echo $result;
 		echo json_encode($data);
-	}
-
-	function select_belanja_lihat(){
-		$th_db = $this->m_settings->get_tahun_anggaran_db();
-
-		$id_kegiatan = $this->input->post('id_keg');
-		$group = $this->input->post('group');
-		// $tahun = $th_db[$th - 1]->tahun_anggaran;
-		$th = $this->input->post('tahun');
-		if ($th == 2) {
-			$is_tahun = 0;
-			$tahun = $this->m_settings->get_tahun_anggaran()+1;
-		}else{
-			$is_tahun = 1;
-			$tahun = $this->m_settings->get_tahun_anggaran();
-		}
-		$not_in = $this->input->post('not_in');
-
-		$kd_jenis = $this->input->post('kd_jenis');
-		$kd_kat = $this->input->post('kd_kat');
-		$kd_sub = $this->input->post('kd_sub');
-		$kd_bel = $this->input->post('kd_bel');
-		$uraian = $this->input->post('uraian');
-
-		$data = $this->m_rka->get_belanja_kegiatan($id_kegiatan, $group, 
-			array('1' => $kd_jenis, '2' => $kd_kat, '3' => $kd_sub, '4' => $kd_bel, '5' => $uraian),
-			$tahun, $is_tahun, $not_in
-		);
-		// print_r($this->db->last_query());
-		// print_r($group);
-		// exit();
-
-		$html = '';
-		$title = '';
-		$pilihan = '';
-
-		switch ($group) {
-			case 1:
-				$total = 0;
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2 Belanja Langsung';
-					$pilihan = array('kd_jenis' => '5.2');
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\')">'.$row->kode_kategori_belanja.' - '.$row->kategori_belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 2:
-				$total = 0;
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.' '.$row->kategori_belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat3(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">'.$row->kode_sub_kategori_belanja.' - '.$row->sub_kategori_belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 3:
-				$total = 0;
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.' '.$row->sub_kategori_belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat4(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">'.$row->kode_belanja.' - '.$row->belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 4:
-				$total = 0;
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat5(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\', \''.$row->uraian_belanja.'\')">'.$row->uraian_belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 5:
-				$total = 0;
-				$html .= '<table><tr><th>Sumber Dana</th><th>Sub Rincian</th><th>Volume</th><th>Satuan</th><th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->uraian_belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
-					$html .= '<tr>
-						<td>'.$row->Sumber_dana.'</td><td>'.$row->detil_uraian_belanja.'</td><td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td><td>'.Formatting::currency($row->nominal_satuan, 2).'</td><td>'.Formatting::currency($row->subtotal, 2).'</td>';
-					if (empty($not_in)) {
-						$html .= '<td><span id="ubahrowng" class="icon-pencil" onclick="ubahrowng('.$row->id.', '.$th.')" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
-						<td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng('.$row->id.', '.$th.')" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>';
-					}else{
-						$html .= '<td>&nbsp;</td><td>&nbsp;</td>';
-					}
-					$html .= '</tr>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-
-			default:
-				$title = '';
-				$pilihan = '';
-				$html = '';
-				break;
-		}
-
-		$arrayName = array('title' => $title, 'pilihan' => $pilihan, 'html' => $html);
-		echo json_encode($arrayName);
-	}
-
-	function rekap_sumber_dana($cetak=FALSE){
-		$this->auth->restrict();
-
-		$th = $this->session->userdata('t_anggaran_aktif');
-		$id_skpd = $this->session->userdata('id_skpd');
-
-		$data['cetak'] = $cetak;
-		$data['tahun'] = $th;
-		$data['id_skpd'] = $id_skpd;
-		$data['data1'] = $this->m_rka->sumber_dana_rekap($th, $id_skpd)->result();
-
-		if (!$cetak) {
-			$this->template->load('template','rka/cetak/cetak_sumber_dana', $data);
-		}else{
-
-			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-			$header = $this->m_template_cetak->get_value("GAMBAR");
-			$data['logo'] = str_replace("src=\"","height=\"90px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
-			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Sumber Dana RKA '. date("d-m-Y H-i-s"), 2);
-
-			$html = $this->load->view('rka/cetak/cetak_sumber_dana', $data, TRUE);
-			$this->create_pdf->load_ng($html,'Rekap_Sumber_Dana_RKA_'.$this->session->userdata("username").'_'.date("d-m-Y_H-i-s"), 'A4-L','');
-		}
-	}
-
-	function preview_cetak_kegiatan_for_veri($is_thn_sekarang, $idK) {
-		$ta = $this->m_settings->get_tahun_anggaran();
-		$keg = $this->m_rka->get_kegiatan_for_211_new($ta, $idK);
-		$html = $this->cetak_func221(TRUE, $ta, $is_thn_sekarang, $idK, $keg->id_skpd);
-
-		print_r($html);
-	}
-
-	function copy_belanja_kegiatan(){
-		$this->auth->restrict();
-		$id_keg = $this->input->post('id');
-		
-		$th = $this->session->userdata('t_anggaran_aktif');
-		$id_skpd = $this->session->userdata('id_skpd');
-
-		$one_keg  = $this->m_rka->get_one_kegiatan(NULL, $id_keg);
-		$data['keg_tujuan'] = $one_keg->kd_urusan.".".$one_keg->kd_bidang.".".$one_keg->kd_program.".".$one_keg->kd_kegiatan." - ".$one_keg->nama_prog_or_keg;
-
-		$data['id_keg'] = $id_keg;
-		$data['tahun'] = $th;
-		$data['id_skpd'] = $id_skpd;
-		// $data['keg_tujuan'] = form_dropdown('keg_tujuan', $keg, NULL, 'data-placeholder="Pilih Kegiatan yang Dituju" class="common chosen-select" id="keg_tujuan"');
-
-		$this->load->view('rka/view_copy_kegiatan', $data);	
-	}
-
-	function do_copy_belanja_kegiatan(){
-		$this->auth->restrict();
-		$keg_dari = $this->input->post('keg_dari');
-		$keg_tujuan = $this->input->post('keg_tujuan');
-
-		$result = $this->m_rka->copy_belanja_kegiatan($keg_dari, $keg_tujuan);
-
-		if ($result) {
-			echo json_encode('Data belanja berhasil di copy');	
-		}else{
-			echo json_encode('Data belanja gagal di copy. Mohon hubungi Administrator');	
-		}
-
-	}
-
-	function combo_copy_belanja(){
-		$id_keg = $this->input->post('id_keg');
-		$kd_urusan = $this->input->post('kd_urusan');
-		$kd_bidang = $this->input->post('kd_bidang');
-		$kd_program = $this->input->post('kd_program');
-
-		$tahun = $this->session->userdata('t_anggaran_aktif');
-		$id_skpd = $this->session->userdata('id_skpd');
-
-		$datas = array('' => '');
-		if (!empty($kd_program)) {
-			$result = $this->db->query("SELECT *, tx_rka_pro_keg.id as id_keg FROM tx_rka_pro_keg 
-				INNER JOIN m_kegiatan 
-				ON tx_rka_pro_keg.kd_urusan = m_kegiatan.kd_urusan AND tx_rka_pro_keg.kd_bidang = m_kegiatan.kd_bidang AND tx_rka_pro_keg.kd_program = m_kegiatan.kd_prog AND tx_rka_pro_keg.kd_kegiatan = m_kegiatan.kd_keg
-				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND tx_rka_pro_keg.kd_urusan = '$kd_urusan' AND tx_rka_pro_keg.kd_bidang = '$kd_bidang' AND tx_rka_pro_keg.kd_program = '$kd_program' AND tx_rka_pro_keg.id <> $id_keg 
-				GROUP BY tx_rka_pro_keg.kd_urusan, tx_rka_pro_keg.kd_bidang, tx_rka_pro_keg.kd_program, tx_rka_pro_keg.kd_kegiatan")->result();
-			foreach ($result as $row) {
-				$datas[$row->id_keg] = $row->Kd_Keg.' - '.$row->Ket_Kegiatan;
-			}
-			$combox = form_dropdown('cmb_keg', $datas, NULL, 'data-placeholder="Pilih Kegiatan" class="common chosen-select" id="cmb_keg"');
-		}elseif (!empty($kd_bidang)) {
-			$result = $this->db->query("SELECT * FROM tx_rka_pro_keg 
-				INNER JOIN m_program 
-				ON tx_rka_pro_keg.kd_urusan = m_program.kd_urusan AND tx_rka_pro_keg.kd_bidang = m_program.kd_bidang AND tx_rka_pro_keg.kd_program = m_program.kd_prog
-				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND tx_rka_pro_keg.kd_urusan = '$kd_urusan' AND tx_rka_pro_keg.kd_bidang = '$kd_bidang' AND tx_rka_pro_keg.id <> $id_keg 
-				GROUP BY tx_rka_pro_keg.kd_urusan, tx_rka_pro_keg.kd_bidang, tx_rka_pro_keg.kd_program")->result();
-			foreach ($result as $row) {
-				$datas[$row->Kd_Prog] = $row->Kd_Prog.' - '.$row->Ket_Program;
-			}
-			$combox = form_dropdown('cmb_prog', $datas, NULL, 'data-placeholder="Pilih Program" class="common chosen-select" id="cmb_prog"');
-		}elseif (!empty($kd_urusan)) {
-			$result = $this->db->query("SELECT * FROM tx_rka_pro_keg 
-				INNER JOIN m_bidang 
-				ON tx_rka_pro_keg.kd_urusan = m_bidang.kd_urusan AND tx_rka_pro_keg.kd_bidang = m_bidang.kd_bidang
-				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND tx_rka_pro_keg.kd_urusan = '$kd_urusan' AND tx_rka_pro_keg.id <> $id_keg 
-				GROUP BY tx_rka_pro_keg.kd_urusan, tx_rka_pro_keg.kd_bidang")->result();
-			foreach ($result as $row) {
-				$datas[$row->kd_bidang] = $row->kd_bidang.' - '.$row->Nm_Bidang;
-			}
-			$combox = form_dropdown('cmb_bidang', $datas, NULL, 'data-placeholder="Pilih Bidang" class="common chosen-select" id="cmb_bidang"');
-		}
-
-		echo $combox;
 	}
 }

@@ -339,10 +339,10 @@ class M_rpjmd_trx extends CI_Model
 		$this->db->from($this->table_indikator_sasaran);
 
 		if ($satuan) {
-			// $this->db->select("m_lov.nama_value");
+			$this->db->select("m_lov.nama_value");
 			$this->db->select("m_status_indikator.nama_status_indikator");
 			$this->db->select("m_kategori_indikator.nama_kategori_indikator");
-			// $this->db->join("m_lov",$this->table_indikator_sasaran.".satuan_target = m_lov.kode_value AND kode_app='1'","inner");
+			$this->db->join("m_lov",$this->table_indikator_sasaran.".satuan_target = m_lov.kode_value AND kode_app='1'","inner");
 			$this->db->join("m_status_indikator",$this->table_indikator_sasaran.".status_indikator = m_status_indikator.kode_status_indikator","inner");
 			$this->db->join("m_kategori_indikator",$this->table_indikator_sasaran.".kategori_indikator = m_kategori_indikator.kode_kategori_indikator","inner");
 		}
@@ -365,52 +365,47 @@ class M_rpjmd_trx extends CI_Model
 		return $result;
 	}
 
-	function add_sasaran($data, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir){
+	function add_sasaran($data){
 		$this->db->trans_strict(FALSE);
 		$this->db->trans_start();
 
-		// $result = $this->db->insert($this->table_sasaran, $data);
-		$id = $this->db->insert_id();
-
-		foreach ($indikator as $key => $value) {
-			$this->db->insert($this->table_indikator_sasaran, array('id_sasaran' => $id, 'indikator' => $value, 'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key],
-			'kondisi_awal' => $kondisi_awal[$key], 'target_1' => $target_1[$key], 'target_2' => $target_2[$key], 'target_3' => $target_3[$key], 'target_4' => $target_4[$key], 'target_5' => $target_5[$key], 'kondisi_akhir' => $kondisi_akhir[$key]));
-		}
+		$result = $this->db->insert($this->table_sasaran, $data);
 
 		$this->db->trans_complete();
 		return $this->db->trans_status();
 	}
 
-	function edit_sasaran($data, $id_sasaran, $id_indikator, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir){
+	function edit_sasaran($data, $id_sasaran){
 		$this->db->trans_strict(FALSE);
 		$this->db->trans_start();
 
 		$this->db->where('id', $id_sasaran);
 		$result = $this->db->update($this->table_sasaran, $data);
-		
-		foreach ($indikator as $key => $value) {
-			if (!empty($id_indikator[$key])) {
-				$this->db->where('id', $id_indikator[$key]);
-				$this->db->where('id_sasaran', $id_sasaran);
-				$this->db->update($this->table_indikator_sasaran, array('indikator' => $value,
-						'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key],
-						'kondisi_awal' => $kondisi_awal[$key], 'target_1' => $target_1[$key], 'target_2' => $target_2[$key], 'target_3' => $target_3[$key] ,
-						'target_4' => $target_4[$key], 'target_5' => $target_5[$key], 'kondisi_akhir' => $kondisi_akhir[$key]));
-				unset($id_indikator[$key]);
-			}else{
-				$this->db->insert($this->table_indikator_sasaran, array('id_sasaran' => $id_sasaran, 'indikator' => $value,
-						'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key],
-						'kondisi_awal' => $kondisi_awal[$key], 'target_1' => $target_1[$key], 'target_2' => $target_2[$key], 'target_3' => $target_3[$key] ,
-						'target_4' => $target_4[$key], 'target_5' => $target_5[$key], 'kondisi_akhir' => $kondisi_akhir[$key]));
-			}
-		}
-		
-		if (!empty($id_indikator)) {
-			$this->db->where_in('id', $id_indikator);
-			$this->db->delete($this->table_indikator_sasaran);
-		}
+		//
+		// $this->db->where('id', $id_prog);
+		// $result = $this->db->update($this->table_program_ng, array('id_rpjmd' => $data['id_rpjmd'], 'id_tujuan' => $data['id_tujuan'], 'id_sasaran' => $id_sasaran, 'nama_prog' => $nama_prog, 'pagu_rpjmd' => $pagu_rpjmd ));
+		//
+		// foreach ($indikator as $key => $value) {
+		// 	if (!empty($id_indikator[$key])) {
+		// 		$this->db->where('id', $id_indikator[$key]);
+		// 		$this->db->where('id_sasaran', $id_sasaran);
+		// 		$this->db->update($this->table_indikator_sasaran, array('indikator' => $value,
+		// 				'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key],
+		// 				'kondisi_awal' => $kondisi_awal[$key], 'target_1' => $target_1[$key], 'target_2' => $target_2[$key], 'target_3' => $target_3[$key] ,
+		// 				'target_4' => $target_4[$key], 'target_5' => $target_5[$key], 'kondisi_akhir' => $kondisi_akhir[$key]));
+		// 		unset($id_indikator[$key]);
+		// 	}else{
+		// 		$this->db->insert($this->table_indikator_sasaran, array('id_sasaran' => $id_sasaran, 'indikator' => $value,
+		// 				'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key],
+		// 				'kondisi_awal' => $kondisi_awal[$key], 'target_1' => $target_1[$key], 'target_2' => $target_2[$key], 'target_3' => $target_3[$key] ,
+		// 				'target_4' => $target_4[$key], 'target_5' => $target_5[$key], 'kondisi_akhir' => $kondisi_akhir[$key]));
+		// 	}
+		// }
+		//
+		// if (!empty($id_indikator)) {
+		// 	$this->db->where_in('id', $id_indikator);
+		// 	$this->db->delete($this->table_indikator_sasaran);
+		// }
 
 		$this->db->trans_complete();
 		return $this->db->trans_status();
@@ -1417,16 +1412,10 @@ class M_rpjmd_trx extends CI_Model
 
 
 	function get_program_skpd_from_renstra($id_prog_rpjmd){
-		$query = "SELECT distinct t_renstra_prog_keg.nama_prog_or_keg, kd_urusan, kd_bidang, kd_program FROM `t_renstra_prog_keg` 
+		$query = "SELECT distinct t_renstra_prog_keg.nama_prog_or_keg, id_prog_rpjmd FROM `t_renstra_prog_keg` 
 		where id_prog_rpjmd ='$id_prog_rpjmd'";
 		$result = $this->db->query($query);
 		return $result->result();
-	}
-
-	function get_skpd_by_kode($id_sasaran, $kd_urusan, $kd_bidang, $kd_program){
-		$query = "SELECT m_skpd.nama_skpd FROM m_skpd WHERE id_skpd IN 
-			(SELECT id_skpd FROM t_renstra_prog_keg WHERE id_prog_rpjmd = '$id_sasaran' AND kd_urusan = '$kd_urusan' AND kd_bidang = '$kd_bidang' AND kd_program = '$kd_program')";
-		return $this->db->query($query)->result();
 	}
 
 

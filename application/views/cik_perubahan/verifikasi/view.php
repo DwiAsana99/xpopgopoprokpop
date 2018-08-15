@@ -72,29 +72,6 @@
 				}
 			});
 		});
-
-		$("#approve_all_cik").click(function(){
-			prepare_facebox();
-			$.blockUI({
-				css: window._css,
-				overlayCSS: window._ovcss
-			});
-
-	    	$.ajax({
-				type: "POST",
-				url: "<?php echo site_url('cik/approve_cik'); ?>",
-				data: {id:$(this).attr("id-r"),bulan:$(this).attr("id-b")},
-				success: function(msg){
-					$.blockUI({
-						message: msg.msg,
-						timeout: 2000,
-						css: window._css,
-						overlayCSS: window._ovcss
-					});
-					$.facebox(msg);
-				}
-			});
-		});
 	});
 </script>
 <article class="module width_full" style="width: 100%;">
@@ -388,7 +365,6 @@
     </div>
 	<footer>
 		<div class="submit_link">
-        	<input id-r="<?php echo $id_skpd; ?>" id-b="<?php echo $bulan;?>" type="button" id="approve_all_cik" value="Setujui Seluruh CIK">
         	<input id-r="<?php echo $id_skpd; ?>" id-b="<?php echo $bulan;?>" type="button" id="disapprove_cik" value="Tidak Setujui Seluruh CIK Perubahan">
 			<input type="button" value="Kembali" onclick="history.go(-1)">
 		</div>

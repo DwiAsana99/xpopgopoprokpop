@@ -21,111 +21,184 @@
 	<thead>
 		<tr>
 			<th width="55px">NO.</th>
-			<th>TUJUAN</th>
 			<th>SASARAN</th>
+			<th>STRATEGI</th>			
+			<th>ARAH KEBIJAKAN</th>
 			<th>INDIKATOR SASARAN</th>
 			<th width="15px">KONDISI AWAL</th>
 			<th width="15px">KONDISI AKHIR</th>
+			<th>PROGRAM PRIORITAS</th>
 			<th>PROGRAM SKPD</th>
 			<th>SKPD PENANGGUNG JAWAB</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php 
-			foreach ($rpjmd as $key_rpjmd => $row_rpjmd) {
-				$tujuan = $this->m_rpjmd_trx->get_all_rpjmd_tujuan($row_rpjmd->id);
-				foreach ($tujuan as $key_tujuan => $row_tujuan) {
-					$sasaran = $this->m_rpjmd_trx->get_all_sasaran($row_rpjmd->id, $row_tujuan->id);
-					$tot_ind_per_tujuan = $this->db->query("SELECT t_rpjmd_indikator_sasaran.id FROM t_rpjmd_indikator_sasaran
-						INNER JOIN t_rpjmd_sasaran
-						ON t_rpjmd_sasaran.id = t_rpjmd_indikator_sasaran.id_sasaran
-						WHERE t_rpjmd_sasaran.id_tujuan = '".$row_tujuan->id."'")->num_rows();
-					$tot_prog_per_tujuan = $this->db->query("SELECT DISTINCT t_renstra_prog_keg.nama_prog_or_keg, id_prog_rpjmd FROM t_renstra_prog_keg
-						INNER JOIN t_rpjmd_sasaran
-						ON t_renstra_prog_keg.id_prog_rpjmd = t_rpjmd_sasaran.id
-						WHERE t_rpjmd_sasaran.id_tujuan = '".$row_tujuan->id."'")->num_rows();
-					$tot_ind_per_tujuan = ($tot_ind_per_tujuan>0)?$tot_ind_per_tujuan:'1';
-					$tot_prog_per_tujuan = ($tot_prog_per_tujuan>0)?$tot_prog_per_tujuan:'1'; 
+			$no = 1;
+			foreach ($rpjmd as $row_rpjmd) {
+				$sasaran = $this->m_rpjmd_trx->get_all_sasaran($row_rpjmd->id);
+				foreach ($sasaran as $key_sasaran => $row_sasaran) {
+					$program = $this->m_rpjmd_trx->get_all_program_ng_row($row_sasaran->id);
 
-					if ($tot_ind_per_tujuan >= $tot_prog_per_tujuan) {
-						$tot_for_tujuan = $tot_ind_per_tujuan;
-					}else{
-						$tot_for_tujuan = $tot_prog_per_tujuan;
-					}
-					foreach ($sasaran as $key_sasaran => $row_sasaran) {
-						$indikator = $this->m_rpjmd_trx->get_indikator_sasaran($row_sasaran->id, TRUE);
-						$tot_indikator = (count($indikator)>0)?count($indikator):'1';
-						
-						$program = $this->m_rpjmd_trx->get_program_skpd_from_renstra($row_sasaran->id);
-						$tot_prog = (count($program)>0)?count($program):'1';
-						
-						if ($tot_indikator >= $tot_prog) {
-							$for_foreach = $indikator;
-							$tot_for_sasaran = count($indikator);
+					$indikator_sasaran = $this->m_rpjmd_trx->get_indikator_program_per_sasaran($row_sasaran->id)->result();
+					$tot_indikator_sasaran = count($indikator_sasaran);
+
+					$program_skpd = $this->m_rpjmd_trx->get_program_skpd_from_renstra($program->id);
+					$tot_prog_skpd = count($program_skpd);
+
+					$strategi = $this->m_rpjmd_trx->get_all_strategi($row_sasaran->id);
+					$tot_strategi = count($strategi);
+
+					$tot_kebijakan_p_sasaran = $this->m_rpjmd_trx->get_total_kebijakan_strategi_cetak($row_sasaran->id);
+					$tot_kebijakan_p_sasaran = $tot_kebijakan_p_sasaran->jumlah;
+// print_r($this->db->last_query());
+					$kebijakan = $this->m_rpjmd_trx->get_all_kebijakan($strategi[0]->id);
+					$tot_kebijakan = count($kebijakan);
+
+					$tot_for_rowspan = count($program_skpd);
+					if ($tot_prog_skpd < $tot_kebijakan_p_sasaran || $tot_prog_skpd < $tot_indikator_sasaran) {
+						if ($tot_kebijakan_p_sasaran >= $tot_indikator_sasaran) {
+
+							for ($i=$tot_prog_skpd; $i < $tot_kebijakan_p_sasaran; $i++) { 
+								$program_skpd[$i] = (object) array('nama_prog_or_keg' => '');
+							}
+							$tot_for_rowspan = $tot_kebijakan_p_sasaran;
+
 						}else{
-							$for_foreach = $program;
-							$tot_for_sasaran = count($program);
+							
+							for ($i=$tot_prog_skpd; $i < $tot_indikator_sasaran; $i++) { 
+								$program_skpd[$i] = (object) array('nama_prog_or_keg' => '');
+							}
+							$tot_for_rowspan = $tot_indikator_sasaran;
+
 						}
+						
+					}
 
-						foreach ($for_foreach as $key_each => $row_each) {
-							// print_r($sasaran);
-							// print_r($tot_prog);
-							echo "<tr>";
-							if ($key_sasaran == 0 && $key_each == 0) {
-								$no = ($key_tujuan+1);
-								echo "<td rowspan='$tot_for_tujuan'>$no.</td>";
-								echo "<td rowspan='$tot_for_tujuan'>$row_tujuan->tujuan</td>";
-							}
-							if ($key_each == 0) {
-								echo "<td rowspan='$tot_for_sasaran'>$row_sasaran->sasaran</td>";
-							}
+					$key_kebijakan = 0;
+					$key_strategi = 0;
+					foreach ($program_skpd as $key_prog_skpd => $row_prog_skpd) {
+						$nama_skpd = $this->db->query("SELECT nama_skpd FROM m_skpd WHERE id_skpd IN (SELECT id_skpd FROM t_renstra_prog_keg WHERE id_prog_rpjmd = '".$row_prog_skpd->id_prog_rpjmd."' AND id_prog_rpjmd IS NOT NULL AND id_prog_rpjmd > 0 )")->result();
 
-							if ($tot_indikator >= $tot_prog) {
-								echo "<td>".$indikator[$key_each]->indikator."</td>";
-								echo "<td>".Formatting::currency($indikator[$key_each]->kondisi_awal, 2)."</td>";
-								echo "<td>".Formatting::currency($indikator[$key_each]->kondisi_akhir, 2)."</td>";
-								if (($key_each + 1) == $tot_prog) {
-									$skpd = $this->m_rpjmd_trx->get_skpd_by_kode($row_sasaran->id, $program[$key_each]->kd_urusan, $program[$key_each]->kd_bidang, $program[$key_each]->kd_program);
-									echo "<td rowspan='".(($tot_indikator-$tot_prog>0)?$tot_indikator-$tot_prog+1:'1')."'>".$program[$key_each]->nama_prog_or_keg."</td>";
-									echo "<td rowspan='".(($tot_indikator-$tot_prog>0)?$tot_indikator-$tot_prog+1:'1')."'>"; 
-										foreach ($skpd as $row_skpd) {
-											echo $row_skpd->nama_skpd.';<br>';
-										}
-									echo "</td>";
-								}elseif(($key_each + 1) <= $tot_prog){
-									$skpd = $this->m_rpjmd_trx->get_skpd_by_kode($row_sasaran->id, $program[$key_each]->kd_urusan, $program[$key_each]->kd_bidang, $program[$key_each]->kd_program);
-									echo "<td>".$program[$key_each]->nama_prog_or_keg."</td>";
-									echo "<td>";
-										foreach ($skpd as $row_skpd) {
-											echo $row_skpd->nama_skpd.';<br>';
-										}
-									echo "</td>";
-								}
-							}else{
-								if (($key_each + 1) == $tot_indikator) {
-									echo "<td rowspan='".(($tot_prog-$tot_indikator>0)?$tot_prog-$tot_indikator+1:'1')."'>".$indikator[$key_each]->indikator."</td>";
-									echo "<td rowspan='".(($tot_prog-$tot_indikator>0)?$tot_prog-$tot_indikator+1:'1')."'>".Formatting::currency($indikator[$key_each]->kondisi_awal, 2)."</td>";
-									echo "<td rowspan='".(($tot_prog-$tot_indikator>0)?$tot_prog-$tot_indikator+1:'1')."'>".Formatting::currency($indikator[$key_each]->kondisi_akhir, 2)."</td>";
-								}elseif(($key_each + 1) <= $tot_indikator){
-									echo "<td>".$indikator[$key_each]->indikator."</td>";
-									echo "<td>".Formatting::currency($indikator[$key_each]->kondisi_awal, 2)."</td>";
-									echo "<td>".Formatting::currency($indikator[$key_each]->kondisi_akhir, 2)."</td>";
-								}
-								$skpd = $this->m_rpjmd_trx->get_skpd_by_kode($row_sasaran->id, $program[$key_each]->kd_urusan, $program[$key_each]->kd_bidang, $program[$key_each]->kd_program);
-								echo "<td>".$program[$key_each]->nama_prog_or_keg."</td>";
-								echo "<td>";
-									foreach ($skpd as $row_skpd) {
-										echo $row_skpd->nama_skpd.';<br>';
-									}
-								echo "</td>";
-							}
 
-							echo "</tr>";
+
+		 ?>
+		 	<tr>
+		 		<?php if ($key_prog_skpd == 0): ?>
+		 			<td rowspan="<?php echo $tot_for_rowspan; ?>"><?php echo $no; ?></td>
+		 			<td rowspan="<?php echo $tot_for_rowspan; ?>"><?php echo $row_sasaran->sasaran; ?></td>
+		 		<?php endif ?>
+
+		 		<?php
+		 			if ($key_kebijakan == 0 && $tot_strategi >= ($key_strategi+1)) {
+		 				$rowspan_strategi = $tot_kebijakan;
+
+		 				if ($tot_strategi == ($key_strategi+1) && $key_prog_skpd == 0) {
+		 					$rowspan_strategi = $tot_for_rowspan;
+		 				}elseif ($tot_strategi == ($key_strategi+1)) {
+		 					$rowspan_strategi = $tot_for_rowspan - $tot_kebijakan_p_sasaran + $tot_kebijakan;
+		 				}
+
+		 				echo "<td rowspan='".$rowspan_strategi."'>".$strategi[$key_strategi]->strategi."</td>";
+		 				$key_strategi++;
+		 			}
+
+		 		?>		 		
+
+		 		<?php 
+
+		 			if ($tot_kebijakan >= ($key_kebijakan) && $tot_strategi >= $key_strategi) {
+		 				
+		 				if (($key_kebijakan+1) == $tot_kebijakan && $tot_strategi == $key_strategi && $key_prog_skpd == 0) {
+							echo "<td rowspan='".$tot_for_rowspan."'>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+			 				$kebijakan = $this->m_rpjmd_trx->get_all_kebijakan($strategi[$key_strategi]->id);
+							$tot_kebijakan = count($kebijakan);
+							$key_kebijakan = 0;
+			 			}elseif(($key_kebijakan+1) == $tot_kebijakan && $key_prog_skpd == 0) {
+			 				echo "<td>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+			 				$kebijakan = $this->m_rpjmd_trx->get_all_kebijakan($strategi[$key_strategi]->id);
+							$tot_kebijakan = count($kebijakan);
+							$key_kebijakan = 0;
+			 			}elseif(($key_kebijakan+1) == $tot_kebijakan && $tot_strategi == $key_strategi && $tot_prog_skpd < $tot_kebijakan_p_sasaran) {
+			 				$rowspan_kebijakan = $tot_for_rowspan - $tot_kebijakan_p_sasaran + $tot_kebijakan;
+			 				echo "<td>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+			 				$kebijakan = $this->m_rpjmd_trx->get_all_kebijakan($strategi[$key_strategi]->id);
+							$tot_kebijakan = count($kebijakan);
+							$key_kebijakan = 0;
+			 			}elseif(($key_kebijakan+1) == $tot_kebijakan && $tot_strategi == $key_strategi && $tot_kebijakan == 1) {
+			 				$rowspan_kebijakan = $tot_for_rowspan - $tot_kebijakan_p_sasaran + $tot_kebijakan;
+			 				echo "<td rowspan='".$rowspan_kebijakan."'>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+			 				$kebijakan = $this->m_rpjmd_trx->get_all_kebijakan($strategi[$key_strategi]->id);
+							$tot_kebijakan = count($kebijakan);
+							$key_kebijakan = 0;
+			 			}elseif(($key_kebijakan+1) == $tot_kebijakan && $tot_strategi == $key_strategi) {
+			 				$rowspan_kebijakan = $rowspan_strategi - $tot_kebijakan+1;
+			 				echo "<td rowspan='".$rowspan_kebijakan."'>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+			 				$kebijakan = $this->m_rpjmd_trx->get_all_kebijakan($strategi[$key_strategi]->id);
+							$tot_kebijakan = count($kebijakan);
+							$key_kebijakan = 0;
+			 			}elseif(($key_kebijakan+1) < $tot_kebijakan && $tot_strategi < $key_strategi){
+			 				echo "<td>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+							$key_kebijakan++;
+			 			}elseif(($key_kebijakan+1) < $tot_kebijakan){
+			 				echo "<td>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+							$key_kebijakan++;
+			 			}elseif(($key_kebijakan+1) == $tot_kebijakan){
+			 				echo "<td>".$kebijakan[$key_kebijakan]->kebijakan."</td>";
+							$kebijakan = $this->m_rpjmd_trx->get_all_kebijakan($strategi[$key_strategi]->id);
+							$tot_kebijakan = count($kebijakan);
+							$key_kebijakan = 0;
+			 			}
+		 			}
+		 		?>
+
+		 		 <?php 
+		 		 	if ($tot_indikator_sasaran == 1 && $key_prog_skpd == 0) {
+	 		 			echo "<td rowspan='".$tot_for_rowspan."'>".$indikator_sasaran[$key_prog_skpd]->indikator."</td>";
+			 		 	echo "<td rowspan='".$tot_for_rowspan."'>".$indikator_sasaran[$key_prog_skpd]->kondisi_awal."</td>";
+			 		 	echo "<td rowspan='".$tot_for_rowspan."'>".$indikator_sasaran[$key_prog_skpd]->kondisi_akhir."</td>";
+	 		 		}elseif (($key_prog_skpd+1) < $tot_indikator_sasaran){
+		 		 		echo "<td>".$indikator_sasaran[$key_prog_skpd]->indikator."</td>";
+			 		 	echo "<td>".$indikator_sasaran[$key_prog_skpd]->kondisi_awal."</td>";
+			 		 	echo "<td>".$indikator_sasaran[$key_prog_skpd]->kondisi_akhir."</td>";
+			 	 	}elseif (($key_prog_skpd+1) == $tot_indikator_sasaran) {
+		 				echo "<td rowspan='".($tot_for_rowspan - $tot_indikator_sasaran + 1)."'>".$indikator_sasaran[$key_prog_skpd]->indikator."</td>";
+			 		 	echo "<td rowspan='".($tot_for_rowspan - $tot_indikator_sasaran + 1)."'>".$indikator_sasaran[$key_prog_skpd]->kondisi_awal."</td>";
+			 		 	echo "<td rowspan='".($tot_for_rowspan - $tot_indikator_sasaran + 1)."'>".$indikator_sasaran[$key_prog_skpd]->kondisi_akhir."</td>";	 		
+		 	 		}
+		 		?>
+
+		 		<?php if ($key_prog_skpd == 0): ?>
+					<td rowspan="<?php echo $tot_for_rowspan; ?>"><?php echo $program->nama_prog; ?></td>
+				<?php endif ?>
+
+				<?php 
+					$nm_skpd = "";
+					if (!empty($nama_skpd)) {
+						foreach ($nama_skpd as $row_sk) {
+							$nm_skpd .= $row_sk->nama_skpd."; <br>";
 						}
 					}
-				}
-			}
-		?>
+
+		 		  	if ($tot_prog_skpd <= 1 && $key_prog_skpd == 0) {
+		 		  		echo "<td rowspan='".$tot_for_rowspan."'>".$row_prog_skpd->nama_prog_or_keg."</td>";
+		 		  		echo "<td rowspan='".$tot_for_rowspan."'>".$nm_skpd."</td>";
+		 		  	}elseif (($key_prog_skpd+1) < $tot_prog_skpd){
+		 		 		echo "<td>".$row_prog_skpd->nama_prog_or_keg."</td>";
+		 		  		echo "<td>".$nm_skpd."</td>";
+			 	 	}elseif (($key_prog_skpd+1) == $tot_prog_skpd) {
+		 				echo "<td rowspan='".($tot_for_rowspan-$tot_prog_skpd+1)."'>".$row_prog_skpd->nama_prog_or_keg."</td>";
+		 		  		echo "<td rowspan='".($tot_for_rowspan-$tot_prog_skpd+1)."'>".$nm_skpd."</td>";
+		 	 		}
+
+		 		?>
+		 	</tr>
+
+		 <?php 
+		 	}
+		 	$no++;
+			}}
+		  ?>
 	</tbody>
 
 </table>

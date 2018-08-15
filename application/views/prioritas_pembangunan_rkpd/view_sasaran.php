@@ -65,7 +65,7 @@
 		});
 
 		
-		$("#NOsasaran td.td-click").click(function(){
+		$("#sasaran td.td-click").click(function(){
 			// $("#program-frame").hide();
 			$.blockUI({
 				css: window._css,
@@ -99,7 +99,7 @@
 
 <table id="sasaran" class="table-common" style="width: 100%">
 	<tr>
-		<th colspan="4">
+		<th colspan="3">
 			Sasaran Pembangunan
 			<a href="javascript:void(0)" id-pi="<?php echo $id_prioritas; ?>" class="icon-plus-sign tbh_sasaran" style="float: right" title="Tambah Sasaran"></a>
 		</th>
@@ -107,7 +107,6 @@
 	<tr>
 		<th width="40px">No</th>
 		<th>Sasaran</th>
-		<th>Indikator</th>
 		<th width="70px">Action</th>
 	</tr>
 	<?php if (!empty($sasaran)): ?>
@@ -115,14 +114,6 @@
 			<tr class="tr-click" id-s="<?php echo $value->id_prio; ?>" id-pi="<?php echo $id_prioritas; ?>">
 				<td class="td-click"><?php echo ($key+1).'.'; ?></td>
 				<td class="td-click"><?php echo $value->sasaran; ?></td>
-				<td class="td-click">
-					<?php 
-						$indikator = $this->m_prioritas_pembangunan_rkpd->get_indikator_sasaran($value->id)->result();
-						foreach ($indikator as $key_indikator => $value_indikator) {
-							echo ($key_indikator+1).'. '.$value_indikator->indikator.'<br>';
-						}
-					?>
-				</td>
 				<td align="center">
 					<a href="javascript:void(0)" id-s="<?php echo $value->id_prio; ?>" class="icon-pencil edit_sasaran" title="Edit Sasaran"/>
 					<a href="javascript:void(0)" id-s="<?php echo $value->id_prio; ?>" class="icon-remove delete_sasaran" title="Hapus Sasaran"/>

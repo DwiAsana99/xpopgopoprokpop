@@ -221,7 +221,7 @@
 
 		    			</td>
 					</tr> -->
-					<!-- <tr>
+					<tr>
 						<td>Program Prioritas</td>
 						<td>
 							<?php echo $id_prog_prioritas; ?>
@@ -231,18 +231,6 @@
 									echo $this->load->view('prioritas_pembangunan_rkpd/indikator_prioritas', $data);
 								 ?>
 							</p>
-						</td>
-					</tr> -->
-					<tr>
-						<td>Sasaran Prioritas</td>
-						<td>
-							<?php echo $id_prog_prioritas; ?>
-							<!-- <p id="indikator-prioritas">
-								<?php
-									$data['indikator'] = $this->m_prioritas_pembangunan_rkpd->get_indikator_prog_keg($id_prog_prioritas_edit);
-									echo $this->load->view('prioritas_pembangunan_rkpd/indikator_prioritas', $data);
-								 ?>
-							</p> -->
 						</td>
 					</tr>
 					<tr>

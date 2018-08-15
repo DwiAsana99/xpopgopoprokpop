@@ -282,12 +282,6 @@ class Usulanpro extends CI_Controller
             
 
         );
-
-        if ($data_post['id_groups'] == '6') {
-        	$is_pokir_ng = TRUE;
-        }else{
-        	$is_pokir_ng = FALSE;
-        }
         
 		if(strpos($call_from, 'usulanpro/edit_data') != FALSE) {
 			$call_from = '';
@@ -400,22 +394,12 @@ class Usulanpro extends CI_Controller
             $data_post['created_by'] = $this->session->userdata('nama');
             $data_post['created_date'] = $date." ".$time;
 			$data_post['file'] = $cekusulan->file;
-			if ($is_pokir_ng) {
-				$data_post['start_from'] = '2';
-			}else{
-				$data_post['start_from'] = '3';
-			}
-			$data_post['stat_skpd'] = '1';
-			$data_post['stat_musren'] = '1';
-			$data_post['stat_forum'] = '1';
-			$data_post['stat_musrenkab'] = '1';
 			$ret = $this->m_usulanpro_trx->insert($data_post,'table_musrenbang');
 			//echo $this->db->last_query();
 		} else {
 			//update
             $data_post['changed_by'] = $this->session->userdata('nama');
             $data_post['changed_date'] = $date." ".$time;
-
 			$ret = $this->m_usulanpro_trx->update($id,$data_post,'table_musrenbang','primary_musrenbang');
 			//echo $this->db->last_query();
 		}
@@ -778,72 +762,6 @@ class Usulanpro extends CI_Controller
 		$this->template->load('template', 'usulanpro/preview_rekap_usulan', $data);
     }
 
-    function cetak_all_usulan($ta, $id_usulan, $id_status, $id_kec, $id_desa){
-    	//for jenis usulan
-		if($id_usulan == 'all') {
-			$usulan = NULL;
-		} else {
-			if ($id_usulan >= 6) {
-				$usulan = "AND start_from <= ".$id_usulan;
-			}else{	
-				$usulan = "AND start_from = ".$id_usulan;
-			}
- 		}
- 		//for status (belum ditentukan(1)/terakomodir(2)/tidak terakomodir(3))
- 		$usulan_for_status = array('all' => 'AND id_keputusan = ', '2' => 'AND stat_skpd = ', '3' => 'AND stat_skpd = ', '6' => 'AND stat_musren = ', '7' => 'AND stat_forum = ');
-		if ($id_status == "all") {
-			$status = NULL;
-		}else{
-			$status = $usulan_for_status[$id_usulan].$id_status;
-		}
-		//for kecamatan
-		if($id_kec == 'all'){
-			$kec = NULL;
-			$m_kec = "SEMUA KECAMATAN";
-		}else{
-			$kec = "AND id_kecamatan = ".$id_kec;
-			$m_kec = $this->db->query('SELECT * FROM m_kecamatan WHERE id_kec = '.$id_kec)->row()->nama_kec;
-		}
-		//for desa
-		if($id_desa == 'all'){				
-			$desa = NULL;
-			$m_desa = "SEMUA DESA";
-		}else{
-			$desa = "AND id_desa = ".$id_desa;
-			$m_desa = $this->db->query('SELECT * FROM m_desa WHERE id_kec = '.$id_kec.' AND id_desa = '.$id_desa)->row()->nama_desa;
-		}
-		//for asal usalan
-		$m_asal['all'] = "SEMUA USULAN";
-		foreach ($this->db->query('SELECT * FROM m_asal_usulan_ng')->result() as $row) {
-			$m_asal[$row->id] = $row->asal_usulan; 
-		}
-
-		//for additional
-		$m_status_usulan = array('all' => 'SEMUA STATUS USULAN', '1' => 'BELUM DITENTUKAN', '2' => 'TERAKOMODIR', '3' => 'TIDAK TERAKOMODIR');
-
-
-		$data2['m_asal_head'] = $m_asal[$id_usulan];
-		$data2['m_status_head'] = $m_status_usulan[$id_status];
-		$data2['m_kecamatan_head'] = $m_kec;
-		$data2['m_desa_head'] = $m_desa;
-		$data2['for_print'] = true;
-		$data2['ta'] = $ta;
-		$data2['m_asal_usulan'] = $m_asal;
-		$data2['id_usulan'] = $usulan;
-		$data2['status'] = $status;
-		$data2['kec'] = $kec;
-		$data2['desa'] = $desa;
-
-    	$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-		$header = $this->m_template_cetak->get_value("GAMBAR");
-		$data2['logo'] = str_replace("src=\"","height=\"90px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
-		$data2['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Usulan '. date("d-m-Y H-i-s"), 2);
-		
-		$html = $this->load->view('usulanpro/cetak/isi_rekap_usulan', $data2, TRUE);
-
-		$this->create_pdf->load_ng($html,'Daftar Rekap Usulan_'.date("d-m-Y_H:i:s"), 'A4-L','');
-    }
-
     function isi_all_usulan($ta){
 		$id_usulan = $this->input->post('id_usulan');
 		$id_status = $this->input->post('id_status');
@@ -851,35 +769,22 @@ class Usulanpro extends CI_Controller
 		$id_desa = $this->input->post('id_desa');
 
 		//for jenis usulan
-		if($id_usulan == 'all') {
-			$usulan = NULL;
-		} else {
-			if ($id_usulan >= 6) {
-				$usulan = "AND start_from <= ".$id_usulan;
-			}else{	
-				$usulan = "AND start_from = ".$id_usulan;
-			}
- 		}
-
-		// if($id_usulan == "all") {
-		// 	$id_groups = NULL;
-		// }elseif($id_usulan == 1) {
-		// 	$id_groups = "AND id_groups = 6";
-		// }elseif ($id_usulan == 2) {
-		// 	$id_groups = "AND (id_groups = 4 OR id_groups = 5)";
-		// }elseif ($id_usulan == 3){
-		// 	$id_groups = "AND id_groups = 3";				
-		// }elseif($id_usulan == 4){
-		// 	$id_groups = "AND id_groups = 5";
-		// }
-
-
+		if($id_usulan == "all") {
+			$id_groups = NULL;
+		}elseif($id_usulan == 1) {
+			$id_groups = "AND id_groups = 6";
+		}elseif ($id_usulan == 2) {
+			$id_groups = "AND (id_groups = 4 OR id_groups = 5)";
+		}elseif ($id_usulan == 3){
+			$id_groups = "AND id_groups = 3";				
+		}elseif($id_usulan == 4){
+			$id_groups = "AND id_groups = 5";
+		}
 		//for status (belum ditentukan(1)/terakomodir(2)/tidak terakomodir(3))
- 		$usulan_for_status = array('all' => 'AND id_keputusan = ', '2' => 'AND stat_skpd = ', '3' => 'AND stat_skpd = ', '6' => 'AND stat_musren = ', '7' => 'AND stat_forum = ');
 		if ($id_status == "all") {
 			$status = NULL;
 		}else{
-			$status = $usulan_for_status[$id_usulan].$id_status;
+			$status = "AND id_keputusan = ".$id_status;
 		}
 		//for kecamatan
 		if($id_kec == 'all'){
@@ -899,7 +804,7 @@ class Usulanpro extends CI_Controller
 		// 	SELECT *, SUM(jumlah_dana) AS sum_jumlah_dana FROM t_musrenbang
 		// 	WHERE tahun = ".$ta."
 		// 		AND flag_delete = 0
-		// 		".$usulan."
+		// 		".$id_groups."
 		// 		".$status."
 		// 		".$kec."
 		// 		".$desa."
@@ -909,21 +814,11 @@ class Usulanpro extends CI_Controller
 		// LEFT JOIN m_urusan AS u ON t.kd_urusan = u.Kd_Urusan");
 // print($this->db->last_query());exit;
 
-		//for asal usalan
-		foreach ($this->db->query('SELECT * FROM m_asal_usulan_ng')->result() as $row) {
-			$m_asal[$row->id] = $row->asal_usulan; 
-		}
-
 		$data2['ta'] = $ta;
-		$data2['m_asal_usulan'] = $m_asal;
-		// $data2['id_groups'] = $id_groups;
-		$data2['id_usulan'] = $usulan;
+		$data2['id_groups'] = $id_groups;
 		$data2['status'] = $status;
 		$data2['kec'] = $kec;
 		$data2['desa'] = $desa;
-		// print_r($data2);
-		// print_r($id_usulan);
-		// exit();
 		// $data['usulan'] = $this->load->view('usulanpro/cetak/usulan_tak_terakomodir_all', $data2);
 		return $this->load->view('usulanpro/cetak/isi_rekap_usulan', $data2);
     }

@@ -266,13 +266,12 @@
                   <?php else: ?>
                     <?php  
                       $uraianbelanja = $rowth->uraian_upper;
-                      $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-                      $uraianbelanja2 = '"'.$uraianbelanja2.'"';
+                      $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
                       $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
                     ?>
                     <tr>
                       <td class="left right"></td>
-                      <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja); ?></td>
+                      <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
                       <td class="mid" style="border-bottom-style:dashed;"></td>
                       <td class="mid" style="border-bottom-style:dashed;"></td>
                       <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -280,7 +279,7 @@
                     </tr>
                     <tr>
                       <td class="left right"></td>
-                      <td class="left right" style="padding-left: 30px;">- <?php echo str_replace('<', ',', $rowth->detil_uraian_belanja); ?></td>
+                      <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
                       <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
@@ -300,15 +299,14 @@
                     <td class="mid"></td>
                     <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
                   </tr>
-                  <?php 
+                  <?php  
                     $uraianbelanja = $rowth->uraian_upper;
-                    $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-                    $uraianbelanja2 = '"'.$uraianbelanja2.'"';
+                    $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
                     $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
                   ?>
                   <tr>
                     <td class="left right"></td>
-                    <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja);; ?></td>
+                    <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
                     <td class="mid" style="border-bottom-style:dashed;"></td>
                     <td class="mid" style="border-bottom-style:dashed;"></td>
                     <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -350,13 +348,12 @@
                 </tr>
                 <?php  
                   $uraianbelanja = $rowth->uraian_upper;
-                  $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-                  $uraianbelanja2 = '"'.$uraianbelanja2.'"';
+                  $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
                   $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
                 ?>
                 <tr>
                   <td class="left right"></td>
-                  <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja);; ?></td>
+                  <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
                   <td class="mid" style="border-bottom-style:dashed;"></td>
                   <td class="mid" style="border-bottom-style:dashed;"></td>
                   <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -410,13 +407,12 @@
               </tr>
               <?php  
                 $uraianbelanja = $rowth->uraian_upper;
-                $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-                $uraianbelanja2 = '"'.$uraianbelanja2.'"';
+                $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
                 $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
               ?>
               <tr>
                 <td class="left right"></td>
-                <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja);; ?></td>
+                <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
                 <td class="mid" style="border-bottom-style:dashed;"></td>
                 <td class="mid" style="border-bottom-style:dashed;"></td>
                 <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -496,13 +492,12 @@
             </tr>
             <?php  
               $uraianbelanja = $rowth->uraian_upper;
-              $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-              $uraianbelanja2 = '"'.$uraianbelanja2.'"';
+              $uraianbelanja2 = '"'.$rowth->uraian_belanja.'"';
               $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
             ?>
             <tr>
               <td class="left right"></td>
-              <td class="left right" style="padding-left: 30px;"><?php echo str_replace('<', ',', $rowth->uraian_belanja); ?></td>
+              <td class="left right" style="padding-left: 30px;"><?php echo $rowth->uraian_belanja; ?></td>
               <td class="mid" style="border-bottom-style:dashed;"></td>
               <td class="mid" style="border-bottom-style:dashed;"></td>
               <td class="mid" style="border-bottom-style:dashed;"></td>
@@ -510,7 +505,7 @@
             </tr>
             <tr>
               <td class="left right"></td>
-              <td class="left right" style="padding-left: 30px;">- <?php echo  str_replace('<', ',', $rowth->detil_uraian_belanja); ?></td>
+              <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
               <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>

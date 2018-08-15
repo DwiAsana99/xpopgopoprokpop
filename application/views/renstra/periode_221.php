@@ -7,6 +7,7 @@
 
 			var ta = $('#tahun_anggaran').val();
 			var idK = $("#idK").val();
+			var status = $("#status").val();
 			$.blockUI({
 				message: 'Cetak dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
 				css: window._css,
@@ -14,8 +15,23 @@
 				overlayCSS: window._ovcss
 			});
 
-			var link = "<?php echo site_url('renstra/cetak_kegiatan');?>/" + ta + "/" + idK;
+			var link = "<?php echo site_url('renstra/cetak_kegiatan');?>/" + ta + "/" + idK + "/" + status;
 			// $(location).attr('href',link);
+			window.open(link);
+		});
+
+		$("#preview-kegiatanPilih").click(function() {
+			var ta = $('#tahun_anggaran').val();
+			var idK = $("#idK").val();
+			var status = $("#status").val();
+			$.blockUI({
+				message: 'Preview dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
+				css: window._css,
+				timeout: 1000,
+				overlayCSS: window._ovcss
+			});
+
+			var link = "<?php echo site_url('renstra/cetak_kegiatan');?>/" + ta + "/" + idK + "/" + status;
 			window.open(link);
 		});
 	});
@@ -34,7 +50,8 @@
           $t_anggaran = $this->m_settings->get_tahun_anggaran_db();
         ?>
 
-						<input type="hidden" name="id_keg" id="idK" value="<?php echo $id_keg; ?>">
+			    <input type="hidden" name="id_keg" id="idK" value="<?php echo $id_keg; ?>">
+				<input type="hidden" name="status" id="status" value="<?php echo $status ?>">
          		<div class="form-group">
               <select class="form-control"  id="tahun_anggaran">
 								<?php
@@ -48,6 +65,10 @@
               </div>
 
               <div class="submit_link">
-						        <input id="cetak-kegiatanPilih" type="button" value="Cetak">
-						    </div>
+			  	<?php if($status === 'cetak') {?>
+					<input id="cetak-kegiatanPilih" type="button" value="Cetak">
+				<?php } else { ?>
+					<input type="button" id="preview-kegiatanPilih" value="Preview">
+				<?php } ?>
+				</div>
               </div>

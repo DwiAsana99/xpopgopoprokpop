@@ -171,31 +171,23 @@ class Users extends CI_Controller {
 			$crud->set_theme('datatables');
 			$crud->set_table('m_desa');
 			$crud->set_subject('Desa');
-			$crud->fields('id_kec','kode_desa','nip','kades','nama_jabatan','nama_desa','alamat','kodepost_desa');
+			$crud->fields('id_kec','kode_desa','kades','nama_desa','alamat','kodepost_desa');
 			$crud->set_relation('id_kec','m_kecamatan','nama_kec');
 			$crud->display_as('kode_desa','Kode Desa');
 			$crud->display_as('nama_desa','Nama Desa');
-			$crud->display_as('nip','NIP');
 			$crud->display_as('kades','Nama Kepala Desa');
-			$crud->display_as('nama_jabatan','Nama Jabatan');
 			$crud->display_as('alamat','Alamat Desa');
             $crud->display_as('kodepost_desa','Kode Pos Desa');
-
-			// $crud->set_table('m_skpd');
-   //          $crud->set_subject('SKPD');
-			// $crud->fields();
-			// $crud->display_as('kaskpd_nama','Nama SKPD');
 
 			//$crud->columns('nama_unit','nama_unit_singkat');
             $crud->unset_add();
             $crud->unset_delete();
             $crud->unset_list();
             $crud->unset_back_to_list();
-            $crud->callback_after_update(array($this, 'after_update_desa'));
 
 			$output = $crud->render();
 
-			$this->_example_output($output,'Setting Identitas Desa');
+			$this->_example_output($output,'Setting Identittas Desa');
 		}catch(Exception $e){
 			if($e->getCode() == 14) //The 14 is the code of the "You don't have permissions" error on grocery CRUD.
 			{
@@ -206,28 +198,6 @@ class Users extends CI_Controller {
 				show_error($e->getMessage().' --- '.$e->getTraceAsString());
 			}
 		}
-	}
-
-	function after_update_desa($post_array, $primary_key){
-		$id_skpd = $this->session->userdata('id_skpd');
-		$user_logs_update = array(
-			'kaskpd_nip' => $post_array['nip'],
-			'kaskpd_nama' => $post_array['kades'],
-			'nama_jabatan' => $post_array['nama_jabatan'],
-			'alamat' => $post_array['alamat'],
-			'kodepos_skpd' => $post_array['kodepost_desa']
-		);
-		$this->db->update('m_skpd',$user_logs_update,array('id_skpd' => $id_skpd));
-
-		// print_r($user_logs_update);exit();
-		// $user_logs_update = array(
-		// "user_id" => $primary_key,
-		// "last_update" => date('Y-m-d H:i:s')
-		// );
-		 
-		// $this->db->update('user_logs',$user_logs_update,array('user_id' => $primary_key));
-		 
-		return true;
 	}
 
 }

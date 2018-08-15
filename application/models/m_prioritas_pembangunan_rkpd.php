@@ -9,7 +9,6 @@ class M_prioritas_pembangunan_rkpd extends CI_Model
 
 	var $tx_prioritas = 'tx_rkpd_prioritas';
 	var $tx_sasaran = 'tx_rkpd_prioritas_sasaran';
-	var $tx_indikator_sasaran = 'tx_rkpd_prioritas_indikator_sasaran';
 	var $tx_prog_keg = 'tx_rkpd_prioritas_prog_keg';
 	var $tx_indikator_prog_keg = 'tx_rkpd_prioritas_indikator_prog_keg';
 	var $tx_perangkat_daerah = 'tx_rkpd_prioritas_perangkat_daerah';
@@ -84,52 +83,37 @@ class M_prioritas_pembangunan_rkpd extends CI_Model
 	}
 
 	function get_all_sasaran($id_prioritas){
-		$this->db->select($this->tx_sasaran.'.id as id_prio, '.$this->tx_sasaran.'.*');
-		// $this->db->join($this->m_sasaran, $this->tx_sasaran.'.id_sasaran = '.$this->m_sasaran.'.id', 'left');
+		$this->db->select($this->tx_sasaran.'.id as id_prio, '.$this->m_sasaran.'.*,'.$this->tx_sasaran.'.*');
+		$this->db->join($this->m_sasaran, $this->tx_sasaran.'.id_sasaran = '.$this->m_sasaran.'.id', 'left');
 		$this->db->where($this->tx_sasaran.'.id_rkpd_prioritas', $id_prioritas);
 		$this->db->order_by($this->tx_sasaran.'.id', 'asc');
 		return $this->db->get($this->tx_sasaran);
 	}
 
 	function get_one_sasaran($id_sasaran){
-		$this->db->select($this->tx_sasaran.'.id as id_prio, '.$this->tx_sasaran.'.*');
-		// $this->db->join($this->m_sasaran, $this->tx_sasaran.'.id_sasaran = '.$this->m_sasaran.'.id', 'left');
+		$this->db->select($this->tx_sasaran.'.id as id_prio, '.$this->m_sasaran.'.*,'.$this->tx_sasaran.'.*');
+		$this->db->join($this->m_sasaran, $this->tx_sasaran.'.id_sasaran = '.$this->m_sasaran.'.id', 'left');
 		$this->db->where($this->tx_sasaran.'.id', $id_sasaran);
 		$this->db->order_by($this->tx_sasaran.'.id', 'asc');
 		return $this->db->get($this->tx_sasaran);
 	}
 
-	function add_sasaran($data, $indikator, $satuan_target, $status_target, $kategori_target, $target){
+	function add_sasaran($data){
 		$this->db->trans_strict(FALSE);
 		$this->db->trans_start();
 
-	    $id_sasaran = $this->db->insert($this->tx_sasaran, $data);
-
-	    $id_sasaran = $this->db->insert_id();
-		foreach ($indikator as $key => $value) {
-			$this->db->insert($this->tx_indikator_sasaran, array('id_sasaran' => $id_sasaran, 'indikator' => $value, 'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key], 'target' => $target[$key]));
-		}
+	    $this->db->insert($this->tx_sasaran, $data);
 
 	    $this->db->trans_complete();
 	    return $this->db->trans_status();
 	}
 
-	function edit_sasaran($data, $indikator, $satuan_target, $status_target, $kategori_target, $target, $id_indikator, $id){
+	function edit_sasaran($data, $id){
 		$this->db->trans_strict(FALSE);
 		$this->db->trans_start();
 
 		$this->db->where('id', $id);
 		$this->db->update($this->tx_sasaran, $data);
-
-		foreach ($indikator as $key => $value) {
-			if (!empty($id_indikator[$key])) {
-				$this->db->where('id', $id_indikator[$key]);
-				$this->db->update($this->tx_indikator_sasaran, array('indikator' => $value, 'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key], 'target' => $target[$key]));
-				unset($id_indikator[$key]);
-			}else{
-				$this->db->insert($this->tx_indikator_sasaran, array('id_sasaran' => $id, 'indikator' => $value, 'satuan_target' => $satuan_target[$key], 'status_indikator' => $status_target[$key], 'kategori_indikator' => $kategori_target[$key], 'target' => $target[$key]));
-			}
-		}
 
 	    $this->db->trans_complete();
 	    return $this->db->trans_status();
@@ -146,16 +130,6 @@ class M_prioritas_pembangunan_rkpd extends CI_Model
 
 	    $this->db->trans_complete();
 	    return $this->db->trans_status();
-	}
-
-	function get_indikator_sasaran($id_sasaran){
-		$this->db->select($this->tx_indikator_sasaran.'.*, 
-			m_status_indikator.nama_status_indikator as status_nya, 
-			m_kategori_indikator.nama_kategori_indikator as kategori_nya');
-		$this->db->join("m_status_indikator",$this->tx_indikator_sasaran.".status_indikator = m_status_indikator.kode_status_indikator","inner");
-		$this->db->join("m_kategori_indikator",$this->tx_indikator_sasaran.".kategori_indikator = m_kategori_indikator.kode_kategori_indikator","inner");
-		$this->db->where('id_sasaran', $id_sasaran);
-		return $this->db->get($this->tx_indikator_sasaran);
 	}
 
 	function get_indikator_prog_keg($id_prog_or_keg){
@@ -405,14 +379,6 @@ class M_prioritas_pembangunan_rkpd extends CI_Model
 		if ($is_prog_or_keg == 1) {
 			// $query = "SELECT * FROM ".$this->tx_prog_keg." WHERE id IN ( SELECT parent FROM ".$this->tx_prog_keg." INNER JOIN ".$this->tx_perangkat_daerah." ON ".$this->tx_prog_keg.".id = ".$this->tx_perangkat_daerah.".id_prog_keg WHERE id_skpd = '".$id_skpd."' ) AND is_prog_or_keg = 1 AND tahun = '".$tahun."'";
 			$query = "SELECT * FROM ".$this->tx_prog_keg." WHERE is_prog_or_keg = 1 AND tahun = '".$tahun."'";
-			$result = $this->db->query($query);
-		}elseif($is_prog_or_keg == 3){
-			$query = "SELECT s.id, rs.sasaran FROM tx_rkpd_prioritas_sasaran s
-			INNER JOIN tx_rkpd_prioritas p
-			ON s.id_rkpd_prioritas = p.id
-			INNER JOIN t_rpjmd_sasaran rs
-			ON s.id_sasaran = rs.id
-			WHERE p.tahun = '".$tahun."'";
 			$result = $this->db->query($query);
 		}else{
 			// $query = "SELECT * FROM ".$this->tx_prog_keg." INNER JOIN ".$this->tx_perangkat_daerah." ON ".$this->tx_prog_keg.".id = ".$this->tx_perangkat_daerah.".id_prog_keg WHERE id_skpd = '".$id_skpd."' AND is_prog_or_keg = 2 AND tahun = '".$tahun."'";

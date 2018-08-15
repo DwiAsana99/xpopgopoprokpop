@@ -130,23 +130,10 @@ class Rpjmd extends CI_Controller
 				return FALSE;
 			}
 			$data['sasaran'] = $result;
-			$data['indikator_sasaran'] = $this->m_rpjmd_trx->get_indikator_sasaran($result->id, FALSE);
-		}
-
-		$status_indikator = array("" => "~~ Pilih Positif / Negatif ~~");
-		foreach ($this->m_lov->get_status_indikator() as $row) {
-			$status_indikator[$row->kode_status_indikator]=$row->nama_status_indikator;
-		}
-
-		$kategori_indikator = array("" => "~~ Pilih Kategori Indikator ~~");
-		foreach ($this->m_lov->get_kategori_indikator() as $row) {
-			$kategori_indikator[$row->kode_kategori_indikator]=$row->nama_kategori_indikator;
 		}
 
 		$data['id_rpjmd'] = $id_rpjmd;
 		$data['tujuan'] = $this->m_rpjmd_trx->get_one_rpjmd_tujuan($id_rpjmd, $id_tujuan);
-		$data['status_indikator'] = $status_indikator;
-		$data['kategori_indikator'] = $kategori_indikator;
 
 		$this->load->view("rpjmd/cru_sasaran", $data);
 	}
@@ -155,31 +142,14 @@ class Rpjmd extends CI_Controller
 		$id = $this->input->post('id_sasaran');
 
 		$data = $this->input->post();
-		$id_indikator_sasaran = $this->input->post('id_indikator_sasaran');
-		$indikator = $this->input->post('indikator');
-		// $pengukuran = $this->input->post('cara_pengukuran');
-		$satuan_target = $this->input->post('satuan');
-		$status_target = $this->input->post('status_indikator');
-		$kategori_target = $this->input->post('kategori_indikator');
-		$kondisi_awal = $this->input->post('kondisi_awal');
-		$target_1 = $this->input->post("target_1");
-		$target_2 = $this->input->post("target_2");
-		$target_3 = $this->input->post("target_3");
-		$target_4 = $this->input->post("target_4");
-		$target_5 = $this->input->post("target_5");
-		$kondisi_akhir = $this->input->post('target_kondisi_akhir');
 
-		// $clean = array('id_sasaran');
-		$clean = array('id_sasaran', 'id_indikator_sasaran', 'indikator', 'satuan', 'status_indikator', 'kategori_indikator', 'kondisi_awal', 'target_1', 'target_2',
-			'target_3',	'target_4',	'target_5',	'target_kondisi_akhir');
+		$clean = array('id_sasaran');
 		$data = $this->global_function->clean_array($data, $clean);
 
 		if (!empty($id)) {
-			$result = $this->m_rpjmd_trx->edit_sasaran($data, $id, $id_indikator_sasaran, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir);
+			$result = $this->m_rpjmd_trx->edit_sasaran($data, $id);
 		}else{
-			$result = $this->m_rpjmd_trx->add_sasaran($data, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir);
+			$result = $this->m_rpjmd_trx->add_sasaran($data);
 		}
 
 		if ($result) {

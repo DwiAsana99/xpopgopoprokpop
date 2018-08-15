@@ -31,9 +31,21 @@
 				timeout: 2000,
 				overlayCSS: window._ovcss
 			});
-			var link = "<?php echo site_url("dpa/cetak_kegiatan"); ?>/"+id;
+			var link = "<?php echo site_url("dpa/cetak_kegiatan"); ?>/"+id +"/cetak";
 			window.open(link);
 			// $(location).attr('href',link);
+		});
+
+		$(".preview-kegiatan").click(function() {
+			var id = $(this).attr("idK");
+			$.blockUI({
+				message: 'Preview dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
+				css: window._css,
+				timeout: 2000,
+				overlayCSS: window._ovcss
+			});
+			var link = "<?php echo site_url("dpa/cetak_kegiatan"); ?>/"+id+"/preview";
+			window.open(link);
 		});
 
 		$(".tbh_kegiatan").click(function(){
@@ -97,33 +109,6 @@
 						$.facebox(msg);
 						$.blockUI({
 							timeout: 2000,
-							css: window._css,
-							overlayCSS: window._ovcss
-						});
-					};
-				}
-			});
-		});
-		
-		$(".preview-cetak-kegiatan").click(function(){
-			window.open('<?php echo site_url("dpa/preview_cetak_kegiatan_for_veri"); ?>/'+$(this).attr("idK"), '_blank');
-		});
-
-		$(".copy-kegiatan").click(function(){
-			prepare_facebox();
-			$.blockUI({
-				css: window._css,
-				overlayCSS: window._ovcss
-			});
-			$.ajax({
-				type: "POST",
-				url: '<?php echo site_url("dpa/copy_belanja_kegiatan"); ?>',
-				data: {id: $(this).attr("idK")},
-				success: function(msg){
-					if (msg!="") {
-						$.facebox(msg);
-						$.blockUI({
-							timeout: 500,
 							css: window._css,
 							overlayCSS: window._ovcss
 						});
@@ -205,9 +190,8 @@
 			<td align="center" width="50px">
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-pencil edit-kegiatan" title="Edit Kegiatan"/>
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-remove remove-kegiatan" title="Hapus Kegiatan"/>
-				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-retweet copy-kegiatan" title="Copy Belanja Kegiatan"/>
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="cetak-kegiatan" title="Cetak Rincian Kegiatan"> <i style="color:black;" class="fa fa-book"></i></a>
-				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="preview-cetak-kegiatan" title="Preview Rincian Kegiatan"> <i style="color:black;" class="icon-file"></i></a>
+				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="preview-kegiatan" title="Preview Rincian Kegiatan"> <i style="color:black;" class="fa fa-list"></i></a>
 			</td>
 		</tr>
 	<?php

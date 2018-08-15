@@ -104,29 +104,16 @@ class Prioritas_pembangunan_rkpd extends CI_Controller
 		if (!empty($id)) {
 			$data['sasaran'] = $this->m_prioritas_pembangunan_rkpd->get_one_sasaran($id)->row();
 			$sasaran_edit = $data['sasaran']->id_sasaran;
-			$data['indikator_sasaran'] = $this->m_prioritas_pembangunan_rkpd->get_indikator_sasaran($id);
-			// print_r($this->db->last_query());exit();
-		}
-
-		$status_indikator = array("" => "~~ Pilih Positif / Negatif ~~");
-		foreach ($this->m_lov->get_status_indikator() as $row) {
-			$status_indikator[$row->kode_status_indikator]=$row->nama_status_indikator;
-		}
-
-		$kategori_indikator = array("" => "~~ Pilih Kategori Indikator ~~");
-		foreach ($this->m_lov->get_kategori_indikator() as $row) {
-			$kategori_indikator[$row->kode_kategori_indikator]=$row->nama_kategori_indikator;
 		}
 
 		$data['prioritas'] = $this->m_prioritas_pembangunan_rkpd->get_data_prioritas(NULL, $id_prioritas)->row();
-		$data['status_indikator'] = $status_indikator;
-		$data['kategori_indikator'] = $kategori_indikator;
-		// $sasaran = array("" => "");
-		// foreach ($this->m_prioritas_pembangunan_rkpd->get_all_sasaran_combo()->result() as $row) {
-		// 	$sasaran[$row->id] = $row->sasaran;
-		// }
 
-		// $data['sasaran_combo'] = form_dropdown('id_sasaran', $sasaran, $sasaran_edit, 'data-placeholder="Pilih Sasaran" class="common chosen-select" id="id_sasaran"');
+		$sasaran = array("" => "");
+		foreach ($this->m_prioritas_pembangunan_rkpd->get_all_sasaran_combo()->result() as $row) {
+			$sasaran[$row->id] = $row->sasaran;
+		}
+
+		$data['sasaran_combo'] = form_dropdown('id_sasaran', $sasaran, $sasaran_edit, 'data-placeholder="Pilih Sasaran" class="common chosen-select" id="id_sasaran"');
 
 		$this->load->view('prioritas_pembangunan_rkpd/cru_sasaran', $data);
 	}
@@ -136,23 +123,16 @@ class Prioritas_pembangunan_rkpd extends CI_Controller
 		$id = $this->input->post('id');
 		$data = $this->input->post();
 
-		$id_indikator = $this->input->post('id_indikator_sasaran', TRUE);
-		$indikator = $this->input->post('indikator', TRUE);
-		$satuan = $this->input->post('satuan', TRUE);
-		$status_indikator = $this->input->post('status_indikator', TRUE);
-		$kategori_indikator = $this->input->post('kategori_indikator', TRUE);
-		$target = $this->input->post('target', TRUE);
-
-		$clean = array('id', 'id_indikator_sasaran', 'indikator', 'satuan', 'status_indikator', 'kategori_indikator', 'target');
+		$clean = array('id');
 		$data = $this->global_function->clean_array($data, $clean);
 
 		$add = array('created_date' => date('Y-m-d H:i:s'));
 		$data = $this->global_function->add_array($data, $add);
 
 		if (!empty($id)) {
-			$result = $this->m_prioritas_pembangunan_rkpd->edit_sasaran($data, $indikator, $satuan, $status_indikator, $kategori_indikator, $target, $id_indikator, $id);
+			$result = $this->m_prioritas_pembangunan_rkpd->edit_sasaran($data, $id);
 		}else{
-			$result = $this->m_prioritas_pembangunan_rkpd->add_sasaran($data, $indikator, $satuan, $status_indikator, $kategori_indikator, $target);
+			$result = $this->m_prioritas_pembangunan_rkpd->add_sasaran($data);
 		}
 
 		if ($result) {

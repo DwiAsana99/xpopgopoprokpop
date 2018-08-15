@@ -1026,6 +1026,37 @@ class M_ppas extends CI_Model
 		return $this->db->trans_status();
     }
 
+	function get_urusan_skpd($ta,$id_skpd){
+		$where="";
+		if (!empty($id_skpd) && $id_skpd!="all") {
+			$where=" WHERE keg.id_skpd='". $id_skpd ."'AND keg.tahun = ". $ta;
+		}
+		else
+		{
+			$where="WHERE keg.tahun = ".$ta;
+		}
+		$query = "select t.*,u.Nm_Urusan as nama_urusan from (
+			SELECT
+				keg.kd_urusan,keg.kd_bidang,keg.kd_program,keg.kd_kegiatan,
+				SUM(keg.nominal) AS sum_nominal,
+				SUM(keg.nominal_thndpn) AS sum_nominal_thndpn
+			FROM
+				(SELECT * FROM t_ppas_prog_keg WHERE is_prog_or_keg=1 AND id_skpd > 0) AS pro
+			INNER JOIN
+				(SELECT * FROM t_ppas_prog_keg WHERE is_prog_or_keg=2 AND id_skpd > 0 AND id IN (SELECT id_prog_keg 
+FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
+			".$where."
+			AND pro.id IN (SELECT id_prog_keg FROM t_ppas_indikator_prog_keg WHERE id_prog_keg = pro.id AND target > 0)
+			GROUP BY keg.kd_urusan
+			ORDER BY kd_urusan ASC, kd_bidang ASC, kd_program ASC
+			) t
+			left join m_urusan u
+			on t.kd_urusan = u.Kd_Urusan
+		";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
 	function get_urusan_skpd_4_cetak($id_skpd,$tahun)
     {
     	$query = "SELECT t.*,u.Nm_Urusan as nama_urusan from (
@@ -1072,6 +1103,36 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 						keg.kd_urusan=? AND
 						keg.kd_bidang=?
 
+					GROUP BY pro.id
+					HAVING SUM(keg.nominal) > 0
+					ORDER BY kd_urusan ASC, kd_bidang ASC, kd_program ASC, kd_kegiatan ASC";
+		$data = array($tahun,$kd_urusan,$kd_bidang);
+		$result = $this->db->query($query, $data);
+		return $result->result();
+	}
+	
+	function get_program_skpd_4_cetak_v2($id_skpd,$tahun,$kd_urusan,$kd_bidang, $for_where=null){
+    	if (empty($for_where)) {
+			$for_where = "keg.id_skpd = ".$id_skpd."";
+		}
+
+    	$query = "SELECT
+						keg.penanggung_jawab, keg.lokasi, keg.lokasi_thndpn, keg.catatan,
+						pro.*,
+						SUM(keg.nominal) AS sum_nominal,
+						SUM(keg.nominal_thndpn) AS sum_nominal_thndpn
+					FROM
+						(SELECT * FROM t_ppas_prog_keg WHERE is_prog_or_keg=1) AS pro
+					INNER JOIN
+						(SELECT * FROM t_ppas_prog_keg WHERE is_prog_or_keg=2 AND id IN (SELECT id_prog_keg 
+					FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
+					WHERE
+						".$for_where." 
+						AND keg.tahun=? 
+						AND keg.kd_urusan=? 
+						AND keg.kd_bidang=?
+						AND pro.id IN (SELECT id_prog_keg FROM t_ppas_indikator_prog_keg WHERE id_prog_keg = pro.id
+						AND (target > 0 OR target_thndpn > 0))
 					GROUP BY pro.id
 					HAVING SUM(keg.nominal) > 0
 					ORDER BY kd_urusan ASC, kd_bidang ASC, kd_program ASC, kd_kegiatan ASC";
@@ -1347,146 +1408,5 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			WHERE tahun = '$ta' AND id_keg = '$idK' AND is_tahun_sekarang = '$is_thn'
 			ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC, uraian_upper ASC, detil_uraian_belanja ASC");
 		return $query->result();
-	}
-
-	function get_belanja_kegiatan($id_kegiatan, $group=NULL, $id_pilihan=NULL, $tahun=NULL, $is_tahun=NULL, $not_in=NULL){
-		$th = "";
-		$not = "";
-		$group_by = "";
-		$where_tambahan = "";
-		$pilihan = array(
-			'for_order' => array(
-				'1' => 'kode_jenis_belanja, kode_kategori_belanja', 
-				'2' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja', 
-				'3' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja', 
-				'4' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja',
-				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja'
-			),
-			'for_where' => array(
-				'1' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'"',
-				'2' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'"',
-				'3' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'" AND kode_sub_kategori_belanja="'.$id_pilihan[3].'"',
-				'4' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'" AND kode_sub_kategori_belanja="'.$id_pilihan[3].'" AND kode_belanja="'.$id_pilihan[4].'"',
-				'5' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'" AND kode_kategori_belanja="'.$id_pilihan[2].'" AND kode_sub_kategori_belanja="'.$id_pilihan[3].'" AND kode_belanja="'.$id_pilihan[4].'" AND uraian_belanja="'.$id_pilihan[5].'"'
-			)
-		);
-		if (!empty($tahun)) {
-			$th = " AND tahun = '".$tahun."' AND is_tahun_sekarang = '".$is_tahun."'";
-		}
-		if(!empty($not_in)){
-			$not = " AND id <> '".$not_in."' ";
-		}
-		if (!empty($group)) {
-			$group_by = 'GROUP BY '.$pilihan["for_order"][$group];
-			$where_tambahan = $pilihan["for_where"][$group];
-		}
-
-		$query = "SELECT id ,tahun, id_renja,
-						SUM(subtotal) AS sum_all,
-						kode_sumber_dana AS kode_sumber_dana,(
-							SELECT sumber_dana FROM m_sumber_dana WHERE id = kode_sumber_dana
-						) AS Sumber_dana,
-						kode_jenis_belanja AS kode_jenis_belanja, (
-							SELECT jenis_belanja FROM m_jenis_belanja WHERE kd_jenis_belanja = kode_jenis_belanja
-						) AS jenis_belanja,
-						kode_kategori_belanja AS kode_kategori_belanja, (
-							SELECT kategori_belanja FROM m_kategori_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja
-						) AS kategori_belanja,
-						kode_sub_kategori_belanja AS kode_sub_kategori_belanja,(
-							SELECT sub_kategori_belanja FROM m_subkategori_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja
-						) AS sub_kategori_belanja,
-						kode_belanja AS kode_belanja,(
-							SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
-						) AS belanja,
-						uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
-						FROM t_ppas_belanja_kegiatan
-						WHERE id_keg = '$id_kegiatan' ".$th." ".$not." ".$where_tambahan."
-						".$group_by."
-						ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC, uraian_belanja ASC, Sumber_dana ASC, detil_uraian_belanja ASC";
-
-		$result = $this->db->query($query);
-		return $result->result();
-	}
-
-	function sumber_dana_rekap($tahun, $id_skpd){
-		return $this->db->query("SELECT * FROM (
-			SELECT ref.id_sumber,
-			ref.sumber_dana,
-			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 1, ref.subtotal, 0) ) AS 'tahun1',
-			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 0, ref.subtotal, 0) ) AS 'tahun2'
-			FROM (SELECT id_keg, 
-			(SELECT id_skpd FROM t_ppas_prog_keg WHERE id = id_keg) AS id_skpd
-			,kode_sumber_dana AS id_sumber
-			,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
-			,subtotal
-			,tahun
-			,is_tahun_sekarang
-			FROM t_ppas_belanja_kegiatan AS ref1
-			WHERE kode_jenis_belanja IS NOT NULL )
-			AS ref INNER JOIN m_skpd
-			ON ref.id_skpd = m_skpd.id_skpd
-			WHERE ref.id_skpd = '$id_skpd'
-			GROUP BY ref.id_sumber, ref.sumber_dana
-			ORDER BY ref.id_sumber ASC) AS las
-			WHERE las.tahun1 > 0 OR las.tahun2 > 0");	
-	}
-
-	function copy_belanja_kegiatan($keg_dari, $keg_tujuan){
-		$this->db->trans_strict(FALSE);
-		$this->db->trans_start();
-
-		$this->db->query("
-			INSERT INTO  t_ppas_belanja_kegiatan (
-			tahun,
-			kode_urusan,
-			kode_bidang,
-			kode_program,
-			kode_kegiatan,
-			kode_sumber_dana,
-			kode_jenis_belanja,
-			kode_kategori_belanja,
-			kode_sub_kategori_belanja,
-			kode_belanja,
-			uraian_belanja,
-			detil_uraian_belanja,
-			volume,
-			nominal_satuan,
-			subtotal,
-			is_tahun_sekarang,
-			id_keg,
-			created_date)
-			SELECT 
-			tahun,
-			kode_urusan,
-			kode_bidang,
-			kode_program,
-			kode_kegiatan,
-			kode_sumber_dana,
-			kode_jenis_belanja,
-			kode_kategori_belanja,
-			kode_sub_kategori_belanja,
-			kode_belanja,
-			uraian_belanja,
-			detil_uraian_belanja,
-			volume,
-			nominal_satuan,
-			subtotal,
-			is_tahun_sekarang,
-			'$keg_tujuan',
-			'".date('Y-m-d H:i:s')."'
-			FROM t_ppas_belanja_kegiatan
-			WHERE id_keg = '$keg_dari'
-			");
-
-		$total = $this->db->query("SELECT 
-			SUM( IF(ref.is_tahun_sekarang = 1, ref.subtotal, 0)) AS total_skr,
-			SUM( IF(ref.is_tahun_sekarang = 0, ref.subtotal, 0)) AS total_dpn
-			FROM t_ppas_belanja_kegiatan AS ref
-			WHERE id_keg = '$keg_tujuan'")->row();
-		$this->db->query("UPDATE t_ppas_prog_keg SET nominal = '".$total->total_skr."', nominal_thndpn = '".$total->total_dpn."'
-			WHERE id = '$keg_tujuan'");
-
-		$this->db->trans_complete();
-		return $this->db->trans_status();
 	}
 }

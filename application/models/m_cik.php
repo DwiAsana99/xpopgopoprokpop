@@ -1261,31 +1261,11 @@ class M_cik extends CI_Model
 
 		$query = "
 		UPDATE tx_cik_prog_keg SET tx_cik_prog_keg.status_".$bulan."=3
-			,tx_cik_prog_keg.ket_".$bulan."=?
+			,tx_cik_prog_keg.ket_".$bulan."='?'
 			WHERE tx_cik_prog_keg.id_skpd=? AND
 			tx_cik_prog_keg.status_".$bulan."=?
 		";
-		$data = array($ket, $id, $this->id_status_send);
-		$result = $this->db->query($query, $data);
-
-		$this->db->trans_complete();
-		return $this->db->trans_status();
-	}
-
-	function approve_cik($id, $bulan, $ket){
-		$this->db->trans_strict(FALSE);
-		$this->db->trans_start();
-
-		//$query = "INSERT t_renja_revisi SELECT NULL, t_renja_prog_keg.id, ? FROM t_renja_prog_keg INNER JOIN t_renstra_prog_keg ON t_renstra_prog_keg.id=t_renja_prog_keg.id_renstra INNER JOIN t_renstra ON t_renstra_prog_keg.id_renstra=t_renstra.id WHERE t_renstra.id_skpd=?";
-		//$data = array($ket, $id);
-		//$result = $this->db->query($query, $data);
-
-		$query = "
-		UPDATE tx_cik_prog_keg SET tx_cik_prog_keg.status_".$bulan."=4
-			WHERE tx_cik_prog_keg.id_skpd=? AND
-			tx_cik_prog_keg.status_".$bulan."=?
-		";
-		$data = array($ket, $id, $this->id_status_send);
+		$data = array($id, $ket, $this->id_status_send);
 		$result = $this->db->query($query, $data);
 
 		$this->db->trans_complete();

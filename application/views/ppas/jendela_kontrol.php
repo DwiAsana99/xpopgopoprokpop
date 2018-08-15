@@ -74,7 +74,6 @@
 		}
 	?>
     	<a href="<?php echo site_url('ppas/preview_ppas'); ?>"><input type="button" value="Lihat PPAS" /></a>
-		<a href="<?php echo site_url('ppas/rekap_sumber_dana'); ?>"><input type="button" value="Rekap Sumber Dana" /></a>
     <?php } ?>
 	  	<!--<input type="button" class="button-action" id="cetak" value="Cetak" />-->
 	 	<input type="button" value="Back" onclick="history.go(-1)" />

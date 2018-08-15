@@ -35,15 +35,15 @@
         </td>
 	</table>
     </div>
-    <table id="tabel_rkpd" class="" width="99.7%">
+    <table id="tabel_rkpd" class="table-display" width="99.7%">
     	<thead>
             <tr>
                 <th rowspan="2" colspan="4">Kode</th>
                 <th rowspan="2">Program dan Kegiatan</th>
                 <th rowspan="2">Indikator Kinerja Program/Kegiatan</th>
-                <th colspan="3">Dpa Tahun <?php echo $tahun_renja?></th>
+                <th colspan="3">Renja Tahun <?php echo $tahun_renja?></th>
                 <th rowspan="2">Catatan</th>
-                <th colspan="3">Renja Perubahan Tahun <?php echo $tahun_renja;?></th>
+                <th colspan="3">Renja Tahun <?php echo $tahun_renja;?> Perubahan</th>
                 <th rowspan="2">Catatan</th>
                 <th rowspan="2">Keterangan Perubahan</th>
             </tr>

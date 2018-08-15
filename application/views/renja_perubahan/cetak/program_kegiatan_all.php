@@ -18,7 +18,7 @@
 		<th rowspan="2" colspan="4">Kode</th>
 		<th rowspan="2">Program dan Kegiatan</th>
 		<th rowspan="2">Indikator Kinerja Program/Kegiatan</th>
-		<th colspan="3">DPA Tahun <?php echo $tahun_renja?></th>
+		<th colspan="3">Renja Tahun <?php echo $tahun_renja?></th>
 		<th rowspan="2">Catatan</th>
 		<th colspan="3">Renja Tahun <?php echo $tahun_renja;?> Perubahan</th>
         <th rowspan="2">Catatan</th>
@@ -67,9 +67,9 @@
 			r.id,
 			r.penanggung_jawab,
 			r.lokasi,
-			r.catatan_1 as catatan,
+			r.catatan,
 			r.id_status,
-			r.nominal_1+r.nominal_2+r.nominal_3+r.nominal_4+r.nominal_5+r.nominal_6+r.nominal_7+r.nominal_8+r.nominal_9+r.nominal_10+r.nominal_11+r.nominal_12 AS nomrenja,
+			r.`nominal` AS nomrenja,
 			rp.id_renja,
 			rp.`penanggung_jawab` AS penanggung_jawab_perubahan,
 			rp.`lokasi` AS lokasi_perubahan ,
@@ -77,11 +77,11 @@
 			rp.`keterangan` AS keterangan_perubahan,
 			rp.`nominal` AS nomrenja_perubahan
 			FROM (
-			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM tx_dpa_prog_keg WHERE tahun = '".$ta."' AND kd_kegiatan IS NOT NULL
+			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg WHERE tahun = '".$ta."' AND kd_kegiatan IS NOT NULL
 			UNION
 			SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg_perubahan WHERE tahun = '".$ta."' AND kd_kegiatan IS NOT NULL
 			) k
-			LEFT JOIN tx_dpa_prog_keg r
+			LEFT JOIN t_renja_prog_keg r
 			ON k.tahun = r.tahun
 			AND k.kd_urusan = r.kd_urusan
 			AND k.kd_bidang = r.kd_bidang
@@ -137,9 +137,9 @@
 				r.id,
 				r.penanggung_jawab,
 				r.lokasi,
-				r.catatan_1 as catatan,
+				r.catatan,
 				r.id_status,
-				r.nominal_1+r.nominal_2+r.nominal_3+r.nominal_4+r.nominal_5+r.nominal_6+r.nominal_7+r.nominal_8+r.nominal_9+r.nominal_10+r.nominal_11+r.nominal_12 AS nomrenja,
+				r.`nominal` AS nomrenja,
 				rp.id_renja,
 				rp.`penanggung_jawab` AS penanggung_jawab_perubahan,
 				rp.`lokasi` AS lokasi_perubahan ,
@@ -147,11 +147,11 @@
 				rp.`keterangan` AS keterangan_perubahan,
 				rp.`nominal` AS nomrenja_perubahan
 				FROM (
-				SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM tx_dpa_prog_keg WHERE tahun = ".$ta." AND kd_kegiatan IS NOT NULL
+				SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg WHERE tahun = ".$ta." AND kd_kegiatan IS NOT NULL
 				UNION
 				SELECT tahun,kd_urusan,kd_bidang,kd_program,kd_kegiatan,id_skpd FROM t_renja_prog_keg_perubahan WHERE tahun = ".$ta." AND kd_kegiatan IS NOT NULL
 				) k
-				LEFT JOIN tx_dpa_prog_keg r
+				LEFT JOIN t_renja_prog_keg r
 				ON k.tahun = r.tahun
 				AND k.kd_urusan = r.kd_urusan
 				AND k.kd_bidang = r.kd_bidang
@@ -198,7 +198,7 @@
 				    $kegiatan = $result->result();
 				    $get_id_renja = $this->m_renja_trx_perubahan->get_id_renja($row->id_skpd, $row->tahun, $row->kd_urusan, $row->kd_bidang, $row->kd_program);
 					$get_id_renja_perubahan = $this->m_renja_trx_perubahan->get_id_renja_perubahan($row->id_skpd, $row->tahun, $row->kd_urusan, $row->kd_bidang, $row->kd_program);
-					$indikator_program = $this->m_dpa->get_indikator_prog_keg($get_id_renja, FALSE, TRUE);
+					$indikator_program = $this->m_renja_trx_perubahan->get_indikator_prog_keg($get_id_renja, FALSE, TRUE);
 					$indikator_program_perubahan = $this->m_renja_trx_perubahan->get_indikator_prog_keg_perubahan($get_id_renja_perubahan, FALSE, TRUE);
 					if($indikator_program->result()!=NULL){
 						$temp = $indikator_program->result();
@@ -213,7 +213,7 @@
 					else {
 						$temp_perubahan = NULL;
 					}
-					$total_temp = ($indikator_program->num_rows()>0)?$indikator_program->num_rows():'1';
+					$total_temp = $indikator_program->num_rows();
 					//var_dump($indikator_program->result());
 
 				    $col_indikator=1;
@@ -302,7 +302,6 @@
             ?>
                         <td style="border-top: 0;border-bottom: 0;" ></td>
                         <td style="border-top: 0;border-bottom: 0;" ></td>
-                        <td style="border-top: 0;border-bottom: 0;" ></td>
             <?php
                             }
             ?>
@@ -317,6 +316,7 @@
                         <td style="border-top: 0;border-bottom: 0;" ></td>
                         <td style="border-top: 0;border-bottom: 0;" ></td>
                         <td style="border-top: 0;border-bottom: 0;" ></td>
+                        <td style="border-top: 0;border-bottom: 0;" ></td>
             <?php
                                 }
             ?>
@@ -325,11 +325,11 @@
                         }
                      }
 				    foreach ($kegiatan as $row) {
-				        $indikator_kegiatan = $this->m_dpa->get_indikator_prog_keg($row->id, FALSE, TRUE);
+				        $indikator_kegiatan = $this->m_renja_trx->get_indikator_prog_keg($row->id, FALSE, TRUE);
 				        $indikator_kegiatan_perubahan = $this->m_renja_trx_perubahan->get_indikator_prog_keg_perubahan($row->id_perubahan, FALSE, TRUE);
 						$temp = $indikator_kegiatan->result();
 						$temp_perubahan = $indikator_kegiatan_perubahan->result();
-						$total_temp = ($indikator_kegiatan->num_rows()>0)?$indikator_kegiatan->num_rows():'1';
+						$total_temp = $indikator_kegiatan->num_rows();
 			
 						$go_3_keg = FALSE;
 						$col_indikator_keg=1;
@@ -462,7 +462,7 @@
         	<td colspan="4"></td>
 			<td colspan="4">
             	<strong>
-                	Total Nominal DPA
+                	Total Nominal Renja
                 </strong>
             </td>
 			<td align="right">

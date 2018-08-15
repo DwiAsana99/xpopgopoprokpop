@@ -632,10 +632,9 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 	function preview_rekap_sumberdana($per){
 		$ta = $this->session->userdata('t_anggaran_aktif');
 		if ($per == 1) {
-			$data['data1'] = $this->m_rkpd->sumber_dana_rekap($ta, 'skpd')->result();
-			// print_r($this->db->last_query());
+			$data['data1'] = $this->m_rkpd->skpd_sumber_dana($ta)->result();
 		}elseif ($per == 2) {
-			$data['data1'] = $this->m_rkpd->sumber_dana_rekap($ta, 'sumber')->result();
+			$data['data1'] = $this->m_rkpd->sumber_dana_skpd($ta)->result();
 		}
 
 		$data['ta'] = $ta;

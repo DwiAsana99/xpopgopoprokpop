@@ -72,29 +72,6 @@
 				}
 			});
 		});
-
-		$("#approve_all_cik").click(function(){
-			prepare_facebox();
-			$.blockUI({
-				css: window._css,
-				overlayCSS: window._ovcss
-			});
-
-	    	$.ajax({
-				type: "POST",
-				url: "<?php echo site_url('cik/approve_cik'); ?>",
-				data: {id:$(this).attr("id-r"),bulan:$(this).attr("id-b")},
-				success: function(msg){
-					$.blockUI({
-						message: msg.msg,
-						timeout: 2000,
-						css: window._css,
-						overlayCSS: window._ovcss
-					});
-					$.facebox(msg);
-				}
-			});
-		});
 	});
 </script>
 <article class="module width_full" style="width: 100%;">
@@ -141,10 +118,10 @@
 						$tot_rencana += $row->sum_rencana;
 						$tot_realisasi += $row->sum_realisasi;
 						$kegiatan = $this->m_cik->get_data_kegiatan_cik($row->id_skpd,$bulan,$row_urusan->kd_urusan,$row_bidang->kd_bidang,$row->kd_program);
-						$cik_pro_keg = (empty($row->sum_rencana))?0:round(($row->sum_realisasi/$row->sum_rencana)*100,2);
+						$cik_pro_keg = (empty($row->sum_realisasi))?0:round(($row->sum_realisasi/$row->sum_rencana)*100,2);
 						$indikator_program = $this->m_cik->get_indikator_prog_keg_preview($row->id, $bulan, FALSE, TRUE);
 						$temp = $indikator_program->result();
-						$total_temp = ($indikator_program->num_rows()==0)?1:$indikator_program->num_rows();
+						$total_temp = $indikator_program->num_rows();
 
 						$col_indikator=1;
 						$go_2_keg = FALSE;
@@ -252,11 +229,10 @@
 					foreach($kegiatan as $row_kegiatan)
 					{
 						//$kegiatan = $this->m_cik->get_data_kegiatan_cik($row->id_skpd,$bulan,$row->id);
-						$cik_pro_keg = (empty($row_kegiatan->$rencana))?0:round(($row_kegiatan->$realisasi/$row_kegiatan->rencana)*100,2);
+						$cik_pro_keg = (empty($row_kegiatan->$realisasi))?0:round(($row_kegiatan->$realisasi/$row_kegiatan->rencana)*100,2);
 						$indikator_program = $this->m_cik->get_indikator_prog_keg_preview($row_kegiatan->id, $bulan, FALSE, TRUE);
 						$temp = $indikator_program->result();
-						$total_temp = ($indikator_program->num_rows()==0)?1:$indikator_program->num_rows();
-						// $total_temp = $indikator_program->num_rows();
+						$total_temp = $indikator_program->num_rows();
 
 						$col_indikator=1;
 						$go_2_keg = FALSE;
@@ -391,7 +367,6 @@
     </div>
 	<footer>
 		<div class="submit_link">
-        	<input id-r="<?php echo $id_skpd; ?>" id-b="<?php echo $bulan;?>" type="button" id="approve_all_cik" value="Setujui Seluruh CIK">
         	<input id-r="<?php echo $id_skpd; ?>" id-b="<?php echo $bulan;?>" type="button" id="disapprove_cik" value="Tidak Setujui Seluruh CIK">
 			<input type="button" value="Kembali" onclick="history.go(-1)">
 		</div>

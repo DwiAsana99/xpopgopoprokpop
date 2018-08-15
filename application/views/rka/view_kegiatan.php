@@ -22,7 +22,7 @@
 			$.ajax({
 				type: "POST",
 				url: '<?php echo site_url("rka/preview_periode_221"); ?>',
-				data: {id: $(this).attr("idK")},
+				data: {id: $(this).attr("idK"),status: 'cetak'},
 				success: function(msg){
 					if (msg!="") {
 						$.facebox(msg);
@@ -35,6 +35,31 @@
 				}
 			});
 		});
+
+		$(".preview-kegiatan").click(function() {
+			prepare_facebox();
+			$.blockUI({
+				css: window._css,
+				overlayCSS: window._ovcss
+			});
+
+			$.ajax({
+				type: "POST",
+				url: '<?php echo site_url("rka/preview_periode_221"); ?>',
+				data: {id: $(this).attr("idK"), status: 'preview'},
+				success: function(msg){
+					if (msg!="") {
+						$.facebox(msg);
+						$.blockUI({
+							timeout: 500,
+							css: window._css,
+							overlayCSS: window._ovcss
+						});
+					};
+				}
+			});
+		});
+
 		$(".tbh_kegiatan").click(function(){
 			var idr = $(this).attr("id-r");
 
@@ -96,33 +121,6 @@
 						$.facebox(msg);
 						$.blockUI({
 							timeout: 2000,
-							css: window._css,
-							overlayCSS: window._ovcss
-						});
-					};
-				}
-			});
-		});
-
-		$(".preview-cetak-kegiatan").click(function(){
-			window.open('<?php echo site_url("rka/preview_cetak_kegiatan_for_veri"); ?>/1/'+$(this).attr("idK"), '_blank');
-		});
-
-		$(".copy-kegiatan").click(function(){
-			prepare_facebox();
-			$.blockUI({
-				css: window._css,
-				overlayCSS: window._ovcss
-			});
-			$.ajax({
-				type: "POST",
-				url: '<?php echo site_url("rka/copy_belanja_kegiatan"); ?>',
-				data: {id: $(this).attr("idK")},
-				success: function(msg){
-					if (msg!="") {
-						$.facebox(msg);
-						$.blockUI({
-							timeout: 500,
 							css: window._css,
 							overlayCSS: window._ovcss
 						});
@@ -212,7 +210,6 @@
 				if ($enable_edit) {
 			?>
 				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-pencil edit-kegiatan" title="Edit Kegiatan"/>
-				<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="icon-retweet copy-kegiatan" title="Copy Belanja Kegiatan"/>
              <?php
 				}
 
@@ -223,7 +220,7 @@
 				}
 			?>
 			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="cetak-kegiatan" title="Cetak Rincian Kegiatan"> <i style="color:black;" class="fa fa-book"></i></a>
-			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="preview-cetak-kegiatan" title="Preview Rincian Kegiatan"> <i style="color:black;" class="icon-file"></i></a>
+			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="preview-kegiatan" title="Preview Rincian Kegiatan"> <i style="color:black;" class="fa fa-list"></i></a>
 			</td>
 		</tr>
 	<?php

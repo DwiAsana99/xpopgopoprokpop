@@ -111,32 +111,32 @@
 
 
 		$(".cetak-kegiatan").click(function(){
-			var idK = $(this).attr("idK")
+
+					var idK = $(this).attr("idK")
+					$.blockUI({
+						message: 'Cetak dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
+						css: window._css,
+						timeout: 2000,
+						overlayCSS: window._ovcss
+					});
+
+					var link = "<?php echo site_url('renja_perubahan/cetak_kegiatan');?>/" + idK  + "/cetak";
+					//alert(link);
+					window.open(link);
+					// $(location).attr('href',link);
+				});
+		
+		$(".preview-kegiatan").click(function() {
+			var idK = $(this).attr('idK');
 			$.blockUI({
-				message: 'Cetak dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
+				message: 'Preview dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
 				css: window._css,
 				timeout: 2000,
 				overlayCSS: window._ovcss
 			});
 
-			var link = "<?php echo site_url('renja_perubahan/cetak_kegiatan');?>/" + idK  ;
-			//alert(link);
-			// $(location).attr('href',link);
+			var link = "<?php echo site_url('renja_perubahan/cetak_kegiatan');?>/" + idK + "/preview" ;
 			window.open(link);
-		});
-
-		$(".preview-kegiatan").click(function(){
-			var idK = $(this).attr("idK")
-			$.blockUI({
-				message: 'Cetak dokumen sedang di proses, mohon ditunggu hingga file terunduh secara otomatis ...',
-				css: window._css,
-				timeout: 2000,
-				overlayCSS: window._ovcss
-			});
-			var link = "<?php echo site_url('renja_perubahan/preview_cetak_kegiatan');?>/" + idK  ;
-			//alert(link);
-			window.open(link);
-			// $(location).attr('href',link);
 		});
 
 

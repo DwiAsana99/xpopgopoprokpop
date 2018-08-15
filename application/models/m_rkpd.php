@@ -458,51 +458,21 @@ class M_rkpd extends CI_Model
     }
 
     function sumber_dana_skpd($tahun){
-        // return $this->db->query("SELECT kode_sumber_dana AS id_sumber
-        //     ,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
-        //     ,SUM(subtotal) AS total
-        //     FROM t_renja_belanja_kegiatan WHERE 
-        //     id_keg IN (
-        //         SELECT id FROM t_renja_prog_keg WHERE 
-        //         id_skpd IN (
-        //             SELECT id_skpd FROM m_skpd WHERE 
-        //             kode_unit IN (
-        //                 SELECT id_skpd FROM t_renja WHERE tahun = '$tahun'
-        //             )
-        //         ) AND tahun = '$tahun'
-        //     ) AND tahun = '$tahun'
-        //     AND is_tahun_sekarang = 1
-        //     GROUP BY kode_sumber_dana");
-
-        
-    }
-
-    function sumber_dana_rekap($tahun, $group, $where=NULL, $where_2=NULL){
-        $list_group = array(
-            'sumber' => 'GROUP BY ref.id_sumber, ref.sumber_dana ORDER BY id_sumber ASC',
-            'sumber_detil' => '
-                GROUP BY ref.id_skpd, kode_skpd, m_skpd.nama_skpd, ref.id_sumber, ref.sumber_dana 
-                ORDER BY id_sumber ASC',
-            'skpd' => 'GROUP BY ref.id_skpd, kode_skpd, m_skpd.nama_skpd ORDER BY kode_skpd ASC',
-            'skpd_detil' => 'AND kode_skpd = "'.$where.'" 
-                GROUP BY ref.id_skpd, kode_skpd, m_skpd.nama_skpd, ref.id_sumber, ref.sumber_dana 
-                ORDER BY kode_skpd ASC',
-        );
-
-        return $this->db->query("SELECT kode_skpd, m_skpd.nama_skpd
-            ,ref.id_sumber, ref.sumber_dana, SUM(ref.subtotal) AS total FROM (
-                SELECT id_keg, 
-                    (SELECT id_skpd FROM t_renja_prog_keg WHERE id = id_keg) AS id_skpd
-                    ,kode_sumber_dana AS id_sumber
-                    ,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
-                    ,subtotal
-                FROM t_renja_belanja_kegiatan AS ref1
-                WHERE kode_jenis_belanja IS NOT NULL AND is_tahun_sekarang = 1 AND tahun = '$tahun'
-                $where_2
-            ) AS ref INNER JOIN m_skpd
-            ON ref.id_skpd = m_skpd.id_skpd
-            WHERE ref.id_skpd IS NOT NULL AND ref.id_skpd >0
-            $list_group[$group]");
+        return $this->db->query("SELECT kode_sumber_dana AS id_sumber
+            ,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
+            ,SUM(subtotal) AS total
+            FROM t_renja_belanja_kegiatan WHERE 
+            id_keg IN (
+                SELECT id FROM t_renja_prog_keg WHERE 
+                id_skpd IN (
+                    SELECT id_skpd FROM m_skpd WHERE 
+                    kode_unit IN (
+                        SELECT id_skpd FROM t_renja WHERE tahun = '$tahun'
+                    )
+                ) AND tahun = '$tahun'
+            ) AND tahun = '$tahun'
+            AND is_tahun_sekarang = 1
+            GROUP BY kode_sumber_dana");
     }
     
 }

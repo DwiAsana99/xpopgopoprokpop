@@ -700,13 +700,6 @@ class Renstra extends CI_Controller
 		$data['cb_belanja_5'] = form_dropdown('cb_belanja_5', $cb_belanja, $cb_belanja_edit, 'data-placeholder="Pilih Rincian Obyek" class="common chosen-select" id="cb_belanja_5"');
 
 		$data['detil_kegiatan'] = $this->m_renstra_trx->get_kegiatan($id_kegiatan);
-		$th_anggaran = $this->m_settings->get_tahun_anggaran_db();
-
-		$data['detil_kegiatan_th1'] = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, 1, array('1' => '5.2'), $th_anggaran[0]->tahun_anggaran);
-		$data['detil_kegiatan_th2'] = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, 1, array('1' => '5.2'), $th_anggaran[1]->tahun_anggaran);
-		$data['detil_kegiatan_th3'] = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, 1, array('1' => '5.2'), $th_anggaran[2]->tahun_anggaran);
-		$data['detil_kegiatan_th4'] = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, 1, array('1' => '5.2'), $th_anggaran[3]->tahun_anggaran);
-		$data['detil_kegiatan_th5'] = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, 1, array('1' => '5.2'), $th_anggaran[4]->tahun_anggaran);
 
 		// print_r($id_kegiatan);
 		// exit;
@@ -917,31 +910,31 @@ class Renstra extends CI_Controller
 			return $result;
 		}else{
 			foreach ($result as $row) {
-				// $vol = Formatting::currency($row->volume, 2);
-				// $nom = Formatting::currency($row->nominal_satuan, 2);
-				// $sub = Formatting::currency($row->subtotal, 2);
+				$vol = Formatting::currency($row->volume, 2);
+				$nom = Formatting::currency($row->nominal_satuan, 2);
+				$sub = Formatting::currency($row->subtotal, 2);
 
-				// echo "<tr id='".$row->id."'>
-				// <td>".$i.".</td>
-				// <td>".$row->kode_jenis_belanja.". ".$row->jenis_belanja."</td>
-				// <td>".$row->kode_kategori_belanja.". ".$row->kategori_belanja."</td>
-				// <td>".$row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja."</td>
-				// <td>".$row->kode_belanja.". ".$row->belanja."</td>
-				// <td>".$row->uraian_belanja."</td>
-				// <td>".$row->Sumber_dana."</td>
-				// <td>".$row->detil_uraian_belanja."</td>
-				// <td>".$vol."</td>
-				// <td>".$row->satuan."</td>
-				// <td>".$nom."</td>
-				// <td>".$sub."</td>
-				// <td>
-				// 	<span id='ubahrowng' class='icon-pencil' onclick='ubahrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Ubah Belanja'></span>
-				// </td>
-				// <td>
-				// 	<span id='hapusrowng' class='icon-remove' onclick='hapusrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Hapus Belanja'></span>
-				// </td>
-				// </tr>";
-				// $i++;
+				echo "<tr id='".$row->id."'>
+				<td>".$i.".</td>
+				<td>".$row->kode_jenis_belanja.". ".$row->jenis_belanja."</td>
+				<td>".$row->kode_kategori_belanja.". ".$row->kategori_belanja."</td>
+				<td>".$row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja."</td>
+				<td>".$row->kode_belanja.". ".$row->belanja."</td>
+				<td>".$row->uraian_belanja."</td>
+				<td>".$row->Sumber_dana."</td>
+				<td>".$row->detil_uraian_belanja."</td>
+				<td>".$vol."</td>
+				<td>".$row->satuan."</td>
+				<td>".$nom."</td>
+				<td>".$sub."</td>
+				<td>
+					<span id='ubahrowng' class='icon-pencil' onclick='ubahrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Ubah Belanja'></span>
+				</td>
+				<td>
+					<span id='hapusrowng' class='icon-remove' onclick='hapusrowng_".$tahun."(".$row->id.")' style='cursor:pointer' title='Hapus Belanja'></span>
+				</td>
+				</tr>";
+				$i++;
 				$total += $row->subtotal;
 			}
 			echo "<script type='text/javascript'>$('#nominal_".$tahun."').autoNumeric('set', ".$total.");</script>";
@@ -986,9 +979,8 @@ class Renstra extends CI_Controller
 		$tahun = $this->input->post('tahun');
 		$th = $this->m_settings->get_tahun_anggaran_db();
 
-		$data['edit'] = $this->m_renstra_trx->get_one_belanja($id);
-
 		$this->m_renstra_trx->delete_one_kegiatan($id);
+
 		$data['list'] = $this->belanja_kegiatan_lihat(TRUE, $id_kegiatan, $th[$tahun-1]->tahun_anggaran, $tahun);
 
 		echo json_encode($data);
@@ -1033,17 +1025,10 @@ class Renstra extends CI_Controller
 
 		$result = $this->m_renstra_trx->get_one_kegiatan(NULL, NULL, NULL, $id, TRUE);
 		if (!empty($result)) {
-			$th_anggaran = $this->m_settings->get_tahun_anggaran_db();
-			$data['th_anggaran'] = $th_anggaran;
 			$data['renstra'] = $result;
 			$data['indikator_sasaran'] = $this->m_renstra_trx->get_indikator_sasaran($result->id_sasaran);
 			$data['indikator_kegiatan'] = $this->m_renstra_trx->get_indikator_prog_keg_status_kat($result->id, TRUE, TRUE);
-			$data['belanja_1'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[0]->tahun_anggaran);
-			// print_r($this->db->last_query());
-			$data['belanja_2'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[1]->tahun_anggaran);
-			$data['belanja_3'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[2]->tahun_anggaran);
-			$data['belanja_4'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[3]->tahun_anggaran);
-			$data['belanja_5'] = $this->m_renstra_trx->get_kegiatan($id, $th_anggaran[4]->tahun_anggaran);
+			$data['detil_kegiatan'] = $this->m_renstra_trx->get_kegiatan($id);
 			//print_r($data['indikator_kegiatan']);
 			//exit;
 			$this->load->view('renstra/preview', $data);
@@ -1101,7 +1086,6 @@ function view_detil_renstra_skpd($id_skpd){
 		$this->auth->restrict();
 
 		$skpd_visi = $this->m_renstra_trx->get_one_renstra_skpd($id_skpd, TRUE);
-
 		$data1['skpd_visi'] = $skpd_visi;
 		$data1['misi'] = $this->m_renstra_trx->get_all_renstra_misi($skpd_visi->id, FALSE);
 		$data1['tujuan'] = $this->m_renstra_trx->get_all_renstra_tujuan($skpd_visi->id, FALSE);
@@ -1126,13 +1110,13 @@ function view_detil_renstra_skpd($id_skpd){
 		$data1['tujuan'] = $this->m_renstra_trx->get_all_renstra_tujuan($skpd_visi->id, FALSE);
 
 		$data3['sasaran'] = $this->m_renstra_trx->get_all_sasaran($skpd_visi->id, NULL, TRUE);
-		$data3['id_skpd'] = $id_skpd;
 		$data1['sasaran'] = "<table class=\"table-common\">".$this->load->view('renstra/cetak/header_sasaran', $data3, TRUE)."</table>";
 
 		$data['header'] = $this->load->view('renstra/cetak/header', $data1, TRUE);
 
 		$data['program'] = $this->m_renstra_trx->get_program_skpd_4_cetak($id_skpd);
 		$data['skpd_visi'] = $skpd_visi;
+
 		$this->template->load('template','renstra/verifikasi/view', $data);
 	}
 
@@ -1467,18 +1451,23 @@ function view_detil_renstra_skpd($id_skpd){
 		return $result;
 	}
 
-		function cetak_kegiatan($ta, $idK){
+		function cetak_kegiatan($ta, $idK, $status){
 			set_time_limit(1200);
 			ini_set("memory_limit","512M");
 			
 			$data['cetak'] = $this->cetak_func(TRUE, $ta, $idK);
 			$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
 		 	$filename='renstra '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
-			pdf_create($html, $filename, "A4", "Landscape", FALSE);
+			if($status === 'cetak') {
+				pdf_create($html, $filename, "A4", "Landscape", FALSE);
+			} else {
+				print_r($this->load->view('renstra/cetak/cetak_view', $data, TRUE)); exit();
+			}
 		}
 
 		function preview_periode_221(){
 			$data['id_keg'] = $this->input->post('id');
+			$data['status'] = $this->input->post('status');
 			$this->load->view('renstra/periode_221', $data);
 		}
 
@@ -1567,212 +1556,5 @@ function view_renstra_skpd(){
 
 		$data['renstras'] = $this->m_renstra_trx->get_all_renstra_skpd();
 		$this->template->load('template','renstra/view_renstra_skpd/view_all', $data);
-	}
-
-	function select_belanja_lihat(){
-		$th_db = $this->m_settings->get_tahun_anggaran_db();
-
-		$id_kegiatan = $this->input->post('id_keg');
-		$group = $this->input->post('group');
-		$th = $this->input->post('tahun');
-		$tahun = $th_db[$th - 1]->tahun_anggaran;
-		$not_in = $this->input->post('not_in');
-
-		$kd_jenis = $this->input->post('kd_jenis');
-		$kd_kat = $this->input->post('kd_kat');
-		$kd_sub = $this->input->post('kd_sub');
-		$kd_bel = $this->input->post('kd_bel');
-		$uraian = $this->input->post('uraian');
-
-		$data = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, $group, 
-			array('1' => $kd_jenis, '2' => $kd_kat, '3' => $kd_sub, '4' => $kd_bel, '5' => $uraian),
-			$tahun, $not_in
-		);
-		// print_r($this->db->last_query());
-		// print_r($group);
-		// exit();
-
-		$html = '';
-		$title = '';
-		$pilihan = '';
-
-		switch ($group) {
-			case 1:
-				$total = 0;
-				$html .= '
-						<div style="display: inline; position: absolute; right: 0px;">
-					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-
-					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
-					        
-					    </div>';
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2 Belanja Langsung';
-					$pilihan = array('kd_jenis' => '5.2');
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat2(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\')">'.$row->kode_kategori_belanja.' - '.$row->kategori_belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 2:
-				$total = 0;
-				$html .= '
-						<div style="display: inline; position: absolute; right: 0px;">
-					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-
-					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
-					        
-					    </div>';
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.' '.$row->kategori_belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat3(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\')">'.$row->kode_sub_kategori_belanja.' - '.$row->sub_kategori_belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 3:
-				$total = 0;
-				$html .= '
-						<div style="display: inline; position: absolute; right: 0px;">
-					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-
-					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
-					        
-					    </div>';
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.' '.$row->sub_kategori_belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat4(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\')">'.$row->kode_belanja.' - '.$row->belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 4:
-				$total = 0;
-				$html .= '
-						<div style="display: inline; position: absolute; right: 0px;">
-					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\', \''.$kd_bel.'\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-
-					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
-					        <input type="text" id="lihat4_th'.$th.'" class="common" placeholder="Rincian Belanja"/>
-					    </div>';
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
-					$html .= '<button type="button" class="custom2" style="margin: 5px 0px 5px 0px !important; text-align: left !important;" onclick="select_lihat5(\''.$th.'\', false, \'5.2\', \''.$row->kode_kategori_belanja.'\', \''.$row->kode_sub_kategori_belanja.'\', \''.$row->kode_belanja.'\', \''.$row->uraian_belanja.'\')">'.$row->uraian_belanja.'</button><br>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-			case 5:
-				$total = 0;
-				$html .= '
-						<div style="display: block; position: absolute; right: 0px;">
-				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\', \''.$kd_bel.'\', \''.$uraian.'\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>
-					      <div style="display: inline; position: absolute; right: 45px; max-width: 970px;" id="combox_th'.$th.'">
-					      	<div style="width:467px;display: inline;position: absolute;right: 471px;" id="combox_sumberdana_th'.$th.'">
-					           
-					        </div>
-					      	<div style="width:467px;display: inline;position: absolute;right: 0px;">
-					        	<input type="text" id="lihat5_subrincian_th'.$th.'" class="common" placeholder="Sub Rincian Belanja" oninput="inputAtas($(this), $(\'#det_uraian_'.$th.'\'))"/>
-					        </div>
-
-					        <div style="width:467px;display: inline;position: absolute;right: 471px; top: 36px;">
-					           <input type="text" id="lihat5_vol1_th'.$th.'" class="common" placeholder="Volume 1" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume_'.$th.'\'))"/>
-					           <input type="text" id="lihat5_satuan1_th'.$th.'" class="common" placeholder="Satuan 1" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan_'.$th.'\'))"/>
-					        </div>
-					        <div style="width:467px;display: inline;position: absolute;right: 0px; top: 36px;">
-					           <input type="text" id="lihat5_vol2_th'.$th.'" class="common" placeholder="Volume 2" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume2_'.$th.'\'))"/>
-					           <input type="text" id="lihat5_satuan2_th'.$th.'" class="common" placeholder="Satuan 2" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan2_'.$th.'\'))"/>
-					        </div>
-
-					        <div style="width:467px;display: inline;position: absolute;right: 471px; top: 72px;">
-					           <input type="text" id="lihat5_vol3_th'.$th.'" class="common" placeholder="Volume 3" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume3_'.$th.'\'))"/>
-					           <input type="text" id="lihat5_satuan3_th'.$th.'" class="common" placeholder="Satuan 3" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan3_'.$th.'\'))"/>
-					        </div>
-					      	<div style="width:467px;display: inline;position: absolute;right: 0px; top: 72px;">
-					        	<input type="text" id="lihat5_nominalsatuan_th'.$th.'" class="common" placeholder="Nominal Satuan" oninput="inputAtas($(this), $(\'#nominal_satuan_'.$th.'\'))"/>
-					        </div>
-					      </div>
-					      <p style="height: 111px;"></p>
-						<table><tr><th>Sumber Dana</th><th>Sub Rincian</th>
-						<th>Volume 1</th><th>Satuan 1</th>
-						<th>Volume 2</th><th>Satuan 2</th>
-						<th>Volume 3</th><th>Satuan 3</th><th>Nominal</th><th>Subtotal</th><th colspan="2">Action</th></tr>';
-				foreach ($data as $row) {
-					$total += $row->sum_all;
-					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->uraian_belanja;
-					$pilihan = array('kd_jenis' => '5.2', 'kd_kat' => $row->kode_kategori_belanja, 'kd_sub' => $row->kode_sub_kategori_belanja, 'kd_bel' => $row->kode_belanja);
-					$html .= '<tr>
-						<td>'.$row->Sumber_dana.'</td><td>'.$row->detil_uraian_belanja.'</td>
-						<td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td>
-						<td>'.Formatting::currency($row->volume_2, 2).'</td><td>'.$row->satuan_2.'</td>
-						<td>'.Formatting::currency($row->volume_3, 2).'</td><td>'.$row->satuan_3.'</td>
-						<td>'.Formatting::currency($row->nominal_satuan, 2).'</td><td>'.Formatting::currency($row->subtotal, 2).'</td>';
-					if (empty($not_in)) {
-						$html .= '<td><span id="ubahrowng" class="icon-pencil" onclick="ubahrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
-						<td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>';
-					}else{
-						$html .= '<td>&nbsp;</td><td>&nbsp;</td>';
-					}
-					$html .= '</tr>';
-				}
-				$title = $title.' (Rp. '.Formatting::currency($total, 2).')';
-				break;
-
-			default:
-				$title = '';
-				$pilihan = '';
-				$html = '<div style="display: inline; position: absolute; left: 789px;">
-					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\')">
-					          <i class="fa fa-plus" style="font-size: 20px;"></i>
-					        </button>
-					      </div>';
-				break;
-		}
-
-		$arrayName = array('title' => $title, 'pilihan' => $pilihan, 'html' => $html);
-		echo json_encode($arrayName);
-	}
-
-	function rekap_sumber_dana($cetak=FALSE){
-		$this->auth->restrict();
-		// $th = $this->session->userdata('t_anggaran_aktif');
-		$th = $this->m_settings->get_tahun_anggaran_db();
-		$id_skpd = $this->session->userdata('id_skpd');
-// print_r($th);exit();
-		$data['cetak'] = $cetak;
-		$data['tahun'] = $th;
-		$data['id_skpd'] = $id_skpd;
-		$data['data1'] = $this->m_renstra_trx->sumber_dana_rekap($th, $id_skpd)->result();
-
-		if (!$cetak) {
-			$this->template->load('template','renstra/cetak/cetak_sumber_dana', $data);
-		}else{
-
-			$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-			$header = $this->m_template_cetak->get_value("GAMBAR");
-			$data['logo'] = str_replace("src=\"","height=\"90px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
-			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Rekap Usulan Renstra '. date("d-m-Y H-i-s"), 2);
-
-			$html = $this->load->view('renstra/cetak/cetak_sumber_dana', $data, TRUE);
-			$this->create_pdf->load_ng($html,'Rekap_Sumber_Dana_Renstra_'.$this->session->userdata("username").'_'.date("d-m-Y_H-i-s"), 'A4-L','');
-		}
 	}
 }

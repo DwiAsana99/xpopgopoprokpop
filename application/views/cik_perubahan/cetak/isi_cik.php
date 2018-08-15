@@ -55,7 +55,7 @@
 		$kegiatan = $result->result();
 		$indikator_program = $this->m_cik_perubahan->get_indikator_prog_keg_preview($prog->id, $bulan, FALSE, TRUE);
 		$temp = $indikator_program->result();
-		$total_temp = ($indikator_program->num_rows()>1)?$indikator_program->num_rows():'1';
+		$total_temp = $indikator_program->num_rows();
 		
 		$col_indikator=1;
 		$go_2_keg = FALSE;
@@ -159,8 +159,8 @@
 		}
 			foreach ($kegiatan as $row) {
 			$indikator_kegiatan = $this->m_cik_perubahan->get_indikator_prog_keg_preview($row->id, $bulan, FALSE, TRUE);
-			$temp = $indikator_kegiatan->result();
-			$total_temp = ($indikator_kegiatan->num_rows()>1)?$indikator_kegiatan->num_rows():'1';
+			$temp = $indikator_kegiatan->result();			
+			$total_temp = $indikator_kegiatan->num_rows();
 
 			$go_2_keg = FALSE;
 			$col_indikator_keg=1;

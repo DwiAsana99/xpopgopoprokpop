@@ -123,246 +123,46 @@
 							</tr>
 							<tr>
 								<table id="listbelanja_1">
-									<?php 
-							          $jenis = NULL; $kategori = NULL; $subkategori = NULL; $kdbelanja = NULL; $uraianbelanja = NULL;
-							          $idk_ng = $renstra->id;
-							          $ta_ng = $th_anggaran[0]->tahun_anggaran;
-							        ?>
-							        <?php foreach ($belanja_1 as $key_rowth => $rowth): ?>
-							          <?php if ($rowth->kode_jenis_belanja == $jenis): ?>
-							            <?php if ($rowth->kode_kategori_belanja == $kategori): ?>
-							              <?php if ($rowth->kode_sub_kategori_belanja == $subkategori): ?>
-							                <?php if ($rowth->kode_belanja == $kdbelanja): ?>
-							                  <?php if ($rowth->uraian_upper == $uraianbelanja): ?>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;">
-							                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-							                      	</div>
-							                      </td>
-							                      <td align='right'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-							                    </tr>
-							                  <?php else: ?>
-							                    <?php 
-							                      $uraianbelanja = $rowth->uraian_upper;
-							                      $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                      $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                      $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							                    ?>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-							                      </td>
-							                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                    </tr>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;">
-							                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-							                      	</div>
-							                      </td>
-							                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-							                    </tr>
-							                  <?php endif ?>
-							                <?php else: ?>
-							                  <?php  
-							                    $kdbelanja = $rowth->kode_belanja;
-							                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							                  ?>
-							                  <tr>
-							                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-							                    <td>
-							                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-							                    </td>
-							                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                  </tr>
-							                  <?php  
-							                    $uraianbelanja = $rowth->uraian_upper;
-							                    $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                    $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							                  ?>
-							                  	<tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-							                      </td>
-							                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                    </tr>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;">
-							                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-							                      	</div>
-							                      </td>
-							                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-							                    </tr>
-							                <?php endif ?>
-							              <?php else: ?>
-							                <?php  
-							                  $subkategori = $rowth->kode_sub_kategori_belanja;
-							                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-							                ?>
-							                <tr>
-								              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-								              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-								              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-								            </tr>
-							                <?php  
-							                  $kdbelanja = $rowth->kode_belanja;
-							                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							                ?>
-							                <tr>
-							                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-							                    <td>
-							                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-							                    </td>
-							                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                </tr>
-							                <?php  
-							                  $uraianbelanja = $rowth->uraian_upper;
-							                  $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                  $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							                ?>
-							                <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-							              <?php endif ?>
-							            <?php else: ?>
-							              <?php  
-							                $kategori = $rowth->kode_kategori_belanja;
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-							              ?>
-							              	<tr>
-								              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-								              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-								              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-								            </tr>
-							              <?php  
-							                $subkategori = $rowth->kode_sub_kategori_belanja;
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-							              ?>
-							              	<tr>
-								              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-								              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-								              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-								            </tr>
-							              <?php  
-							                $kdbelanja = $rowth->kode_belanja;
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							              ?>
-							              	<tr>
-							                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-							                    <td>
-							                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-							                    </td>
-							                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                </tr>
-							              <?php  
-							                $uraianbelanja = $rowth->uraian_upper;
-							                $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							              ?>
-							              	<tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-							            <?php endif ?>
-							          <?php else: ?>
-							            <?php  
-							              $jenis = $rowth->kode_jenis_belanja; 
-							              $jenisText = substr_replace($jenis,"", 0, -1);
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis'")->row();
-							            ?>
-							            <tr>
-							              <td>5 . <?php echo $jenisText; ?></td>
-							              <td><div style="font-weight: bold;"><?php echo $rowth->jenis_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-							            <?php  
-							              $kategori = $rowth->kode_kategori_belanja;
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-							            ?>
-							            <tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-							              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-							            <?php  
-							              $subkategori = $rowth->kode_sub_kategori_belanja;
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-							            ?>
-							            <tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-							            <?php  
-							              $kdbelanja = $rowth->kode_belanja;
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							            ?>
-							            <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-							            <?php  
-							              $uraianbelanja = $rowth->uraian_upper;
-							              $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							              $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							            ?>
-							            <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-							          <?php endif ?>
-							        <?php endforeach ?>
+									<tr>
+										<th>No</th>
+
+										<th>Kelompok Belanja</th>
+										<th>Jenis Belanja</th>
+										<th>Obyek Belanja</th>
+										<th>Rincian Obyek</th>
+										<th>Rincian Belanja</th>
+										<th>Sumber Dana</th>
+										<th>Sub Rincian</th>
+
+										<th>Volume</th>
+										<th>Satuan</th>
+										<th>Nominal</th>
+										<th>Sub Total</th>
+									</tr>
+						      <?php if(!empty($detil_kegiatan)){
+						              $gIndex_1 = 1;
+						              foreach ($detil_kegiatan as $row) {
+						                if ($row->tahun == $th_anggaran[0]->tahun_anggaran) {
+						                  $vol = Formatting::currency($row->volume);
+						                  $nom = Formatting::currency($row->nominal_satuan);
+						                  $sub = Formatting::currency($row->subtotal);
+						      ?>
+						      <tr id="<?php echo $gIndex_1 ?>">
+						        <td> <?php echo $gIndex_1 ?> </td>
+
+						        <td> <?php echo $row->kode_jenis_belanja.". ".$row->jenis_belanja ?> </td>
+						        <td> <?php echo $row->kode_kategori_belanja.". ".$row->kategori_belanja ?> </td>
+						        <td> <?php echo $row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja ?> </td>
+						        <td> <?php echo $row->kode_belanja.". ".$row->belanja ?> </td>
+						        <td> <?php echo $row->uraian_belanja ?> </td>
+										<td> <?php echo $row->Sumber_dana ?> </td>
+						        <td> <?php echo $row->detil_uraian_belanja ?> </td>
+						        <td> <?php echo $vol; ?> </td>
+						        <td> <?php echo $row->satuan ?> </td>
+						        <td> <?php echo $nom; ?> </td>
+						        <td> <?php echo $sub; ?> </td>
+						      </tr>
+						      <?php $gIndex_1++; }}} ?>
 								</table>
 							</tr>
 						</tbody>
@@ -387,246 +187,45 @@
 						</tr>
 						<tr>
 							<table id="listbelanja_2">
-								<?php 
-						          $jenis = NULL; $kategori = NULL; $subkategori = NULL; $kdbelanja = NULL; $uraianbelanja = NULL;
-						          $idk_ng = $renstra->id;
-						          $ta_ng = $th_anggaran[1]->tahun_anggaran;
-						        ?>
-						        <?php foreach ($belanja_2 as $key_rowth => $rowth): ?>
-						          <?php if ($rowth->kode_jenis_belanja == $jenis): ?>
-						            <?php if ($rowth->kode_kategori_belanja == $kategori): ?>
-						              <?php if ($rowth->kode_sub_kategori_belanja == $subkategori): ?>
-						                <?php if ($rowth->kode_belanja == $kdbelanja): ?>
-						                  <?php if ($rowth->uraian_upper == $uraianbelanja): ?>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                  <?php else: ?>
-						                    <?php 
-						                      $uraianbelanja = $rowth->uraian_upper;
-						                      $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                      $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                      $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                    ?>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                  <?php endif ?>
-						                <?php else: ?>
-						                  <?php  
-						                    $kdbelanja = $rowth->kode_belanja;
-						                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						                  ?>
-						                  <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                  </tr>
-						                  <?php  
-						                    $uraianbelanja = $rowth->uraian_upper;
-						                    $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                    $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                  ?>
-						                  	<tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                <?php endif ?>
-						              <?php else: ?>
-						                <?php  
-						                  $subkategori = $rowth->kode_sub_kategori_belanja;
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						                ?>
-						                <tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						                <?php  
-						                  $kdbelanja = $rowth->kode_belanja;
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						                ?>
-						                <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-						                <?php  
-						                  $uraianbelanja = $rowth->uraian_upper;
-						                  $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                  $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                ?>
-						                <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-						              <?php endif ?>
-						            <?php else: ?>
-						              <?php  
-						                $kategori = $rowth->kode_kategori_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-						              ?>
-						              	<tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-							              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						              <?php  
-						                $subkategori = $rowth->kode_sub_kategori_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						              ?>
-						              	<tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						              <?php  
-						                $kdbelanja = $rowth->kode_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						              ?>
-						              	<tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-						              <?php  
-						                $uraianbelanja = $rowth->uraian_upper;
-						                $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						              ?>
-						              	<tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-						            <?php endif ?>
-						          <?php else: ?>
-						            <?php  
-						              $jenis = $rowth->kode_jenis_belanja; 
-						              $jenisText = substr_replace($jenis,"", 0, -1);
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText; ?></td>
-						              <td><div style="font-weight: bold;"><?php echo $rowth->jenis_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $kategori = $rowth->kode_kategori_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-						              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $subkategori = $rowth->kode_sub_kategori_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-						              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $kdbelanja = $rowth->kode_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						            ?>
-						            <tr>
-					                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-					                    <td>
-					                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-					                    </td>
-					                    <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                </tr>
-						            <?php  
-						              $uraianbelanja = $rowth->uraian_upper;
-						              $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						              $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						            ?>
-						            <tr>
-				                      <td></td>
-				                      <td>
-				                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-				                      </td>
-				                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-				                    </tr>
-				                    <tr>
-				                      <td></td>
-				                      <td>
-				                      	<div style="padding-left: 40px;">
-				                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-				                      	</div>
-				                      </td>
-				                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-				                    </tr>
-						          <?php endif ?>
-						        <?php endforeach ?>
+								<tr>
+									<th>No</th>
+
+									<th>Kelompok Belanja</th>
+									<th>Jenis Belanja</th>
+									<th>Obyek Belanja</th>
+									<th>Rincian Obyek</th>
+									<th>Rincian Belanja</th>
+									<th>Sumber Dana</th>
+									<th>Sub Rincian</th>
+
+									<th>Volume</th>
+									<th>Satuan</th>
+									<th>Nominal</th>
+									<th>Sub Total</th>
+								</tr>
+								<?php if(!empty($detil_kegiatan)){
+												$gIndex_2 = 1;
+												foreach ($detil_kegiatan as $row) {
+													if ($row->tahun == $th_anggaran[1]->tahun_anggaran) {
+														$vol = Formatting::currency($row->volume);
+														$nom = Formatting::currency($row->nominal_satuan);
+														$sub = Formatting::currency($row->subtotal);
+								?>
+								<tr id="<?php echo $gIndex_2 ?>">
+									<td> <?php echo $gIndex_2 ?> </td>
+									<td> <?php echo $row->kode_jenis_belanja.". ".$row->jenis_belanja ?> </td>
+									<td> <?php echo $row->kode_kategori_belanja.". ".$row->kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_belanja.". ".$row->belanja ?> </td>
+									<td> <?php echo $row->uraian_belanja ?> </td>
+									<td> <?php echo $row->Sumber_dana ?> </td>
+									<td> <?php echo $row->detil_uraian_belanja ?> </td>
+									<td> <?php echo $vol; ?> </td>
+									<td> <?php echo $row->satuan ?> </td>
+									<td> <?php echo $nom; ?> </td>
+									<td> <?php echo $sub; ?> </td>
+								</tr>
+								<?php $gIndex_2++; }}} ?>
 							</table>
 						</tr>
 					</tbody>
@@ -650,247 +249,45 @@
 						</tr>
 						<tr>
 							<table id="listbelanja_3">
-									<?php 
-							          $jenis = NULL; $kategori = NULL; $subkategori = NULL; $kdbelanja = NULL; $uraianbelanja = NULL;
-							          $idk_ng = $renstra->id;
-							          $ta_ng = $th_anggaran[2]->tahun_anggaran;
-							        ?>
-							        <?php foreach ($belanja_3 as $key_rowth => $rowth): ?>
-							          <?php if ($rowth->kode_jenis_belanja == $jenis): ?>
-							            <?php if ($rowth->kode_kategori_belanja == $kategori): ?>
-							              <?php if ($rowth->kode_sub_kategori_belanja == $subkategori): ?>
-							                <?php if ($rowth->kode_belanja == $kdbelanja): ?>
-							                  <?php if ($rowth->uraian_upper == $uraianbelanja): ?>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;">
-							                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-							                      	</div>
-							                      </td>
-							                      <td align='right'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-							                    </tr>
-							                  <?php else: ?>
-							                    <?php 
-							                      $uraianbelanja = $rowth->uraian_upper;
-							                      $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                      $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                      $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							                    ?>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-							                      </td>
-							                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                    </tr>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;">
-							                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-							                      	</div>
-							                      </td>
-							                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-							                    </tr>
-							                  <?php endif ?>
-							                <?php else: ?>
-							                  <?php  
-							                    $kdbelanja = $rowth->kode_belanja;
-							                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							                  ?>
-							                  <tr>
-							                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-							                    <td>
-							                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-							                    </td>
-							                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                  </tr>
-							                  <?php  
-							                    $uraianbelanja = $rowth->uraian_upper;
-							                    $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                    $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							                  ?>
-							                  	<tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-							                      </td>
-							                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                    </tr>
-							                    <tr>
-							                      <td></td>
-							                      <td>
-							                      	<div style="padding-left: 40px;">
-							                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-							                      	</div>
-							                      </td>
-							                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-							                    </tr>
-							                <?php endif ?>
-							              <?php else: ?>
-							                <?php  
-							                  $subkategori = $rowth->kode_sub_kategori_belanja;
-							                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-							                ?>
-							                <tr>
-								              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-								              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-								              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-								            </tr>
-							                <?php  
-							                  $kdbelanja = $rowth->kode_belanja;
-							                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							                ?>
-							                <tr>
-							                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-							                    <td>
-							                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-							                    </td>
-							                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                </tr>
-							                <?php  
-							                  $uraianbelanja = $rowth->uraian_upper;
-							                  $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                  $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							                ?>
-							                <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-							              <?php endif ?>
-							            <?php else: ?>
-							              <?php  
-							                $kategori = $rowth->kode_kategori_belanja;
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-							              ?>
-							              	<tr>
-								              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-								              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-								              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-								            </tr>
-							              <?php  
-							                $subkategori = $rowth->kode_sub_kategori_belanja;
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-							              ?>
-							              	<tr>
-								              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-								              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-								              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-								            </tr>
-							              <?php  
-							                $kdbelanja = $rowth->kode_belanja;
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							              ?>
-							              	<tr>
-							                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-							                    <td>
-							                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-							                    </td>
-							                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							                </tr>
-							              <?php  
-							                $uraianbelanja = $rowth->uraian_upper;
-							                $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							                $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							              ?>
-							              	<tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-							            <?php endif ?>
-							          <?php else: ?>
-							            <?php  
-							              $jenis = $rowth->kode_jenis_belanja; 
-							              $jenisText = substr_replace($jenis,"", 0, -1);
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis'")->row();
-							            ?>
-							            <tr>
-							              <td>5 . <?php echo $jenisText; ?></td>
-							              <td><div style="font-weight: bold;"><?php echo $rowth->jenis_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-							            <?php  
-							              $kategori = $rowth->kode_kategori_belanja;
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-							            ?>
-							            <tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-							              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-							            <?php  
-							              $subkategori = $rowth->kode_sub_kategori_belanja;
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-							            ?>
-							            <tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-							            <?php  
-							              $kdbelanja = $rowth->kode_belanja;
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-							            ?>
-							            <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-							            <?php  
-							              $uraianbelanja = $rowth->uraian_upper;
-							              $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-							              $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-							              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-							            ?>
-							            <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-							          <?php endif ?>
-							        <?php endforeach ?>
-								</table>
+								<tr>
+									<th>No</th>
+									<th>Kelompok Belanja</th>
+									<th>Jenis Belanja</th>
+									<th>Obyek Belanja</th>
+									<th>Rincian Obyek</th>
+									<th>Rincian Belanja</th>
+									<th>Sumber Dana</th>
+									<th>Sub Rincian</th>
+
+									<th>Volume</th>
+									<th>Satuan</th>
+									<th>Nominal</th>
+									<th>Sub Total</th>
+								</tr>
+								<?php if(!empty($detil_kegiatan)){
+												$gIndex_3 = 1;
+												foreach ($detil_kegiatan as $row) {
+													if ($row->tahun == $th_anggaran[2]->tahun_anggaran) {
+														$vol = Formatting::currency($row->volume);
+														$nom = Formatting::currency($row->nominal_satuan);
+														$sub = Formatting::currency($row->subtotal);
+								?>
+								<tr id="<?php echo $gIndex_3 ?>">
+									<td> <?php echo $gIndex_3 ?> </td>
+									<td> <?php echo $row->kode_jenis_belanja.". ".$row->jenis_belanja ?> </td>
+									<td> <?php echo $row->kode_kategori_belanja.". ".$row->kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_belanja.". ".$row->belanja ?> </td>
+									<td> <?php echo $row->uraian_belanja ?> </td>
+									<td> <?php echo $row->Sumber_dana ?> </td>
+									<td> <?php echo $row->detil_uraian_belanja ?> </td>
+									<td> <?php echo $vol; ?> </td>
+									<td> <?php echo $row->satuan ?> </td>
+									<td> <?php echo $nom; ?> </td>
+									<td> <?php echo $sub; ?> </td>
+								</tr>
+								<?php $gIndex_3++; }}} ?>
+							</table>
 						</tr>
 					</tbody>
 				</table>
@@ -913,246 +310,44 @@
 						</tr>
 						<tr>
 							<table id="listbelanja_4">
-								<?php 
-						          $jenis = NULL; $kategori = NULL; $subkategori = NULL; $kdbelanja = NULL; $uraianbelanja = NULL;
-						          $idk_ng = $renstra->id;
-						          $ta_ng = $th_anggaran[3]->tahun_anggaran;
-						        ?>
-						        <?php foreach ($belanja_4 as $key_rowth => $rowth): ?>
-						          <?php if ($rowth->kode_jenis_belanja == $jenis): ?>
-						            <?php if ($rowth->kode_kategori_belanja == $kategori): ?>
-						              <?php if ($rowth->kode_sub_kategori_belanja == $subkategori): ?>
-						                <?php if ($rowth->kode_belanja == $kdbelanja): ?>
-						                  <?php if ($rowth->uraian_upper == $uraianbelanja): ?>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                  <?php else: ?>
-						                    <?php 
-						                      $uraianbelanja = $rowth->uraian_upper;
-						                      $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                      $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                      $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                    ?>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                  <?php endif ?>
-						                <?php else: ?>
-						                  <?php  
-						                    $kdbelanja = $rowth->kode_belanja;
-						                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						                  ?>
-						                  <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                  </tr>
-						                  <?php  
-						                    $uraianbelanja = $rowth->uraian_upper;
-						                    $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                    $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                  ?>
-						                  	<tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                <?php endif ?>
-						              <?php else: ?>
-						                <?php  
-						                  $subkategori = $rowth->kode_sub_kategori_belanja;
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						                ?>
-						                <tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						                <?php  
-						                  $kdbelanja = $rowth->kode_belanja;
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						                ?>
-						                <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-						                <?php  
-						                  $uraianbelanja = $rowth->uraian_upper;
-						                  $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                  $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                ?>
-						                <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-						              <?php endif ?>
-						            <?php else: ?>
-						              <?php  
-						                $kategori = $rowth->kode_kategori_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-						              ?>
-						              	<tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-							              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						              <?php  
-						                $subkategori = $rowth->kode_sub_kategori_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						              ?>
-						              	<tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						              <?php  
-						                $kdbelanja = $rowth->kode_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						              ?>
-						              	<tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-						              <?php  
-						                $uraianbelanja = $rowth->uraian_upper;
-						                $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						              ?>
-						              	<tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-						            <?php endif ?>
-						          <?php else: ?>
-						            <?php  
-						              $jenis = $rowth->kode_jenis_belanja; 
-						              $jenisText = substr_replace($jenis,"", 0, -1);
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText; ?></td>
-						              <td><div style="font-weight: bold;"><?php echo $rowth->jenis_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $kategori = $rowth->kode_kategori_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-						              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $subkategori = $rowth->kode_sub_kategori_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-						              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $kdbelanja = $rowth->kode_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						            ?>
-						            <tr>
-					                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-					                    <td>
-					                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-					                    </td>
-					                    <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                </tr>
-						            <?php  
-						              $uraianbelanja = $rowth->uraian_upper;
-						              $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						              $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						            ?>
-						            <tr>
-				                      <td></td>
-				                      <td>
-				                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-				                      </td>
-				                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-				                    </tr>
-				                    <tr>
-				                      <td></td>
-				                      <td>
-				                      	<div style="padding-left: 40px;">
-				                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-				                      	</div>
-				                      </td>
-				                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-				                    </tr>
-						          <?php endif ?>
-						        <?php endforeach ?>
+								<tr>
+									<th>No</th>
+									<th>Kelompok Belanja</th>
+									<th>Jenis Belanja</th>
+									<th>Obyek Belanja</th>
+									<th>Rincian Obyek</th>
+									<th>Rincian Belanja</th>
+									<th>Sumber Dana</th>
+									<th>Sub Rincian</th>
+
+									<th>Volume</th>
+									<th>Satuan</th>
+									<th>Nominal</th>
+									<th>Sub Total</th>
+								</tr>
+								<?php if(!empty($detil_kegiatan)){
+												$gIndex_4 = 1;
+												foreach ($detil_kegiatan as $row) {
+													if ($row->tahun == $th_anggaran[3]->tahun_anggaran) {
+														$vol = Formatting::currency($row->volume);
+														$nom = Formatting::currency($row->nominal_satuan);
+														$sub = Formatting::currency($row->subtotal);
+								?>
+								<tr id="<?php echo $gIndex_4 ?>">
+									<td> <?php echo $gIndex_4 ?> </td>
+									<td> <?php echo $row->kode_jenis_belanja.". ".$row->jenis_belanja ?> </td>
+									<td> <?php echo $row->kode_kategori_belanja.". ".$row->kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_belanja.". ".$row->belanja ?> </td>
+									<td> <?php echo $row->uraian_belanja ?> </td>
+									<td> <?php echo $row->Sumber_dana ?> </td>
+									<td> <?php echo $row->detil_uraian_belanja ?> </td>
+									<td> <?php echo $vol; ?> </td>
+									<td> <?php echo $row->satuan ?> </td>
+									<td> <?php echo $nom; ?> </td>
+									<td> <?php echo $sub; ?> </td>
+								</tr>
+								<?php $gIndex_4++; }}} ?>
 							</table>
 						</tr>
 					</tbody>
@@ -1176,246 +371,44 @@
 						</tr>
 						<tr>
 							<table id="listbelanja_5">
-								<?php 
-						          $jenis = NULL; $kategori = NULL; $subkategori = NULL; $kdbelanja = NULL; $uraianbelanja = NULL;
-						          $idk_ng = $renstra->id;
-						          $ta_ng = $th_anggaran[4]->tahun_anggaran;
-						        ?>
-						        <?php foreach ($belanja_5 as $key_rowth => $rowth): ?>
-						          <?php if ($rowth->kode_jenis_belanja == $jenis): ?>
-						            <?php if ($rowth->kode_kategori_belanja == $kategori): ?>
-						              <?php if ($rowth->kode_sub_kategori_belanja == $subkategori): ?>
-						                <?php if ($rowth->kode_belanja == $kdbelanja): ?>
-						                  <?php if ($rowth->uraian_upper == $uraianbelanja): ?>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                  <?php else: ?>
-						                    <?php 
-						                      $uraianbelanja = $rowth->uraian_upper;
-						                      $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                      $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                      $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                    ?>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                  <?php endif ?>
-						                <?php else: ?>
-						                  <?php  
-						                    $kdbelanja = $rowth->kode_belanja;
-						                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						                  ?>
-						                  <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                  </tr>
-						                  <?php  
-						                    $uraianbelanja = $rowth->uraian_upper;
-						                    $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                    $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                    $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                  ?>
-						                  	<tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-						                      </td>
-						                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                    </tr>
-						                    <tr>
-						                      <td></td>
-						                      <td>
-						                      	<div style="padding-left: 40px;">
-						                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-						                      	</div>
-						                      </td>
-						                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-						                    </tr>
-						                <?php endif ?>
-						              <?php else: ?>
-						                <?php  
-						                  $subkategori = $rowth->kode_sub_kategori_belanja;
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						                ?>
-						                <tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						                <?php  
-						                  $kdbelanja = $rowth->kode_belanja;
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						                ?>
-						                <tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-						                <?php  
-						                  $uraianbelanja = $rowth->uraian_upper;
-						                  $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                  $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                  $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						                ?>
-						                <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-						              <?php endif ?>
-						            <?php else: ?>
-						              <?php  
-						                $kategori = $rowth->kode_kategori_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-						              ?>
-						              	<tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-							              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						              <?php  
-						                $subkategori = $rowth->kode_sub_kategori_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						              ?>
-						              	<tr>
-							              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-							              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-							              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-							            </tr>
-						              <?php  
-						                $kdbelanja = $rowth->kode_belanja;
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						              ?>
-						              	<tr>
-						                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-						                    <td>
-						                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-						                    </td>
-						                    <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						                </tr>
-						              <?php  
-						                $uraianbelanja = $rowth->uraian_upper;
-						                $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						                $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						                $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						              ?>
-						              	<tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-					                      </td>
-					                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                    </tr>
-					                    <tr>
-					                      <td></td>
-					                      <td>
-					                      	<div style="padding-left: 40px;">
-					                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-					                      	</div>
-					                      </td>
-					                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-					                    </tr>
-						            <?php endif ?>
-						          <?php else: ?>
-						            <?php  
-						              $jenis = $rowth->kode_jenis_belanja; 
-						              $jenisText = substr_replace($jenis,"", 0, -1);
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText; ?></td>
-						              <td><div style="font-weight: bold;"><?php echo $rowth->jenis_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $kategori = $rowth->kode_kategori_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText.' . '.$kategori; ?></td>
-						              <td><div style="padding-left: 10px; font-weight: bold;"><?php echo $rowth->kategori_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $subkategori = $rowth->kode_sub_kategori_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
-						            ?>
-						            <tr>
-						              <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori; ?></td>
-						              <td><div style="padding-left: 20px;"><?php echo $rowth->sub_kategori_belanja; ?></div></td>
-						              <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-						            </tr>
-						            <?php  
-						              $kdbelanja = $rowth->kode_belanja;
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
-						            ?>
-						            <tr>
-					                    <td>5 . <?php echo $jenisText.' . '.$kategori.' . '.$subkategori.' . '.$kdbelanja; ?></td>
-					                    <td>
-					                    	<div style="padding-left: 30px;"><?php echo $rowth->belanja; ?></div>
-					                    </td>
-					                    <td align='right'><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-					                </tr>
-						            <?php  
-						              $uraianbelanja = $rowth->uraian_upper;
-						              $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
-						              $uraianbelanja2 = '"'.$uraianbelanja2.'"';
-						              $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM t_renstra_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_kegiatan = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja' AND uraian_belanja = $uraianbelanja2")->row();
-						            ?>
-						            <tr>
-				                      <td></td>
-				                      <td>
-				                      	<div style="padding-left: 40px;"><?php echo $rowth->uraian_belanja; ?></div>
-				                      </td>
-				                      <td align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
-				                    </tr>
-				                    <tr>
-				                      <td></td>
-				                      <td>
-				                      	<div style="padding-left: 40px;">
-				                      		- <?php echo $rowth->detil_uraian_belanja.' : '.Formatting::currency($rowth->volume, 2).' '.$rowth->satuan.' x '.Formatting::currency($rowth->nominal_satuan, 2); ?>		
-				                      	</div>
-				                      </td>
-				                      <td align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
-				                    </tr>
-						          <?php endif ?>
-						        <?php endforeach ?>
+								<tr>
+									<th>No</th>
+									<th>Kelompok Belanja</th>
+									<th>Jenis Belanja</th>
+									<th>Obyek Belanja</th>
+									<th>Rincian Obyek</th>
+									<th>Rincian Belanja</th>
+									<th>Sumber Dana</th>
+									<th>Sub Rincian</th>
+
+									<th>Volume</th>
+									<th>Satuan</th>
+									<th>Nominal</th>
+									<th>Sub Total</th>
+								</tr>
+								<?php if(!empty($detil_kegiatan)){
+												$gIndex_5 = 1;
+												foreach ($detil_kegiatan as $row) {
+													if ($row->tahun == $th_anggaran[4]->tahun_anggaran) {
+														$vol = Formatting::currency($row->volume);
+														$nom = Formatting::currency($row->nominal_satuan);
+														$sub = Formatting::currency($row->subtotal);
+								?>
+								<tr id="<?php echo $gIndex_5 ?>">
+									<td> <?php echo $gIndex_5 ?> </td>
+									<td> <?php echo $row->kode_jenis_belanja.". ".$row->jenis_belanja ?> </td>
+									<td> <?php echo $row->kode_kategori_belanja.". ".$row->kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_sub_kategori_belanja.". ".$row->sub_kategori_belanja ?> </td>
+									<td> <?php echo $row->kode_belanja.". ".$row->belanja ?> </td>
+									<td> <?php echo $row->uraian_belanja ?> </td>
+									<td> <?php echo $row->Sumber_dana ?> </td>
+									<td> <?php echo $row->detil_uraian_belanja ?> </td>
+									<td> <?php echo $vol; ?> </td>
+									<td> <?php echo $row->satuan ?> </td>
+									<td> <?php echo $nom; ?> </td>
+									<td> <?php echo $sub; ?> </td>
+								</tr>
+								<?php $gIndex_5++; }}} ?>
 							</table>
 						</tr>
 					</tbody>

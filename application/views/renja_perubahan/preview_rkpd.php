@@ -17,7 +17,7 @@
 	  <h3>Preview RKPD Perubahan</h3>
 	</header>
 	<div class="module_content";>
-		<table>
+		<table class="table-display">
 			<thead>
 				<tr>
 					<th colspan="15" align="center"><?php echo $rkpd_type; ?></th>

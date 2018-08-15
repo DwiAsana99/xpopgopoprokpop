@@ -1,7 +1,4 @@
-<?php 
-	// $id_skpd = $this->session->userdata('id_skpd');
-	$skpd_login = $this->db->query("SELECT * FROM m_skpd WHERE id_skpd = ".$id_skpd)->row(); 
-?>
+<?php $skpd_login = $this->db->query("SELECT * FROM m_skpd WHERE id_skpd = ".$this->session->userdata('id_skpd'))->row(); ?>
 <tbody class="print-no-border">
 	<tr>		
 		<td class="print-no-border">SKPD</td>
