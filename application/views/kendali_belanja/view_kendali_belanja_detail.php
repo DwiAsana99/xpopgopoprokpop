@@ -216,6 +216,7 @@ $(".see_revisi").click(function(){
 				$num_row_span = $count_output==0 ? 1 : $count_output;
 
 				$target_kom = $this->db->query('SELECT SUM(target) AS target FROM tx_dpa_rencana_aksi WHERE id_dpa_prog_keg = "'.$id_dpa_prog_keg.'" AND bulan<='.$i.' AND aksi = "'.@$detail_output[0]->aksi.'"')->row()->target;
+				// print_r($id_dpa_prog_keg);
 		?>
 		<tr>
 			<td rowspan="<?php echo $num_row_span ?>">BLN <?php echo $i?></td>

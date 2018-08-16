@@ -151,10 +151,11 @@
 										<tr style="width:100%">
 											<td>Target</td>
 											<td><input style="width: 100%;" type="text" class="common keterangan" name="keterangan[<?php echo $i; ?>]" value="<?php echo (!empty($row->target))?$for_target:''; ?>" readonly></td>
+											<td><input style="width: 100%;" type="text" class="common satuan" name="satuan[<?php echo $i; ?>]" value="<?php echo (!empty($row->satuan))?$row->satuan:''; ?>" readonly></td>
 										</tr>
 										<tr style="width:100%">
-											<td>Capaian (%)</td>
-                      <td><input style="width: 100%;" type="text" class="common capaian" name="capaian[<?php echo $i; ?>]" value="<?php echo (!empty($row->capaian))?$row->capaian:''; ?>"></td>
+											<td>Realisasi (%)</td>
+                      <td colspan="2"><input style="width: 100%;" type="text" class="common capaian" name="capaian[<?php echo $i; ?>]" value="<?php echo (!empty($row->capaian))?$row->capaian:''; ?>"></td>
 										</tr>
 									</table>
 								</div>
