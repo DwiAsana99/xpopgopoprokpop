@@ -1424,6 +1424,7 @@ function view_detil_renstra_skpd($id_skpd){
 			$data1['sasaran'] = "<table class=\"full_width border\" style=\"font-size: 12px;\">".$this->load->view('renstra/cetak/header_sasaran', $data3, TRUE)."</table>";
 			// print($data1['sasaran']);
 			// exit();
+			$data1['id_skpd'] = $id_skpd;
 			$data['header_renstra'] = $this->load->view('renstra/cetak/header', $data1, TRUE);
 			//$id_skpd=$id_skpd_sub;
 			$id_skpd=$id_skpd_sub;
