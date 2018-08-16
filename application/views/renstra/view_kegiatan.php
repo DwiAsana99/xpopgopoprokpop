@@ -255,8 +255,9 @@
 			<?php
 				}
 			?>
-			<a href="<?php echo site_url('renstra/tampilkan/'.$row->id); ?>" target="_blank" class="icon-file" title="View Detail Belanja"></a>
+			<a href="<?php echo site_url('renstra/tampilkan/'.$row->id); ?>" target="_blank" class="icon-list" title="View Detail Belanja"></a>
 			<a href="javascript:void(0)" idK="<?php echo $row->id; ?>" class="cetak-kegiatan" title="Cetak Rincian Kegiatan"> <i style="color:black;" class="fa fa-book"></i></a>
+			<a href="<?php echo site_url('renstra/preview_cetak_kegiatan/'.$row->id); ?>" target="_blank" class="icon-file" title="Preview Kegiatan"></a>
 			</td>
 		</tr>
 	<?php

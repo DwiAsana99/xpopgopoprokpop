@@ -78,13 +78,13 @@ function select_lihat1(th, from_back, kd_jenis) {
         $("#btn_lihat1_th"+th).attr('onclick','select_lihat1("'+th+'", true, "'+msg.pilihan.kd_jenis+'")');
         $.ajax({
 	      type: "POST",
-	      url: '<?php echo site_url("common/edit_kategori_belanja"); ?>',
-	      data: {nama: 'lihat1_th'+th, jenis: '5.2', kategori: ''},
-	      success: function(msg){
-			$("#combox_th"+th).html(msg);
-	        prepare_chosen();
-	      }
-	    });
+		      url: '<?php echo site_url("common/edit_kategori_belanja"); ?>',
+		      data: {nama: 'lihat1_th'+th, jenis: '5.2', kategori: ''},
+		      success: function(msg){
+						$("#combox_th"+th).html(msg);
+		        prepare_chosen();
+		      }
+		    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat1_th"+th).removeAttr("disabled");
@@ -106,7 +106,7 @@ function select_lihat1(th, from_back, kd_jenis) {
         id_keg: id_kegiatan,
         tahun: th,
         group: '2',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat
       },
       success: function(msg){
@@ -114,14 +114,14 @@ function select_lihat1(th, from_back, kd_jenis) {
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat2_th"+th).attr('onclick','select_lihat2("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'")');
         $.ajax({
-	      type: "POST",
-	      url: '<?php echo site_url("common/edit_sub_belanja"); ?>',
-	      data: {nama: 'lihat2_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: ''},
-	      success: function(msg){
-	        $("#combox_th"+th).html(msg);
-	        prepare_chosen();
-	      }
-	    });
+		      type: "POST",
+		      url: '<?php echo site_url("common/edit_sub_belanja"); ?>',
+		      data: {nama: 'lihat2_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: ''},
+		      success: function(msg){
+		        $("#combox_th"+th).html(msg);
+		        prepare_chosen();
+		      }
+		    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat2_th"+th).removeAttr("disabled");
@@ -142,7 +142,7 @@ function select_lihat1(th, from_back, kd_jenis) {
         id_keg: id_kegiatan,
         tahun: th,
         group: '3',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat,
         kd_sub: kd_sub
       },
@@ -151,14 +151,14 @@ function select_lihat1(th, from_back, kd_jenis) {
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat3_th"+th).attr('onclick','select_lihat3("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'")');
         $.ajax({
-	      type: "POST",
-	      url: '<?php echo site_url("common/edit_belanja_belanja"); ?>',
-	      data: {nama: 'lihat3_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: kd_sub, belanja: ''},
-	      success: function(msg){
-	        $("#combox_th"+th).html(msg);
-	        prepare_chosen();
-	      }
-	    });
+		      type: "POST",
+		      url: '<?php echo site_url("common/edit_belanja_belanja"); ?>',
+		      data: {nama: 'lihat3_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: kd_sub, belanja: ''},
+		      success: function(msg){
+		        $("#combox_th"+th).html(msg);
+		        prepare_chosen();
+		      }
+		    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat3_th"+th).removeAttr("disabled");
@@ -178,7 +178,7 @@ function select_lihat1(th, from_back, kd_jenis) {
         id_keg: id_kegiatan,
         tahun: th,
         group: '4',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat,
         kd_sub: kd_sub,
         kd_bel: kd_bel
@@ -205,7 +205,7 @@ function select_lihat1(th, from_back, kd_jenis) {
         id_keg: id_kegiatan,
         tahun: th,
         group: '5',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat,
         kd_sub: kd_sub,
         kd_bel: kd_bel,
@@ -215,20 +215,20 @@ function select_lihat1(th, from_back, kd_jenis) {
       success: function(msgRespon){
         $("#box_lihat_th"+th).html(msgRespon.html);
         $.ajax({
-	      type: "POST",
-	      url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
-	      data: {nama: 'lihat5_sumberdana_th'+th, id: ''},
-	      success: function(msg){
-	        $("#combox_sumberdana_th"+th).html(msg);
-	        $("#lihat5_sumberdana_th"+th).attr('onchange', 'onchange_sumberdana($(this), "'+th+'")');
-	        prepare_chosen();
-	      }
-	    });
+		      type: "POST",
+		      url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
+		      data: {nama: 'lihat5_sumberdana_th'+th, id: ''},
+		      success: function(msg){
+		        $("#combox_sumberdana_th"+th).html(msg);
+		        $("#lihat5_sumberdana_th"+th).attr('onchange', 'onchange_sumberdana($(this), "'+th+'")');
+		        prepare_chosen();
+		      }
+		    });
         $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", false, "'+msgRespon.pilihan.kd_jenis+'", "'+msgRespon.pilihan.kd_kat+'", "'+msgRespon.pilihan.kd_sub+'", "'+msgRespon.pilihan.kd_bel+'")');
         if (!from_back) {
           $("#text_lihat_th"+th).html(msgRespon.title);
           $("#btn_lihat4_th"+th).removeAttr("disabled");
-		  clear_belanja('deturaian', th);
+		  		clear_belanja('deturaian', th);
         }else if(from_back == 666){
           $("#btn_lihat1_th"+th).attr("disabled", "disabled");
           $("#btn_lihat2_th"+th).attr("disabled", "disabled");
@@ -240,7 +240,7 @@ function select_lihat1(th, from_back, kd_jenis) {
           $("#btn_lihat2_th"+th).removeAttr("disabled");
           $("#btn_lihat3_th"+th).removeAttr("disabled");
           $("#btn_lihat4_th"+th).removeAttr("disabled");
-		  clear_belanja('deturaian', th);
+		  		clear_belanja('deturaian', th);
         }else{
           clear_belanja('deturaian', th);
         }
@@ -738,7 +738,7 @@ $(document).on("click", ".hapus_indikator_kegiatan", function(){
 										<!-- <input id="simpan" type="button" value="Simpan"> -->
 									</div>
 								</div>
-								<?php if(empty($kegiatan->id)){echo '</div>';} ?>		
+								<?php if(empty($kegiatan->id)){echo '</div>';} ?>
 								<!-- /Beranda -->
 							</div>
 
@@ -948,7 +948,7 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 			    kode_program : kd_program,
 			    kode_kegiatan : kd_kegiatan,
 			    id_kegiatan : id_kegiatan,
-			    kode_jenis_belanja : jenis, 
+			    kode_jenis_belanja : jenis,
 			    kode_kategori_belanja : kategori,
 			    kode_sub_kategori_belanja : subkategori,
 			    kode_belanja : belanja,
@@ -980,7 +980,7 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 			    	clear_belanja(clue, tahun)
 			    }
 			});
-		}		
+		}
 	}
 
 	function clear_belanja(clue, tahun){
@@ -1006,7 +1006,7 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 
 
 		if (clue=='all') {
-	      	
+
 	    }
 	    else if (clue=='jns') {
 			document.getElementById("cb_jenis_belanja_"+tahun).value = '';

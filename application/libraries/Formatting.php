@@ -59,6 +59,9 @@ class Formatting {
     }
 
     static function date_format($date, $type = "datetime") {
+        if (empty($date)) {
+            return '';
+        }
 
         switch($type) {
             case "date_mysql":

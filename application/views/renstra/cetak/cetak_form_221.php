@@ -258,8 +258,12 @@
                     <tr>
                       <td class="left right"></td>
                       <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                      <td class="mid" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                      <td class="mid" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                      <td class="mid" align='right' style='padding-right:10px;'>
+                        <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                      </td>
+                      <td class="mid" align='center' style='padding-left:0px;'>
+                        <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                      </td>
                       <td class="mid" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                       <td class="mid" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                     </tr>
@@ -281,8 +285,12 @@
                     <tr>
                       <td class="left right"></td>
                       <td class="left right" style="padding-left: 30px;">- <?php echo str_replace('<', ',', $rowth->detil_uraian_belanja); ?></td>
-                      <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                      <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                      <td class="left bottom right" align='right' style='padding-right:10px;'>
+                        <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                      </td>
+                      <td class="left bottom right" align='center' style='padding-left:0px;'>
+                        <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                      </td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                     </tr>
@@ -317,8 +325,12 @@
                   <tr>
                     <td class="left right"></td>
                     <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                    <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                    <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                    <td class="left bottom right" align='right' style='padding-right:10px;'>
+                      <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                    </td>
+                    <td class="left bottom right" align='center' style='padding-left:0px;'>
+                      <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                    </td>
                     <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                     <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                   </tr>
@@ -365,8 +377,12 @@
                 <tr>
                   <td class="left right"></td>
                   <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                  <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                  <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                  <td class="left bottom right" align='right' style='padding-right:10px;'>
+                    <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                  </td>
+                  <td class="left bottom right" align='center' style='padding-left:0px;'>
+                    <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                  </td>
                   <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                   <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                 </tr>
@@ -425,8 +441,12 @@
               <tr>
                 <td class="left right"></td>
                 <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                <td class="left bottom right" align='right' style='padding-right:10px;'>
+                  <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                </td>
+                <td class="left bottom right" align='center' style='padding-left:0px;'>
+                  <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                </td>
                 <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                 <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
               </tr>
@@ -511,8 +531,12 @@
             <tr>
               <td class="left right"></td>
               <td class="left right" style="padding-left: 30px;">- <?php echo  str_replace('<', ',', $rowth->detil_uraian_belanja); ?></td>
-              <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-              <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+              <td class="left bottom right" align='right' style='padding-right:10px;'>
+                <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+              </td>
+              <td class="left bottom right" align='center' style='padding-left:0px;'>
+                <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+              </td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
             </tr>

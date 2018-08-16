@@ -181,7 +181,7 @@
 						<td><?php echo $tujuan_n_sasaran->sasaran; ?></td>
 					</tr>
 					<tr>
-						<td>Program RPJMD</td>
+						<td>Sasaran RPJMD</td>
 						<td>
 							<?php echo $id_prog_rpjmd; ?>
 							<p id="indikator-rpjmd"><?php

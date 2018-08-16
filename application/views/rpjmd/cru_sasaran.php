@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		// $(".target").autoNumeric(numOptionsNotRound);
-
+		prepare_chosen();
 		$('form#sasaran').validate({
 			rules: {
 				sasaran : "required",
@@ -137,8 +137,18 @@
 					<td><strong>Sasaran</strong></td>
 					<td><textarea class="common" name="sasaran"><?php if(!empty($sasaran->sasaran)){echo $sasaran->sasaran;} ?></textarea></td>
 				</tr>
+				<!-- <tr>
+					<td><strong>Urusan Bidang</strong></td>
+					<td>
+						<?php echo $cb_urusan_bidang; ?>
+					</td>
+				</tr> -->
 				<tr>
-					<td>Indikator Kinerja <a id="tambah_indikator_sasaran" class="icon-plus-sign" href="javascript:void(0)"></a></td>
+					<td>
+						<strong>
+							Indikator Kinerja <a id="tambah_indikator_sasaran" class="icon-plus-sign" href="javascript:void(0)"></a>
+						</strong>
+					</td>
 					<td id="indikator_frame_sasaran" key="<?php echo (!empty($indikator_sasaran))?$indikator_sasaran->num_rows():'1'; ?>">
 						<?php
 							if (!empty($indikator_sasaran->result())) {

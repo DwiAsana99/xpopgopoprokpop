@@ -38,7 +38,7 @@ class Renja extends CI_Controller
 		$data['nama_skpd'] = $nama_skpd;
 		$data['ada_renja'] = $this->m_renja_trx->get_renja($id_skpd,$ta);
 		$data['ada_program'] = $this->m_renja_trx->get_all_program($this->session->userdata("id_skpd"),$ta);
-		
+
 		$data['renja'] = $this->m_renja_trx->get_one_renja_skpd($id_skpd, TRUE);
 		$this->load->view('renja/jendela_kontrol', $data);
 	}
@@ -90,7 +90,7 @@ class Renja extends CI_Controller
 		$id_tahun	= $this->m_settings->get_id_tahun();
 
 		$kode_unit = $this->m_skpd->get_kode_unit($id_skpd);
-		
+
 		if ($kode_unit == $id_skpd) {
 			$renja = $this->m_renja_trx->insert_renja($id_skpd,$ta);
 			$result 	= $this->m_renja_trx->import_from_renstra($id_skpd,$ta,$id_tahun,$renja);
@@ -99,7 +99,7 @@ class Renja extends CI_Controller
 			$result 	= $this->m_renja_trx->import_from_renstra_sub_unit($id_skpd,$ta,$id_tahun,$renja);
 		}
 
-		
+
 		if ($result) {
 			$msg = array('success' => '1', 'msg' => 'Renstra berhasil diambil.');
 			echo json_encode($msg);
@@ -544,13 +544,13 @@ class Renja extends CI_Controller
 			}else{
 				echo "<script type='text/javascript'>$('input[name=nominal_thndpn]').autoNumeric('set', ".$total.");</script>";
 			}
-			
-		}		
+
+		}
 	}
 
 	function belanja_kegiatan_save(){
 
-		
+
 		$is_tahun = $this->input->post('is_tahun_sekarang');
 		$ta = $this->input->post('tahun');
 		if ($is_tahun == 1) {
@@ -572,7 +572,7 @@ class Renja extends CI_Controller
 		$data = $this->global_function->add_array($data, $add);
 // print_r($data);
 		$this->m_renja_trx->add_belanja_kegiatan($data, $id_belanja);
-		
+
 		$this->belanja_kegiatan_lihat(FALSE, $id_kegiatan, $ta, $tahun, $is_tahun);
 	}
 
@@ -594,7 +594,7 @@ class Renja extends CI_Controller
 		$id = $this->input->post('id_belanja');
 		$id_kegiatan = $this->input->post('id_kegiatan');
 		$tahun = $this->input->post('tahun');
-		
+
 		$ta = $this->input->post('ta');
 		$is_tahun = $this->input->post('is_tahun');
 
@@ -1323,7 +1323,7 @@ class Renja extends CI_Controller
 			FROM
 				(SELECT * FROM t_renja_prog_keg WHERE is_prog_or_keg=1 AND id_skpd > 0) AS pro
 			INNER JOIN
-				(SELECT * FROM t_renja_prog_keg WHERE is_prog_or_keg=2 AND id_skpd > 0 AND id IN (SELECT id_prog_keg 
+				(SELECT * FROM t_renja_prog_keg WHERE is_prog_or_keg=2 AND id_skpd > 0 AND id IN (SELECT id_prog_keg
 FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			WHERE
 				".$for_where."
@@ -1443,7 +1443,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$data['belanja'] = $this->m_renja_trx->get_belanja_for_221_new($ta, $is_thn_sekarang, $idK);
 
 		$result = $this->load->view("renja/cetak/cetak_form_221",$data, TRUE);
-		
+
 		return $result;
 
 
@@ -1492,7 +1492,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$kd_bel = $this->input->post('kd_bel');
 		$uraian = $this->input->post('uraian');
 
-		$data = $this->m_renja_trx->get_belanja_kegiatan($id_kegiatan, $group, 
+		$data = $this->m_renja_trx->get_belanja_kegiatan($id_kegiatan, $group,
 			array('1' => $kd_jenis, '2' => $kd_kat, '3' => $kd_sub, '4' => $kd_bel, '5' => $uraian),
 			$tahun, $is_tahun, $not_in
 		);
@@ -1507,6 +1507,16 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		switch ($group) {
 			case 1:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; right: 0px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2 Belanja Langsung';
@@ -1517,6 +1527,16 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				break;
 			case 2:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; right: 0px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.' '.$row->kategori_belanja;
@@ -1527,6 +1547,16 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				break;
 			case 3:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; right: 0px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.' '.$row->sub_kategori_belanja;
@@ -1537,6 +1567,16 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				break;
 			case 4:
 				$total = 0;
+				$html .= '
+						<div style="display: inline; position: absolute; right: 0px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\', \''.$kd_bel.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+
+					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
+					        <input type="text" id="lihat4_th'.$th.'" class="common" placeholder="Rincian Belanja"/>
+					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
 					$title = '5.2.'.$row->kode_kategori_belanja.'.'.$row->kode_sub_kategori_belanja.'.'.$row->kode_belanja.' '.$row->belanja;
@@ -1547,7 +1587,39 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				break;
 			case 5:
 				$total = 0;
-				$html .= '<table><tr><th>Sumber Dana</th><th>Sub Rincian</th>
+				$html .= '
+						<div style="display: block; position: absolute; right: 0px;">
+				        	<button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\', \''.$kd_kat.'\', \''.$kd_sub.'\', \''.$kd_bel.'\', \''.$uraian.'\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>
+					      <div style="display: inline; position: absolute; right: 45px; max-width: 970px;" id="combox_th'.$th.'">
+					      	<div style="width:467px;display: inline;position: absolute;right: 471px;" id="combox_sumberdana_th'.$th.'">
+
+					        </div>
+					      	<div style="width:467px;display: inline;position: absolute;right: 0px;">
+					        	<input type="text" id="lihat5_subrincian_th'.$th.'" class="common" placeholder="Sub Rincian Belanja" oninput="inputAtas($(this), $(\'#det_uraian_'.$th.'\'))"/>
+					        </div>
+
+					        <div style="width:467px;display: inline;position: absolute;right: 471px; top: 36px;">
+					           <input type="text" id="lihat5_vol1_th'.$th.'" class="common" placeholder="Volume 1" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume_'.$th.'\'))"/>
+					           <input type="text" id="lihat5_satuan1_th'.$th.'" class="common" placeholder="Satuan 1" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan_'.$th.'\'))"/>
+					        </div>
+					        <div style="width:467px;display: inline;position: absolute;right: 0px; top: 36px;">
+					           <input type="text" id="lihat5_vol2_th'.$th.'" class="common" placeholder="Volume 2" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume2_'.$th.'\'))"/>
+					           <input type="text" id="lihat5_satuan2_th'.$th.'" class="common" placeholder="Satuan 2" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan2_'.$th.'\'))"/>
+					        </div>
+
+					        <div style="width:467px;display: inline;position: absolute;right: 471px; top: 72px;">
+					           <input type="text" id="lihat5_vol3_th'.$th.'" class="common" placeholder="Volume 3" style="display:inline;position:absolute;left:0;width:146px;" oninput="inputAtas($(this), $(\'#volume3_'.$th.'\'))"/>
+					           <input type="text" id="lihat5_satuan3_th'.$th.'" class="common" placeholder="Satuan 3" style="display:inline;position:absolute;right:0;width:317px;" oninput="inputAtas($(this), $(\'#satuan3_'.$th.'\'))"/>
+					        </div>
+					      	<div style="width:467px;display: inline;position: absolute;right: 0px; top: 72px;">
+					        	<input type="text" id="lihat5_nominalsatuan_th'.$th.'" class="common" placeholder="Nominal Satuan" oninput="inputAtas($(this), $(\'#nominal_satuan_'.$th.'\'))"/>
+					        </div>
+					      </div>
+					      <p style="height: 111px;"></p>
+					<table><tr><th>Sumber Dana</th><th>Sub Rincian</th>
 					<th>Volume 1</th><th>Satuan 1</th>
 					<th>Volume 2</th><th>Satuan 2</th>
 					<th>Volume 3</th><th>Satuan 3</th>
@@ -1577,7 +1649,11 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			default:
 				$title = '';
 				$pilihan = '';
-				$html = '';
+				$html = '<div style="display: inline; position: absolute; left: 789px;">
+					        <button type="button" onclick="tambah_belanja(\''.$th.'\', \'5.2\')">
+					          <i class="fa fa-plus" style="font-size: 20px;"></i>
+					        </button>
+					      </div>';
 				break;
 		}
 
@@ -1632,7 +1708,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 	function copy_belanja_kegiatan(){
 		$this->auth->restrict();
 		$id_keg = $this->input->post('id');
-		
+
 		$th = $this->session->userdata('t_anggaran_aktif');
 		$id_skpd = $this->session->userdata('id_skpd');
 		// $pilihan = $this->m_renja_trx->get_all_kegiatan(NULL, $id_skpd, $th, FALSE);
@@ -1654,7 +1730,7 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$data['id_skpd'] = $id_skpd;
 		// $data['keg_tujuan'] = form_dropdown('keg_tujuan', $keg, NULL, 'data-placeholder="Pilih Kegiatan yang Dituju" class="common chosen-select" id="keg_tujuan"');
 
-		$this->load->view('renja/view_copy_kegiatan', $data);	
+		$this->load->view('renja/view_copy_kegiatan', $data);
 	}
 
 	function combo_copy_belanja(){
@@ -1668,30 +1744,30 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		$datas = array('' => '');
 		if (!empty($kd_program)) {
-			$result = $this->db->query("SELECT *, t_renja_prog_keg.id as id_keg FROM t_renja_prog_keg 
-				INNER JOIN m_kegiatan 
+			$result = $this->db->query("SELECT *, t_renja_prog_keg.id as id_keg FROM t_renja_prog_keg
+				INNER JOIN m_kegiatan
 				ON t_renja_prog_keg.kd_urusan = m_kegiatan.kd_urusan AND t_renja_prog_keg.kd_bidang = m_kegiatan.kd_bidang AND t_renja_prog_keg.kd_program = m_kegiatan.kd_prog AND t_renja_prog_keg.kd_kegiatan = m_kegiatan.kd_keg
-				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.kd_bidang = '$kd_bidang' AND t_renja_prog_keg.kd_program = '$kd_program' AND t_renja_prog_keg.id <> $id_keg 
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.kd_bidang = '$kd_bidang' AND t_renja_prog_keg.kd_program = '$kd_program' AND t_renja_prog_keg.id <> $id_keg
 				GROUP BY t_renja_prog_keg.kd_urusan, t_renja_prog_keg.kd_bidang, t_renja_prog_keg.kd_program, t_renja_prog_keg.kd_kegiatan")->result();
 			foreach ($result as $row) {
 				$datas[$row->id_keg] = $row->Kd_Keg.' - '.$row->Ket_Kegiatan;
 			}
 			$combox = form_dropdown('cmb_keg', $datas, NULL, 'data-placeholder="Pilih Kegiatan" class="common chosen-select" id="cmb_keg"');
 		}elseif (!empty($kd_bidang)) {
-			$result = $this->db->query("SELECT * FROM t_renja_prog_keg 
-				INNER JOIN m_program 
+			$result = $this->db->query("SELECT * FROM t_renja_prog_keg
+				INNER JOIN m_program
 				ON t_renja_prog_keg.kd_urusan = m_program.kd_urusan AND t_renja_prog_keg.kd_bidang = m_program.kd_bidang AND t_renja_prog_keg.kd_program = m_program.kd_prog
-				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.kd_bidang = '$kd_bidang' AND t_renja_prog_keg.id <> $id_keg 
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.kd_bidang = '$kd_bidang' AND t_renja_prog_keg.id <> $id_keg
 				GROUP BY t_renja_prog_keg.kd_urusan, t_renja_prog_keg.kd_bidang, t_renja_prog_keg.kd_program")->result();
 			foreach ($result as $row) {
 				$datas[$row->Kd_Prog] = $row->Kd_Prog.' - '.$row->Ket_Program;
 			}
 			$combox = form_dropdown('cmb_prog', $datas, NULL, 'data-placeholder="Pilih Program" class="common chosen-select" id="cmb_prog"');
 		}elseif (!empty($kd_urusan)) {
-			$result = $this->db->query("SELECT * FROM t_renja_prog_keg 
-				INNER JOIN m_bidang 
+			$result = $this->db->query("SELECT * FROM t_renja_prog_keg
+				INNER JOIN m_bidang
 				ON t_renja_prog_keg.kd_urusan = m_bidang.kd_urusan AND t_renja_prog_keg.kd_bidang = m_bidang.kd_bidang
-				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.id <> $id_keg 
+				WHERE id_skpd = '$id_skpd' AND tahun = '$tahun' AND t_renja_prog_keg.kd_urusan = '$kd_urusan' AND t_renja_prog_keg.id <> $id_keg
 				GROUP BY t_renja_prog_keg.kd_urusan, t_renja_prog_keg.kd_bidang")->result();
 			foreach ($result as $row) {
 				$datas[$row->kd_bidang] = $row->kd_bidang.' - '.$row->Nm_Bidang;
@@ -1710,9 +1786,9 @@ FROM t_renja_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$result = $this->m_renja_trx->copy_belanja_kegiatan($keg_dari, $keg_tujuan);
 
 		if ($result) {
-			echo json_encode('Data belanja berhasil di copy');	
+			echo json_encode('Data belanja berhasil di copy');
 		}else{
-			echo json_encode('Data belanja gagal di copy. Mohon hubungi Administrator');	
+			echo json_encode('Data belanja gagal di copy. Mohon hubungi Administrator');
 		}
 
 	}

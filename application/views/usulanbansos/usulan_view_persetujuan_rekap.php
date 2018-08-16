@@ -142,8 +142,8 @@
 			&nbsp;
 		</div>
 
-		<div class="col-md-12">
-			<table id="usulan_table" class="table-common tablesorter" style="width:100%">
+		<div class="col-md-12 scroll">
+			<table id="usulan_table" class="table-common tablesorter" style="width:100%; max-width: 100%">
 				<thead>
 					<tr>
 						<th class="no-sort">No</th>
@@ -152,9 +152,10 @@
 						<th>Nilai Usulan (Rp)</th>
 						<th>SKPD</th>
 						<th class="no-sort" style="min-width: 153px;">Status RKPD</th>
-						<th>Nominal rekomendasi</th>
-						<th class="no-sort" style="min-width: 205px;">No. rekomendasi</th>
-						<th class="no-sort">Tgl. rekomendasi</th>
+						<th>Nominal Rekomendasi</th>
+						<th class="no-sort" style="min-width: 205px;">No. Rekomendasi</th>
+						<th class="no-sort">Tgl. Rekomendasi</th>
+						<th class="no-sort">Tgl. Input Rekomendasi</th>
 
 
 					</tr>
@@ -167,7 +168,7 @@
 						<th></th>
 						<th colspan="2"></th>
 						<th></th>
-						<th colspan="2"></th>
+						<th colspan="3"></th>
 					</tr>
 				</tfoot>
 			</table>

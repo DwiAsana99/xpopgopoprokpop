@@ -82,7 +82,7 @@
 			// var idp = $(this).parent().attr("id-p");
 			// $.ajax({
 			// 	type: "POST",
-			// 	url: '<?php echo site_url("rpjmd/get_strategi"); ?>',
+			// 	url: '<?php //echo site_url("rpjmd/get_strategi"); ?>',
 			// 	data: {id_rpjmd: idr, id_tujuan: idt, id_sasaran: ids, id_program : idp},
 			// 	success: function(msg){
 			// 		if (msg!="") {

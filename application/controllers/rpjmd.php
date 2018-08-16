@@ -133,6 +133,11 @@ class Rpjmd extends CI_Controller
 			$data['indikator_sasaran'] = $this->m_rpjmd_trx->get_indikator_sasaran($result->id, FALSE);
 		}
 
+		// $bidang_urusan = array('' => '');
+		// foreach ($this->m_bidang->get_all_bidang()->result() as $row) {
+		// 	$bidang_urusan[$row->id] = $row->Kd_Urusan.'.'.$row->Kd_Bidang.' - '.$row->Nm_Bidang;
+		// }
+
 		$status_indikator = array("" => "~~ Pilih Positif / Negatif ~~");
 		foreach ($this->m_lov->get_status_indikator() as $row) {
 			$status_indikator[$row->kode_status_indikator]=$row->nama_status_indikator;
@@ -147,6 +152,7 @@ class Rpjmd extends CI_Controller
 		$data['tujuan'] = $this->m_rpjmd_trx->get_one_rpjmd_tujuan($id_rpjmd, $id_tujuan);
 		$data['status_indikator'] = $status_indikator;
 		$data['kategori_indikator'] = $kategori_indikator;
+		// $data['cb_urusan_bidang'] = form_multiselect('cb_urusan_bidang', $bidang_urusan, NULL, 'data-placeholder="Pilih Bidang Urusan" class="common chosen-select" id="cb_urusan_bidang"');
 
 		$this->load->view("rpjmd/cru_sasaran", $data);
 	}

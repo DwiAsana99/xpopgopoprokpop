@@ -136,7 +136,7 @@ class Renstra extends CI_Controller
 							$data['qr'] = $this->ciqrcode->generateQRcode($JenisLaporan, $Text,1.9);
 							$data['header']= $this->load->view('Cetak_head',$data, TRUE);
 							$result1 = $this->load->view("renstra/cetak/cetak_tujuan_jangmeng", $data, TRUE);
-							
+
 							$this->create_pdf->load($result1,'RENSTRA'.'-'.'Tujuan-Jangka-Menengah'.date("d-m-Y H:i:s"), 'A4-L','');
 
 						}elseif ($jenis== 'SasaranJangkaMenengah'){
@@ -146,7 +146,7 @@ class Renstra extends CI_Controller
 							$data['qr'] = $this->ciqrcode->generateQRcode($JenisLaporan, $Text,1.9);
 							$data['header']= $this->load->view('Cetak_head',$data, TRUE);
 							$result1 = $this->load->view('renstra/cetak/cetak_sasaran_jangmeng', $data, true);
-							
+
 							$this->create_pdf->load($result1,'RENSTRA'.'-'.'Sasaran-Jangka-Menengah'.date("d-m-Y H:i:s"), 'A4-L','');
 
 						}elseif ($jenis== 'KebijakanUmumRenstra'){
@@ -179,9 +179,9 @@ class Renstra extends CI_Controller
 						$filename='Renstra '. date("d-m-Y_H-i-s") .'.pdf';
 					}
 					// echo $html;
-					
+
 					// print_r($result1);exit();
-					
+
 
 				   // pdf_create($html, $filename, "A4", "Landscape", FALSE);
 				}
@@ -504,7 +504,7 @@ class Renstra extends CI_Controller
 		$data['satuan'] = $satuan;
 		$data['status_indikator'] = $status_indikator;
 		$data['kategori_indikator'] = $kategori_indikator;
-		$data['id_prog_rpjmd'] = form_dropdown('id_prog_rpjmd', $id_prog_rpjmd, $id_prog_rpjmd_edit, 'data-placeholder="Pilih Program RPJMD" class="common chosen-select" id="id_prog_rpjmd"');
+		$data['id_prog_rpjmd'] = form_dropdown('id_prog_rpjmd', $id_prog_rpjmd, $id_prog_rpjmd_edit, 'data-placeholder="Pilih Sasaram RPJMD" class="common chosen-select" id="id_prog_rpjmd"');
 		$data['kd_urusan'] = form_dropdown('kd_urusan', $kd_urusan, $kd_urusan_edit, 'data-placeholder="Pilih Urusan" class="common chosen-select" id="kd_urusan"');
 		$data['kd_bidang'] = form_dropdown('kd_bidang', $kd_bidang, $kd_bidang_edit, 'data-placeholder="Pilih Bidang Urusan" class="common chosen-select" id="kd_bidang"');
 		$data['kd_program'] = form_dropdown('kd_program', $kd_program, $kd_program_edit, 'data-placeholder="Pilih Program" class="common chosen-select" id="kd_program"');
@@ -946,7 +946,7 @@ class Renstra extends CI_Controller
 			}
 			echo "<script type='text/javascript'>$('#nominal_".$tahun."').autoNumeric('set', ".$total.");</script>";
 		}
-		
+
 	}
 
 	function belanja_kegiatan_save(){
@@ -964,7 +964,7 @@ class Renstra extends CI_Controller
 		$data = $this->global_function->add_array($data, $add);
 
 		$this->m_renstra_trx->add_belanja_kegiatan($data, $id_belanja);
-		
+
 		$this->belanja_kegiatan_lihat(FALSE, $id_kegiatan, $th[$tahun-1]->tahun_anggaran, $tahun);
 	}
 
@@ -1116,7 +1116,7 @@ function view_detil_renstra_skpd($id_skpd){
 
 		$this->template->load('template','renstra/view_renstra_skpd/view', $data);
 	}
-	
+
 	function veri($id_skpd){
 		$this->auth->restrict();
 
@@ -1435,7 +1435,7 @@ function view_detil_renstra_skpd($id_skpd){
 			$data2['program'] = $this->m_renstra_trx->get_program_skpd_4_cetak($id_skpd_sub);
 
 			$data['renstra'] = $this->load->view('renstra/cetak/cetak_target_pagu_indikatif', $data2, TRUE);
-			
+
 		}elseif ($jenis== 'lihatrenstra') {
 			$data1['sasaran'] = "<table class=\"full_width border\" style=\"font-size: 12px;\">".$this->load->view('renstra/cetak/header_sasaran', $data3, TRUE)."</table>";
 			// print($data1['sasaran']);
@@ -1451,12 +1451,16 @@ function view_detil_renstra_skpd($id_skpd){
 		return $data;
 	}
 
-	private function cetak_func($cetak=FALSE, $ta, $idK){
+	private function cetak_func($cetak=FALSE, $ta, $idK, $id_skpd=NULL){
 		$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
 		$header = $this->m_template_cetak->get_value("GAMBAR");
 		$data['logo'] = str_replace("src=\"","height=\"45px\" src=\"".$protocol.$_SERVER['HTTP_HOST'],$header);
 		$data['id_keg'] = $idK;
 		$data['th_anggaran'] = $this->db->query("SELECT * FROM m_tahun_anggaran WHERE tahun_anggaran = '".$ta."'")->row();
+		if (!empty($id_skpd)) {
+			$data['id_skpd'] = $id_skpd;
+		}
+
 		$data['kegiatan'] = $this->m_renstra_trx->get_kegiatan_for_211_new($ta, $idK);
 		$data['keluaran'] = $this->m_renstra_trx->get_indikator_keluaran($ta, $idK);
 		$data['capaian'] = $this->m_renstra_trx->get_indikator_capaian($data['kegiatan']->parent);
@@ -1470,11 +1474,18 @@ function view_detil_renstra_skpd($id_skpd){
 		function cetak_kegiatan($ta, $idK){
 			set_time_limit(1200);
 			ini_set("memory_limit","512M");
-			
+
 			$data['cetak'] = $this->cetak_func(TRUE, $ta, $idK);
 			$html = $this->template->load('template_cetak_rka', 'renstra/cetak/cetak_view', $data, true);
 		 	$filename='renstra '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
 			pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		}
+
+		function preview_cetak_kegiatan($idK){
+			$ta = $this->m_settings->get_tahun_anggaran();
+			$keg = $this->m_renstra_trx->get_kegiatan_for_211_new($ta, $idK);
+			$html = $this->cetak_func(TRUE, $ta, $idK, $keg->id_skpd);
+			print_r($html);
 		}
 
 		function preview_periode_221(){
@@ -1584,7 +1595,7 @@ function view_renstra_skpd(){
 		$kd_bel = $this->input->post('kd_bel');
 		$uraian = $this->input->post('uraian');
 
-		$data = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, $group, 
+		$data = $this->m_renstra_trx->get_belanja_kegiatan($id_kegiatan, $group,
 			array('1' => $kd_jenis, '2' => $kd_kat, '3' => $kd_sub, '4' => $kd_bel, '5' => $uraian),
 			$tahun, $not_in
 		);
@@ -1607,7 +1618,7 @@ function view_renstra_skpd(){
 					      </div>
 
 					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
-					        
+
 					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
@@ -1627,7 +1638,7 @@ function view_renstra_skpd(){
 					      </div>
 
 					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
-					        
+
 					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
@@ -1647,7 +1658,7 @@ function view_renstra_skpd(){
 					      </div>
 
 					    <div style="display: inline; position: absolute; right: 45px; max-width: 240px;" id="combox_th'.$th.'">
-					        
+
 					    </div>';
 				foreach ($data as $row) {
 					$total += $row->sum_all;
@@ -1687,7 +1698,7 @@ function view_renstra_skpd(){
 					      </div>
 					      <div style="display: inline; position: absolute; right: 45px; max-width: 970px;" id="combox_th'.$th.'">
 					      	<div style="width:467px;display: inline;position: absolute;right: 471px;" id="combox_sumberdana_th'.$th.'">
-					           
+
 					        </div>
 					      	<div style="width:467px;display: inline;position: absolute;right: 0px;">
 					        	<input type="text" id="lihat5_subrincian_th'.$th.'" class="common" placeholder="Sub Rincian Belanja" oninput="inputAtas($(this), $(\'#det_uraian_'.$th.'\'))"/>
@@ -1724,7 +1735,8 @@ function view_renstra_skpd(){
 						<td>'.Formatting::currency($row->volume, 2).'</td><td>'.$row->satuan.'</td>
 						<td>'.Formatting::currency($row->volume_2, 2).'</td><td>'.$row->satuan_2.'</td>
 						<td>'.Formatting::currency($row->volume_3, 2).'</td><td>'.$row->satuan_3.'</td>
-						<td>'.Formatting::currency($row->nominal_satuan, 2).'</td><td>'.Formatting::currency($row->subtotal, 2).'</td>';
+						<td>'.Formatting::currency($row->nominal_satuan, 2).'</td>
+						<td>'.Formatting::currency($row->subtotal, 2).'</td>';
 					if (empty($not_in)) {
 						$html .= '<td><span id="ubahrowng" class="icon-pencil" onclick="ubahrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="ubah" title="Ubah Belanja"></span></td>
 						<td> <span id="hapusrowng" class="icon-remove" onclick="hapusrowng_'.$th.'('.$row->id.')" style="cursor:pointer;" value="hapus" title="Hapus Belanja"></span></td>';

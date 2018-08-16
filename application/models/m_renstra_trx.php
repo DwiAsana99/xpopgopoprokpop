@@ -447,7 +447,7 @@ class M_renstra_trx extends CI_Model
 			,(SELECT Nm_Bidang FROM m_bidang WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang) AS nama_bidang
 			,(SELECT Ket_Program FROM m_program WHERE Kd_Urusan = kode_urusan  AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program) AS nama_program
 			,(SELECT Ket_Kegiatan FROM m_kegiatan WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program AND Kd_Keg = kode_kegiatan) AS nama_kegiatan
-			,nominal_1, nominal_2, nominal_3, nominal_4, nominal_5, parent, lokasi
+			,nominal_1, nominal_2, nominal_3, nominal_4, nominal_5, parent, lokasi, id_skpd
 			FROM t_renstra_prog_keg
 			WHERE id = '$idK'");
 		return $query->row();

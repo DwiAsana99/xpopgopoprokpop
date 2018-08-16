@@ -74,10 +74,10 @@
         $temp = terbilang($nilai/1000000000) . " milyar" . terbilang(fmod($nilai,1000000000));
       } else if ($nilai < 1000000000000000) {
         $temp = terbilang($nilai/1000000000000) . " trilyun" . terbilang(fmod($nilai,1000000000000));
-      }     
+      }
       return $temp;
     }
-    
+
     $kode_skpd = $this->db->query('SELECT m_skpd.*, MID(kode_skpd, 1, 1) AS urusan ,MID(kode_skpd, 3, 2) AS bidang ,MID(kode_skpd, 6, 2) AS unit ,MID(kode_skpd, 9, 2) AS sub_unit FROM m_skpd WHERE id_skpd = "'.$this->session->userdata("id_skpd").'"')->row();
 
     // $ke_n = $th_anggaran->id;
@@ -242,7 +242,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php 
+        <?php
           $jenis = NULL; $kategori = NULL; $subkategori = NULL; $kdbelanja = NULL; $uraianbelanja = NULL;
           $idk_ng = $id_keg;
           $ta_ng = $th_anggaran->tahun_anggaran;
@@ -256,13 +256,17 @@
                     <tr>
                       <td class="left right"></td>
                       <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                      <td class="mid" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                      <td class="mid" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                      <td class="mid" align='right' style='padding-right:10px;'>
+                        <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                      </td>
+                      <td class="mid" align='center' style='padding-left:0px;'>
+                        <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                      </td>
                       <td class="mid" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                       <td class="mid" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                     </tr>
                   <?php else: ?>
-                    <?php  
+                    <?php
                       $uraianbelanja = $rowth->uraian_upper;
                       $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
                       $uraianbelanja2 = '"'.$uraianbelanja2.'"';
@@ -279,14 +283,18 @@
                     <tr>
                       <td class="left right"></td>
                       <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                      <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                      <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                      <td class="left bottom right" align='right' style='padding-right:10px;'>
+                        <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                      </td>
+                      <td class="left bottom right" align='center' style='padding-left:0px;'>
+                        <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                      </td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                       <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                     </tr>
                   <?php endif ?>
                 <?php else: ?>
-                  <?php  
+                  <?php
                     $kdbelanja = $rowth->kode_belanja;
                     $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
                   ?>
@@ -298,7 +306,7 @@
                     <td class="mid"></td>
                     <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
                   </tr>
-                  <?php  
+                  <?php
                     $uraianbelanja = $rowth->uraian_upper;
                     $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
                     $uraianbelanja2 = '"'.$uraianbelanja2.'"';
@@ -315,14 +323,18 @@
                   <tr>
                     <td class="left right"></td>
                     <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                    <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                    <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                    <td class="left bottom right" align='right' style='padding-right:10px;'>
+                      <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                    </td>
+                    <td class="left bottom right" align='center' style='padding-left:0px;'>
+                      <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                    </td>
                     <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                     <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                   </tr>
                 <?php endif ?>
               <?php else: ?>
-                <?php  
+                <?php
                   $subkategori = $rowth->kode_sub_kategori_belanja;
                   $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
                 ?>
@@ -334,7 +346,7 @@
                   <td class="mid"></td>
                   <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
                 </tr>
-                <?php  
+                <?php
                   $kdbelanja = $rowth->kode_belanja;
                   $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
                 ?>
@@ -346,7 +358,7 @@
                   <td class="mid"></td>
                   <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
                 </tr>
-                <?php  
+                <?php
                   $uraianbelanja = $rowth->uraian_upper;
                   $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
                   $uraianbelanja2 = '"'.$uraianbelanja2.'"';
@@ -363,14 +375,18 @@
                 <tr>
                   <td class="left right"></td>
                   <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                  <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                  <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                  <td class="left bottom right" align='right' style='padding-right:10px;'>
+                    <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                  </td>
+                  <td class="left bottom right" align='center' style='padding-left:0px;'>
+                    <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                  </td>
                   <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                   <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
                 </tr>
               <?php endif ?>
             <?php else: ?>
-              <?php  
+              <?php
                 $kategori = $rowth->kode_kategori_belanja;
                 $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
               ?>
@@ -382,7 +398,7 @@
                 <td class="mid"></td>
                 <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
               </tr>
-              <?php  
+              <?php
                 $subkategori = $rowth->kode_sub_kategori_belanja;
                 $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
               ?>
@@ -394,7 +410,7 @@
                 <td class="mid"></td>
                 <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
               </tr>
-              <?php  
+              <?php
                 $kdbelanja = $rowth->kode_belanja;
                 $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
               ?>
@@ -406,7 +422,7 @@
                 <td class="mid"></td>
                 <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
               </tr>
-              <?php  
+              <?php
                 $uraianbelanja = $rowth->uraian_upper;
                 $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
                 $uraianbelanja2 = '"'.$uraianbelanja2.'"';
@@ -423,15 +439,19 @@
               <tr>
                 <td class="left right"></td>
                 <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-                <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-                <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+                <td class="left bottom right" align='right' style='padding-right:10px;'>
+                  <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+                </td>
+                <td class="left bottom right" align='center' style='padding-left:0px;'>
+                  <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+                </td>
                 <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
                 <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
               </tr>
             <?php endif ?>
           <?php else: ?>
             <?php if ($key_rowth == 0): ?>
-              <?php  
+              <?php
               $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng'")->row();
               ?>
               <tr>
@@ -443,8 +463,8 @@
                 <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
               </tr>
             <?php endif ?>
-            <?php  
-              $jenis = $rowth->kode_jenis_belanja; 
+            <?php
+              $jenis = $rowth->kode_jenis_belanja;
               $jenisText = substr_replace($jenis,"", 0, -1);
               $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis'")->row();
             ?>
@@ -456,7 +476,7 @@
               <td class="mid"></td>
               <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
             </tr>
-            <?php  
+            <?php
               $kategori = $rowth->kode_kategori_belanja;
               $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori'")->row();
             ?>
@@ -468,7 +488,7 @@
               <td class="mid"></td>
               <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
             </tr>
-            <?php  
+            <?php
               $subkategori = $rowth->kode_sub_kategori_belanja;
               $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori'")->row();
             ?>
@@ -480,7 +500,7 @@
               <td class="mid"></td>
               <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
             </tr>
-            <?php  
+            <?php
               $kdbelanja = $rowth->kode_belanja;
               $sum_tot = $this->db->query("SELECT sum(subtotal) as sumtot FROM tx_dpa_belanja_kegiatan WHERE tahun = '$ta_ng' AND id_keg = '$idk_ng' AND kode_jenis_belanja = '$jenis' AND kode_kategori_belanja = '$kategori' AND kode_sub_kategori_belanja = '$subkategori' AND kode_belanja = '$kdbelanja'")->row();
             ?>
@@ -492,7 +512,7 @@
               <td class="mid"></td>
               <td class="mid" align='right' style="padding-right:10px;"><?php echo Formatting::currency($sum_tot->sumtot, 2); ?></td>
             </tr>
-            <?php  
+            <?php
               $uraianbelanja = $rowth->uraian_upper;
               $uraianbelanja2 = str_replace('"', '\"', $rowth->uraian_belanja);
               $uraianbelanja2 = '"'.$uraianbelanja2.'"';
@@ -509,8 +529,12 @@
             <tr>
               <td class="left right"></td>
               <td class="left right" style="padding-left: 30px;">- <?php echo $rowth->detil_uraian_belanja; ?></td>
-              <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->volume, 2); ?></td>
-              <td class="left bottom right" align='center' style='padding-left:0px;'><?php echo $rowth->satuan; ?></td>
+              <td class="left bottom right" align='right' style='padding-right:10px;'>
+                <?php echo ($rowth->volume_3>0)?Formatting::currency($rowth->volume*$rowth->volume_2*$rowth->volume_3, 2):($rowth->volume_2>0)?Formatting::currency($rowth->volume*$rowth->volume_2, 2):Formatting::currency($rowth->volume, 2); ?>
+              </td>
+              <td class="left bottom right" align='center' style='padding-left:0px;'>
+                <?php echo $rowth->satuan; echo ($rowth->volume_2>0)?'/'.$rowth->satuan_2:''; echo ($rowth->volume_3>0)?'/'.$rowth->satuan_3:''; ?>
+              </td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->nominal_satuan, 2); ?></td>
               <td class="left bottom right" align='right' style='padding-right:10px;'><?php echo Formatting::currency($rowth->subtotal, 2); ?></td>
             </tr>
@@ -535,4 +559,3 @@
         </tr>
       </tbody>
     </table>
-

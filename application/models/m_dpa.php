@@ -32,19 +32,19 @@ class M_dpa extends CI_Model
 				$search = "AND (tx_dpa_prog_keg.id_skpd = '$id_skpd' OR tx_dpa_prog_keg.id_skpd = '$kode_unit')";
 			}
 		}
-		$query = "SELECT 
+		$query = "SELECT
 						SUM(IF(tx_dpa_prog_keg.id_status=?, 1, 0)) as baru,
 						SUM(IF(tx_dpa_prog_keg.id_status>=?, 1, 0)) as kirim,
 						SUM(IF(tx_dpa_prog_keg.id_status>?, 1, 0)) as proses,
 						SUM(IF(tx_dpa_prog_keg.id_status=?, 1, 0)) as revisi,
-						SUM(IF(tx_dpa_prog_keg.id_status>=?, 1, 0)) as veri 
-					FROM 
-						tx_dpa_prog_keg 
-					WHERE 
-						( id IN (SELECT id FROM tx_dpa_prog_keg WHERE tx_dpa_prog_keg.is_prog_or_keg = 2 and id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 
-						 and tahun='$ta') OR id 
-						 IN (SELECT parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan 
-						 WHERE subtotal > 0 and tahun='$ta') GROUP BY parent)))						
+						SUM(IF(tx_dpa_prog_keg.id_status>=?, 1, 0)) as veri
+					FROM
+						tx_dpa_prog_keg
+					WHERE
+						( id IN (SELECT id FROM tx_dpa_prog_keg WHERE tx_dpa_prog_keg.is_prog_or_keg = 2 and id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0
+						 and tahun='$ta') OR id
+						 IN (SELECT parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan
+						 WHERE subtotal > 0 and tahun='$ta') GROUP BY parent)))
 						AND tahun = ? ".$search;
 		$data = array(
 					$this->id_status_baru,
@@ -84,8 +84,8 @@ class M_dpa extends CI_Model
 			WHERE `id_skpd` in (SELECT id_skpd FROM m_asisten_sekda WHERE id_asisten = '$id_skpd')
 			AND `tahun` = '$ta' AND `is_prog_or_keg` = $this->is_program
 			(
-			AND id in 
-			(SELECT tx_dpa_prog_keg.parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta'  ) 
+			AND id in
+			(SELECT tx_dpa_prog_keg.parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta'  )
 			GROUP BY parent)
 			OR id_rka = 0
 			)
@@ -96,12 +96,12 @@ class M_dpa extends CI_Model
 			$cek = $this->m_skpd->get_kode_unit($id_skpd);
 			if ($cek == $id_skpd) {
 				$query = "SELECT * FROM (`$this->table_program_kegiatan`)
-				WHERE `id_skpd` IN 
+				WHERE `id_skpd` IN
 				(SELECT id_skpd FROM m_skpd WHERE kode_unit =  '$id_skpd')
 				AND `tahun` = '$ta' AND `is_prog_or_keg` = $this->is_program
-				AND 
+				AND
 				(
-				id in 
+				id in
 				(SELECT tx_dpa_prog_keg.parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta' )
 				GROUP BY parent)
 				OR id_rka IS NULL
@@ -114,9 +114,9 @@ class M_dpa extends CI_Model
 				$query = "SELECT * FROM (`$this->table_program_kegiatan`)
 				WHERE `id_skpd` = '$id_skpd'
 				AND `tahun` = '$ta' AND `is_prog_or_keg` = $this->is_program
-				AND 
+				AND
 				(
-				id in 
+				id in
 				(SELECT tx_dpa_prog_keg.parent FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta' )
 				GROUP BY parent)
 				OR id_rka IS NULL
@@ -125,7 +125,7 @@ class M_dpa extends CI_Model
 
 				$result = $this->db->query($query);
 			}
-			
+
 			// $cek = $this->m_skpd->get_kode_unit($id_skpd);
 			// if ($cek == $id_skpd) {
 			// 	$query = "SELECT * FROM (`$this->table_program_kegiatan`)
@@ -336,6 +336,10 @@ class M_dpa extends CI_Model
 										`nominal_satuan`,
 										`subtotal`,
 										`created_date`,
+											volume_2,
+											satuan_2,
+											volume_3,
+											satuan_3,
 										`id_keg`)
 									SELECT
 										'$id_rka_nya',
@@ -356,6 +360,10 @@ class M_dpa extends CI_Model
 										`nominal_satuan`,
 										`subtotal`,
 										now(),
+											volume_2,
+											satuan_2,
+											volume_3,
+											satuan_3,
 										$new_id
 									FROM tx_rka_belanja_kegiatan
 									WHERE id_keg= '$id_rka_nya' AND is_tahun_sekarang = 1
@@ -399,9 +407,9 @@ class M_dpa extends CI_Model
 			WHERE `id_skpd` in (SELECT id_skpd FROM m_asisten_sekda WHERE id_asisten = '$id_skpd')
 			AND `tahun` = '$ta' AND parent = $id
 			AND `is_prog_or_keg` = $this->is_kegiatan
-			AND 
+			AND
 			(
-			id in 
+			id in
 			(SELECT tx_dpa_prog_keg.id FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta' ))
 			OR id_rka = 0
 			)
@@ -415,9 +423,9 @@ class M_dpa extends CI_Model
 				WHERE `id_skpd` in (SELECT id_skpd FROM m_skpd WHERE kode_unit = '$id_skpd')
 				AND `tahun` = '$ta' AND parent = $id
 				AND `is_prog_or_keg` = $this->is_kegiatan
-				AND 
+				AND
 				(
-				id in 
+				id in
 				(SELECT tx_dpa_prog_keg.id FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta' ))
 				OR id_rka = 0
 				)
@@ -430,9 +438,9 @@ class M_dpa extends CI_Model
 				WHERE `id_skpd` = '$id_skpd'
 				AND `tahun` = '$ta' AND parent = $id
 				AND `is_prog_or_keg` = $this->is_kegiatan
-				AND 
+				AND
 				(
-				id in 
+				id in
 				(SELECT tx_dpa_prog_keg.id FROM tx_dpa_prog_keg WHERE id IN (SELECT id_keg FROM tx_dpa_belanja_kegiatan WHERE subtotal > 0 and `tahun` = '$ta' ))
 				OR id_rka = 0
 				)
@@ -883,14 +891,14 @@ class M_dpa extends CI_Model
 					FROM
 						(SELECT * FROM tx_dpa_prog_keg WHERE is_prog_or_keg=1) AS pro
 					INNER JOIN
-						(SELECT * FROM tx_dpa_prog_keg WHERE is_prog_or_keg=2 AND id_skpd > 0 AND id IN (SELECT id_prog_keg 
+						(SELECT * FROM tx_dpa_prog_keg WHERE is_prog_or_keg=2 AND id_skpd > 0 AND id IN (SELECT id_prog_keg
 FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					WHERE
-						".$for_where." 
+						".$for_where."
 						AND
 						keg.tahun = ? AND
 						keg.kd_urusan = ? AND
-						keg.kd_bidang = ? 
+						keg.kd_bidang = ?
 					GROUP BY pro.id
 					having  ((
 						SUM(keg.nominal_1) +
@@ -958,7 +966,7 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$query = "SELECT
 						tx_dpa_prog_keg.*
 					FROM tx_dpa_prog_keg
-					WHERE 
+					WHERE
 					 ((
 						nominal_1+
 						nominal_2+
@@ -975,7 +983,7 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					)>0)
 					AND parent=?
 					AND tahun = ?
-					
+
 					ORDER BY kd_urusan, kd_bidang, kd_program, kd_kegiatan ASC";
 		$data = array($id_program,$tahun);
 		$result = $this->db->query($query, $data);
@@ -1011,13 +1019,13 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			return $this->db->query('SELECT * FROM tx_dpa_rencana_aksi WHERE id = "'.$id.'"')->row();
 		}else{
 			return $this->db->query('SELECT
-				(SELECT SUM(target) AS kum FROM tx_dpa_rencana_aksi AS anak 
-				WHERE induk.`aksi`= anak.aksi AND( (anak.bulan = induk.bulan AND anak.get_date<= induk.`get_date` ) 
-				OR (anak.`bulan` < induk.`bulan`))  
-				AND (id_dpa_prog_keg = "'.$id_dpa.'" OR id_dpa_prog_keg = "'.$uniq_id.'") '.$not.' ) AS kumul 
+				(SELECT SUM(target) AS kum FROM tx_dpa_rencana_aksi AS anak
+				WHERE induk.`aksi`= anak.aksi AND( (anak.bulan = induk.bulan AND anak.get_date<= induk.`get_date` )
+				OR (anak.`bulan` < induk.`bulan`))
+				AND (id_dpa_prog_keg = "'.$id_dpa.'" OR id_dpa_prog_keg = "'.$uniq_id.'") '.$not.' ) AS kumul
 				, induk.*
-			FROM tx_dpa_rencana_aksi AS induk WHERE 
-			(id_dpa_prog_keg = "'.$id_dpa.'" OR id_dpa_prog_keg = "'.$uniq_id.'") '.$not.' ORDER BY bulan, get_date ASC')->result();	
+			FROM tx_dpa_rencana_aksi AS induk WHERE
+			(id_dpa_prog_keg = "'.$id_dpa.'" OR id_dpa_prog_keg = "'.$uniq_id.'") '.$not.' ORDER BY bulan, get_date ASC')->result();
 		}
 	}
 
@@ -1091,9 +1099,9 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 								kode_belanja AS kode_belanja,(
 									SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 								) AS belanja,
-								uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+								uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 								FROM tx_dpa_belanja_kegiatan
-								WHERE id_keg = '$id_kegiatan' ".$th." ".$not." 
+								WHERE id_keg = '$id_kegiatan' ".$th." ".$not."
 								ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC";
 
 		$result = $this->db->query($query);
@@ -1101,7 +1109,7 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 	}
 
 	function get_one_belanja($id_belanja){
-		$query = "SELECT id ,tahun, 
+		$query = "SELECT id ,tahun,
 				kode_sumber_dana AS kode_sumber_dana,(
 					SELECT sumber_dana FROM m_sumber_dana WHERE id = kode_sumber_dana
 				) AS Sumber_dana,
@@ -1117,7 +1125,7 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				kode_belanja AS kode_belanja,(
 					SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 				) AS belanja,
-				uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+				uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 				FROM tx_dpa_belanja_kegiatan
 				WHERE id = '$id_belanja'
 				ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC";
@@ -1169,7 +1177,7 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			,(SELECT sub_kategori_belanja FROM m_subkategori_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja) AS subkategori
 			,kode_belanja AS kode_belanja,(SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja) AS belanja
 			,uraian_belanja, REPLACE(UPPER(uraian_belanja), ' ','') AS uraian_upper
-			,detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal
+			,detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal
 			FROM tx_dpa_belanja_kegiatan
 			WHERE tahun = '$ta' AND id_keg = '$idK'
 			ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC, uraian_upper ASC, detil_uraian_belanja ASC");
@@ -1183,11 +1191,11 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$where_tambahan = "";
 		$pilihan = array(
 			'for_order' => array(
-				'1' => 'kode_jenis_belanja, kode_kategori_belanja', 
-				'2' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja', 
-				'3' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja', 
+				'1' => 'kode_jenis_belanja, kode_kategori_belanja',
+				'2' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja',
+				'3' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja',
 				'4' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja',
-				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja'
+				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja, id'
 			),
 			'for_where' => array(
 				'1' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'"',
@@ -1225,7 +1233,7 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 						kode_belanja AS kode_belanja,(
 							SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 						) AS belanja,
-						uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+						uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 						FROM tx_dpa_belanja_kegiatan
 						WHERE id_keg = '$id_kegiatan' ".$th." ".$not." ".$where_tambahan."
 						".$group_by."
@@ -1241,7 +1249,7 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			SELECT ref.id_sumber,
 			ref.sumber_dana,
 			SUM( IF( ref.tahun = '$tahun', ref.subtotal, 0) ) AS 'tahun1'
-			FROM (SELECT id_keg, 
+			FROM (SELECT id_keg,
 			(SELECT id_skpd FROM t_renja_prog_keg WHERE id = id_keg) AS id_skpd
 			,kode_sumber_dana AS id_sumber
 			,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
@@ -1254,6 +1262,70 @@ FROM tx_dpa_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			WHERE ref.id_skpd = '$id_skpd'
 			GROUP BY ref.id_sumber, ref.sumber_dana
 			ORDER BY ref.id_sumber ASC) AS las
-			WHERE las.tahun1 > 0");	
+			WHERE las.tahun1 > 0");
+	}
+
+	function copy_belanja_kegiatan($keg_dari, $keg_tujuan){
+		$this->db->trans_strict(FALSE);
+		$this->db->trans_start();
+
+		$this->db->query("
+			INSERT INTO  tx_rka_belanja_kegiatan (
+				tahun,
+				kode_urusan,
+				kode_bidang,
+				kode_program,
+				kode_kegiatan,
+				kode_sumber_dana,
+				kode_jenis_belanja,
+				kode_kategori_belanja,
+				kode_sub_kategori_belanja,
+				kode_belanja,
+				uraian_belanja,
+				detil_uraian_belanja,
+				volume,
+				nominal_satuan,
+				subtotal,
+				volume_2,
+				satuan_2,
+				volume_3,
+				satuan_3,
+				id_keg,
+				created_date)
+			SELECT
+				tahun,
+				kode_urusan,
+				kode_bidang,
+				kode_program,
+				kode_kegiatan,
+				kode_sumber_dana,
+				kode_jenis_belanja,
+				kode_kategori_belanja,
+				kode_sub_kategori_belanja,
+				kode_belanja,
+				uraian_belanja,
+				detil_uraian_belanja,
+				volume,
+				nominal_satuan,
+				subtotal,
+				volume_2,
+				satuan_2,
+				volume_3,
+				satuan_3,
+				'$keg_tujuan',
+				'".date('Y-m-d H:i:s')."'
+			FROM tx_dpa_belanja_kegiatan
+			WHERE id_keg = '$keg_dari'
+			");
+
+		// $total = $this->db->query("SELECT
+		// 	SUM(ref.subtotal) AS total_skr
+		// 	FROM tx_dpa_belanja_kegiatan AS ref
+		// 	WHERE id_keg = '$keg_tujuan'")->row();
+		// $this->db->query("UPDATE tx_dpa_prog_keg SET rencana = '".$total->total_skr."', nominal_thndpn = '".$total->total_dpn."'
+		// 	WHERE id = '$keg_tujuan'");
+
+		$this->db->trans_complete();
+		return $this->db->trans_status();
 	}
 }

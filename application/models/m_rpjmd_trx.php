@@ -919,16 +919,24 @@ class M_rpjmd_trx extends CI_Model
 	}
 
 	function get_program_rpjmd_for_me($id_skpd){
-		$query = "SELECT *,`t_rpjmd_program_ng`.`id` AS id_nya FROM `t_rpjmd_program_ng`
-							INNER JOIN `t_rpjmd_program_skpd`
-							ON `t_rpjmd_program_ng`.`id` = `t_rpjmd_program_skpd`.`id_prog`
-							WHERE `t_rpjmd_program_skpd`.`id_skpd` = $id_skpd";
+		// $query = "SELECT *,`t_rpjmd_program_ng`.`id` AS id_nya FROM `t_rpjmd_program_ng`
+		// 					INNER JOIN `t_rpjmd_program_skpd`
+		// 					ON `t_rpjmd_program_ng`.`id` = `t_rpjmd_program_skpd`.`id_prog`
+		// 					WHERE `t_rpjmd_program_skpd`.`id_skpd` = $id_skpd";
+		$query = "SELECT *, t_rpjmd_sasaran.id AS id_nya, t_rpjmd_sasaran.sasaran AS nama_prog FROM t_rpjmd_sasaran";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	function get_sasaran_for_renstra($kd_urusan, $kd_bidang, $tahun){
+		$query = "SELECT * FROM t_rpjmd_sasaran";
 		$result = $this->db->query($query);
 		return $result->result();
 	}
 
 	function get_one_program_rpjmd_for_me($id_program){
-		$query = "SELECT * FROM `t_rpjmd_program_ng` WHERE id = $id_program";
+		// $query = "SELECT * FROM `t_rpjmd_program_ng` WHERE id = $id_program";
+		$query = "SELECT * FROM `t_rpjmd_sasaran` WHERE id = $id_program";
 		$result = $this->db->query($query);
 		return $result->row();
 	}
@@ -940,12 +948,19 @@ class M_rpjmd_trx extends CI_Model
 	}
 
 	function get_indikator_program_rpjmd_for_me($id_program){
-		$query = "SELECT `id`,`id_prog`,`indikator`,`cara_pengukuran`,`satuan_target` AS satuan_target,`status_indikator` AS status_indikator,
+		// $query = "SELECT `id`,`id_prog`,`indikator`,`cara_pengukuran`,`satuan_target` AS satuan_target,`status_indikator` AS status_indikator,
+		// 				`kategori_indikator` AS kategori_indikator, `kondisi_awal`,`target_1`,`target_2`,`target_3`,`target_4`,`target_5`,`kondisi_akhir`,
+		// 				(SELECT nama_status_indikator FROM m_status_indikator WHERE kode_status_indikator = status_indikator) AS status_nya,
+		// 				(SELECT nama_kategori_indikator FROM m_kategori_indikator WHERE kode_kategori_indikator = kategori_indikator) AS kategori_nya
+		// 				FROM `t_rpjmd_indikator_program`
+		// 				WHERE id_prog = $id_program";
+		$query = "SELECT `id`, id_sasaran AS `id_prog`,`indikator`,'' AS `cara_pengukuran`,`satuan_target` 
+						AS satuan_target,`status_indikator` AS status_indikator,
 						`kategori_indikator` AS kategori_indikator, `kondisi_awal`,`target_1`,`target_2`,`target_3`,`target_4`,`target_5`,`kondisi_akhir`,
 						(SELECT nama_status_indikator FROM m_status_indikator WHERE kode_status_indikator = status_indikator) AS status_nya,
 						(SELECT nama_kategori_indikator FROM m_kategori_indikator WHERE kode_kategori_indikator = kategori_indikator) AS kategori_nya
-						FROM `t_rpjmd_indikator_program`
-						WHERE id_prog = $id_program";
+						FROM `t_rpjmd_indikator_sasaran`
+						WHERE id_sasaran = $id_program";
 		$result = $this->db->query($query);
 		return $result;
 	}

@@ -1501,6 +1501,10 @@ class usulanbansos extends CI_Controller
 				};
 
 				$rekomendasi = $row->norekomendasi;
+				$tgl_input_rek = '';
+				if (!empty($rekomendasi)) {
+					$tgl_input_rek = Formatting::date_format($row->changed_date, 'date');
+				}
 
 
 
@@ -1520,7 +1524,8 @@ class usulanbansos extends CI_Controller
 								// $NominalAnggaran,
 								$row->nominal_rekomendasi,
 								$rekomendasi,
-								$row->tglrekomendasi,
+								Formatting::date_format($row->tglrekomendasi, 'date'),
+								$tgl_input_rek,
 
 								);
 			}
@@ -1549,7 +1554,7 @@ class usulanbansos extends CI_Controller
 			$where .= " AND norekomendasi <> ''";
 		}
 
-		if ($status == 1) {
+		if ($is_hibah == 1) {
 			$data['status_ng'] = 'HIBAH';
 			$jenis_usulan = 'Hibah-';
 		}else{

@@ -203,10 +203,10 @@ class M_rka extends CI_Model
 				$query = "SELECT * FROM (SELECT *, id AS id_a,
 				(SELECT SUM(nominal) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom1,
 				(SELECT SUM(nominal_thndpn) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom2
-				FROM ".$this->table_program_kegiatan." WHERE `id_skpd` IN 
+				FROM ".$this->table_program_kegiatan." WHERE `id_skpd` IN
 				(SELECT id_skpd FROM m_skpd WHERE kode_unit = '".$id_skpd."')
-				AND `tahun` = '".$ta."' 
-				AND `is_prog_or_keg` = ".$this->is_program." 
+				AND `tahun` = '".$ta."'
+				AND `is_prog_or_keg` = ".$this->is_program."
 				) AS tref
 				WHERE (tref.nom1 > 0)
 				ORDER BY `kd_urusan` ASC, `kd_bidang` ASC, `kd_program` ASC";
@@ -217,8 +217,8 @@ class M_rka extends CI_Model
 				$query = "SELECT * FROM (SELECT *, id AS id_a,
 				(SELECT SUM(nominal) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom1,
 				(SELECT SUM(nominal_thndpn) FROM ".$this->table_program_kegiatan." WHERE parent = id_a) AS nom2
-				FROM ".$this->table_program_kegiatan." WHERE `id_skpd` = '".$id_skpd."' AND `tahun` = '".$ta."' 
-				AND `is_prog_or_keg` = ".$this->is_program." 
+				FROM ".$this->table_program_kegiatan." WHERE `id_skpd` = '".$id_skpd."' AND `tahun` = '".$ta."'
+				AND `is_prog_or_keg` = ".$this->is_program."
 				) AS tref
 				WHERE (tref.nom1 > 0)
 				ORDER BY `kd_urusan` ASC, `kd_bidang` ASC, `kd_program` ASC";
@@ -458,6 +458,10 @@ class M_rka extends CI_Model
 							`nominal_satuan`,
 							`subtotal`,
 							`created_date`,
+								volume_2,
+								satuan_2,
+								volume_3,
+								satuan_3,
 							`is_tahun_sekarang`,
 							`id_status_rka`,
 							`id_keg`)
@@ -480,6 +484,10 @@ class M_rka extends CI_Model
  							 `nominal_satuan`,
  							 `subtotal`,
 							 `created_date`,
+ 								volume_2,
+ 								satuan_2,
+ 								volume_3,
+ 								satuan_3,
  							 `is_tahun_sekarang`,
  							 `id_status_rka`,
  							 '$new_id'
@@ -547,7 +555,7 @@ class M_rka extends CI_Model
 				$this->db->where('parent', $id);
 				$this->db->where('is_prog_or_keg', $this->is_kegiatan);
 				$this->db->where('nominal >', '0');
-				
+
 				$this->db->from($this->table_program_kegiatan);
 				$this->db->order_by('kd_urusan','asc');
 				$this->db->order_by('kd_bidang','asc');
@@ -1064,17 +1072,17 @@ class M_rka extends CI_Model
 					FROM
 						(SELECT * FROM tx_rka_prog_keg WHERE is_prog_or_keg=1) AS pro
 					INNER JOIN
-						(SELECT * FROM tx_rka_prog_keg WHERE is_prog_or_keg=2 AND id IN (SELECT id_prog_keg 
+						(SELECT * FROM tx_rka_prog_keg WHERE is_prog_or_keg=2 AND id IN (SELECT id_prog_keg
 FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					WHERE
-						".$for_where." 
+						".$for_where."
 						AND
 						keg.tahun=? AND
 						keg.kd_urusan=? AND
 						keg.kd_bidang=?
 
 					GROUP BY pro.id
-					HAVING SUM(keg.nominal) > 0 
+					HAVING SUM(keg.nominal) > 0
 					ORDER BY kd_urusan ASC, kd_bidang ASC, kd_program ASC, kd_kegiatan ASC";
 		$data = array($tahun,$kd_urusan,$kd_bidang);
 		$result = $this->db->query($query, $data);
@@ -1150,9 +1158,9 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 								kode_belanja AS kode_belanja,(
 									SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 								) AS belanja,
-								uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+								uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 								FROM tx_rka_belanja_kegiatan
-								WHERE id_keg = '$id_kegiatan' ".$th." ".$not." 
+								WHERE id_keg = '$id_kegiatan' ".$th." ".$not."
 								ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC";
 
 		$result = $this->db->query($query);
@@ -1160,7 +1168,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 	}
 
 	function get_one_belanja($id_belanja){
-		$query = "SELECT id ,tahun, 
+		$query = "SELECT id ,tahun,
 				kode_sumber_dana AS kode_sumber_dana,(
 					SELECT sumber_dana FROM m_sumber_dana WHERE id = kode_sumber_dana
 				) AS Sumber_dana,
@@ -1176,7 +1184,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				kode_belanja AS kode_belanja,(
 					SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 				) AS belanja,
-				uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+				uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 				FROM tx_rka_belanja_kegiatan
 				WHERE id = '$id_belanja'
 				ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC";
@@ -1206,7 +1214,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			,(SELECT Nm_Bidang FROM m_bidang WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang) AS nama_bidang
 			,(SELECT Ket_Program FROM m_program WHERE Kd_Urusan = kode_urusan  AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program) AS nama_program
 			,(SELECT Ket_Kegiatan FROM m_kegiatan WHERE Kd_Urusan = kode_urusan AND Kd_Bidang = kode_bidang AND Kd_Prog = kode_program AND Kd_Keg = kode_kegiatan) AS nama_kegiatan
-			,nominal,nominal_thndpn, parent, lokasi
+			,nominal,nominal_thndpn, parent, lokasi, id_skpd
 			FROM tx_rka_prog_keg
 			WHERE id = '$idK'");
 		return $query->row();
@@ -1223,7 +1231,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			,(SELECT sub_kategori_belanja FROM m_subkategori_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja) AS subkategori
 			,kode_belanja AS kode_belanja,(SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja) AS belanja
 			,uraian_belanja, REPLACE(UPPER(uraian_belanja), ' ','') AS uraian_upper
-			,detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal
+			,detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal
 			FROM tx_rka_belanja_kegiatan
 			WHERE tahun = '$ta' AND id_keg = '$idK' AND is_tahun_sekarang = '$is_thn'
 			ORDER BY kode_jenis_belanja ASC, kode_kategori_belanja ASC, kode_sub_kategori_belanja ASC, kode_belanja ASC, uraian_upper ASC, detil_uraian_belanja ASC");
@@ -1274,15 +1282,15 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		// 	,m_skpd.kode_sub_unit AS Kd_Sub
 		// 	,t_renstra_misi.id AS No_Misi
 		// 	,REPLACE(t_renstra_misi.misi, "\'", "") AS Ur_Misi
-		// 	FROM t_renstra_misi 
-		// 	INNER JOIN t_renstra 
-		// 	ON t_renstra_misi.id_renstra = t_renstra.id 
+		// 	FROM t_renstra_misi
+		// 	INNER JOIN t_renstra
+		// 	ON t_renstra_misi.id_renstra = t_renstra.id
 		// 	INNER JOIN m_skpd
 		// 	ON t_renstra.id_skpd= m_skpd.kode_unit
 		// 	WHERE m_skpd.id_skpd = '.$id_skpd.'');
 
 		// foreach ($dump_misi->result() as $key_dump_misi => $val_dump_misi) {
-		// 	$old_id_misi = $val_dump_misi->No_Misi; 
+		// 	$old_id_misi = $val_dump_misi->No_Misi;
 		// 	$val_dump_misi->No_Misi = $key_dump_misi+1;
 
 		// 	$dump_tujuan = $this->db->query('SELECT '.$ta.' AS tahun
@@ -1293,15 +1301,15 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		// 		,'.$val_dump_misi->No_Misi.' AS No_Misi
 		// 		,t_renstra_tujuan.id AS No_Tujuan
 		// 		,REPLACE(t_renstra_tujuan.tujuan, "\'", "") AS Ur_Tujuan
-		// 		FROM t_renstra_tujuan 
-		// 		INNER JOIN t_renstra 
-		// 		ON t_renstra_tujuan.id_renstra = t_renstra.id 
+		// 		FROM t_renstra_tujuan
+		// 		INNER JOIN t_renstra
+		// 		ON t_renstra_tujuan.id_renstra = t_renstra.id
 		// 		INNER JOIN m_skpd
 		// 		ON t_renstra.id_skpd = m_skpd.kode_unit
 		// 		WHERE t_renstra.id_skpd = '.$id_skpd.' AND t_renstra_tujuan.id_misi = '.$old_id_misi.'');
 
 		// 	foreach ($dump_tujuan->result() as $key_dump_tujuan => $val_dump_tujuan) {
-		// 		$old_id_tujuan = $val_dump_tujuan->No_Tujuan; 
+		// 		$old_id_tujuan = $val_dump_tujuan->No_Tujuan;
 		// 		$val_dump_tujuan->No_Tujuan = $key_dump_tujuan+1;
 
 		// 		$dump_sasaran = $this->db->query('SELECT '.$ta.' AS tahun
@@ -1346,7 +1354,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			,"" AS target_uraian
 			,a.kd_urusan AS Kd_Urusan1
 			,a.kd_bidang AS Kd_Bidang1
-			FROM tx_rka_prog_keg a 
+			FROM tx_rka_prog_keg a
 			INNER JOIN m_skpd b
 			ON a.id_skpd = b.id_skpd
 			WHERE is_prog_or_keg=1 AND a.tahun = '.$ta.' AND a.id_skpd='.$id_skpd.'');
@@ -1398,7 +1406,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			,NULL AS pagu_anggaran
 			,NULL AS waktu_pelaksanaan
 			,NULL AS kd_sumber
-			FROM tx_rka_prog_keg a 
+			FROM tx_rka_prog_keg a
 			INNER JOIN m_skpd b
 			ON a.id_skpd=b.id_skpd
 			WHERE a.is_prog_or_keg = 2 AND a.tahun = '.$ta.' AND b.id_skpd = '.$id_skpd.'');
@@ -1452,13 +1460,13 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			,c.kode_belanja AS Kd_Rek_5
 			,NULL AS Kd_Ap_Pub
 			,c.kode_sumber_dana AS Kd_Sumber
-			FROM tx_rka_prog_keg a 
+			FROM tx_rka_prog_keg a
 			INNER JOIN m_skpd b
 			ON a.id_skpd = b.id_skpd
 			INNER JOIN tx_rka_belanja_kegiatan c
 			ON a.id = c.id_keg
 			WHERE a.is_prog_or_keg = 2 AND a.tahun = '.$ta.' AND a.id_skpd = '.$id_skpd.'
-			GROUP BY b.kode_urusan, b.kode_bidang, b.kode_unit, b.kode_sub_unit ,a.kd_program 
+			GROUP BY b.kode_urusan, b.kode_bidang, b.kode_unit, b.kode_sub_unit ,a.kd_program
 			,a.parent ,a.kd_kegiatan ,LEFT(c.kode_jenis_belanja, 1) ,RIGHT(c.kode_jenis_belanja, 1)
 			,c.kode_kategori_belanja ,c.kode_sub_kategori_belanja ,c.kode_belanja');
 
@@ -1481,17 +1489,17 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				,NULL AS No_Rinc
 				,REPLACE(c.uraian_belanja, "\'", "") AS Keterangan
 				,c.kode_sumber_dana AS Kd_Sumber
-				FROM tx_rka_prog_keg a 
+				FROM tx_rka_prog_keg a
 				INNER JOIN m_skpd b
 				ON a.id_skpd = b.id_skpd
 				INNER JOIN tx_rka_belanja_kegiatan c
 				ON a.id = c.id_keg
-				WHERE is_prog_or_keg = 2 AND c.is_tahun_sekarang = 1 AND a.tahun = '.$ta.' 
-				AND a.id_skpd = '.$id_skpd.' AND c.id_keg = '.$val_belanja->id_keg.' 
-				AND LEFT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_1.' 
-				AND RIGHT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_2.' 
-				AND c.kode_kategori_belanja = '.$val_belanja->Kd_Rek_3.' 
-				AND c.kode_sub_kategori_belanja = '.$val_belanja->Kd_Rek_4.' 
+				WHERE is_prog_or_keg = 2 AND c.is_tahun_sekarang = 1 AND a.tahun = '.$ta.'
+				AND a.id_skpd = '.$id_skpd.' AND c.id_keg = '.$val_belanja->id_keg.'
+				AND LEFT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_1.'
+				AND RIGHT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_2.'
+				AND c.kode_kategori_belanja = '.$val_belanja->Kd_Rek_3.'
+				AND c.kode_sub_kategori_belanja = '.$val_belanja->Kd_Rek_4.'
 				AND c.kode_belanja = '.$val_belanja->Kd_Rek_5.'
 				GROUP BY c.uraian_belanja');
 
@@ -1516,26 +1524,29 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					,NULL AS No_ID
 					,REPLACE(c.satuan, "\'", "") AS Sat_1
 					,c.volume AS Nilai_1
-					,NULL AS Sat_2
-					,NULL AS Nilai_2
-					,NULL AS Sat_3
-					,NULL AS Nilai_3
-					,c.satuan AS Satuan123
+					,REPLACE(c.satuan_2, "\'", "") AS Sat_2
+					,c.volume_2 AS Nilai_2
+					,REPLACE(c.satuan_3, "\'", "") AS Sat_3
+					,c.volume_3 AS Nilai_3
+					,CASE WHEN c.satuan_2 IS NOT NULL AND c.satuan_2 <> "" THEN CONCAT(c.satuan,"/",c.satuan_2)
+						WHEN c.satuan_3 IS NOT NULL AND c.satuan_3 <> "" THEN CONCAT(c.satuan,"/",c.satuan_2,"/",c.satuan_3)
+						WHEN c.satuan_2 IS NULL OR c.satuan_2 = "" THEN CONCAT(c.satuan)
+					 END AS satuan123
 					,c.volume AS Jml_Satuan
 					,c.nominal_satuan AS Nilai_Rp
 					,c.subtotal AS Total
 					,REPLACE(c.detil_uraian_belanja, "\'", "") AS Keterangan
-					FROM tx_rka_prog_keg a 
+					FROM tx_rka_prog_keg a
 					INNER JOIN m_skpd b
 					ON a.id_skpd = b.id_skpd
 					INNER JOIN tx_rka_belanja_kegiatan c
 					ON a.id = c.id_keg
-					WHERE is_prog_or_keg = 2 AND c.is_tahun_sekarang = 1 AND a.tahun = '.$ta.' 
-					AND a.id_skpd = '.$id_skpd.' AND c.id_keg = '.$val_belanja->id_keg.' 
-					AND LEFT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_1.' 
-					AND RIGHT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_2.' 
-					AND c.kode_kategori_belanja = '.$val_belanja->Kd_Rek_3.' 
-					AND c.kode_sub_kategori_belanja = '.$val_belanja->Kd_Rek_4.' 
+					WHERE is_prog_or_keg = 2 AND c.is_tahun_sekarang = 1 AND a.tahun = '.$ta.'
+					AND a.id_skpd = '.$id_skpd.' AND c.id_keg = '.$val_belanja->id_keg.'
+					AND LEFT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_1.'
+					AND RIGHT(c.kode_jenis_belanja, 1) = '.$val_belanja->Kd_Rek_2.'
+					AND c.kode_kategori_belanja = '.$val_belanja->Kd_Rek_3.'
+					AND c.kode_sub_kategori_belanja = '.$val_belanja->Kd_Rek_4.'
 					AND c.kode_belanja = '.$val_belanja->Kd_Rek_5.'
 					AND c.uraian_belanja = "'.$val_belanja_rinc->Keterangan.'"');
 
@@ -1573,8 +1584,8 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$ta_belanja = $this->db->query('SELECT * FROM simda_ta_belanja WHERE tahun = '.$ta.' AND kd_urusan = '.$kd_urusan.' AND kd_bidang = '.$kd_bidang.' AND kd_unit = '.$kd_unit.' AND kd_sub ='.$kd_sub.'')->result();
 		$ta_belanja_rinc = $this->db->query('SELECT * FROM simda_ta_belanja_rinc WHERE tahun = '.$ta.' AND kd_urusan = '.$kd_urusan.' AND kd_bidang = '.$kd_bidang.' AND kd_unit = '.$kd_unit.' AND kd_sub ='.$kd_sub.'')->result();
 		$ta_belanja_rinc_sub = $this->db->query('SELECT * FROM simda_ta_belanja_rinc_sub WHERE tahun = '.$ta.' AND kd_urusan = '.$kd_urusan.' AND kd_bidang = '.$kd_bidang.' AND kd_unit = '.$kd_unit.' AND kd_sub ='.$kd_sub.'')->result();
-		
-		
+
+
 		$serverName = "202.52.11.227\SERVER";
 		// $serverName = "192.168.2.147\sqlexpress";
 		// $serverName = "192.168.1.245\sqlexpress";
@@ -1584,7 +1595,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		// $qy_ta_sub_unit = 'Alter table ta_sub_unit disable trigger all;';
 		// foreach ($ta_sub_unit as $row) {
-		// 	$qy_ta_sub_unit .= "INSERT INTO ta_sub_unit 
+		// 	$qy_ta_sub_unit .= "INSERT INTO ta_sub_unit
 		// 		VALUES ('".$row->Tahun."'
 		// 		,'".$row->Kd_Urusan."'
 		// 		,'".$row->Kd_Bidang."'
@@ -1600,7 +1611,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		// $qy_ta_misi = 'Alter table ta_misi disable trigger all;';
 		// foreach ($ta_misi as $row) {
-		// 	$qy_ta_misi .= "INSERT INTO ta_misi 
+		// 	$qy_ta_misi .= "INSERT INTO ta_misi
 		// 		VALUES ('".$row->Tahun."'
 		// 		,'".$row->Kd_Urusan."'
 		// 		,'".$row->Kd_Bidang."'
@@ -1609,11 +1620,11 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		// 		,'3'
 		// 		,'".$row->Ur_Misi."');";
 		// }
-		// $qy_ta_misi .= 'Alter table ta_misi enable trigger all;';		
+		// $qy_ta_misi .= 'Alter table ta_misi enable trigger all;';
 
 		// $qy_ta_tujuan = 'Alter table ta_tujuan disable trigger all;';
 		// foreach ($ta_tujuan as $row) {
-		// 	$qy_ta_tujuan .= "INSERT INTO ta_tujuan 
+		// 	$qy_ta_tujuan .= "INSERT INTO ta_tujuan
 		// 		VALUES ('".$row->Tahun."'
 		// 		,'".$row->Kd_Urusan."'
 		// 		,'".$row->Kd_Bidang."'
@@ -1623,11 +1634,11 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		// 		,'".$row->No_Tujuan."'
 		// 		,'".$row->Ur_Tujuan."');";
 		// }
-		// $qy_ta_tujuan .= 'Alter table ta_tujuan enable trigger all;';		
+		// $qy_ta_tujuan .= 'Alter table ta_tujuan enable trigger all;';
 
 		// $qy_ta_sasaran = 'Alter table ta_sasaran disable trigger all;';
 		// foreach ($ta_sasaran as $row) {
-		// 	$qy_ta_sasaran .= "INSERT INTO ta_sasaran 
+		// 	$qy_ta_sasaran .= "INSERT INTO ta_sasaran
 		// 		VALUES ('".$row->Tahun."'
 		// 		,'".$row->Kd_Urusan."'
 		// 		,'".$row->Kd_Bidang."'
@@ -1642,7 +1653,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		$qy_ta_program = 'Alter table ta_program disable trigger all;';
 		foreach ($ta_program as $row) {
-			$qy_ta_program .= "INSERT INTO ta_program 
+			$qy_ta_program .= "INSERT INTO ta_program
 				VALUES ('".$row->Tahun."'
 				,'".$row->Kd_Urusan."'
 				,'".$row->Kd_Bidang."'
@@ -1661,7 +1672,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		$qy_ta_capaian_program = 'Alter table ta_capaian_program disable trigger all;';
 		foreach ($ta_capaian_program as $row) {
-			$qy_ta_capaian_program .= "INSERT INTO ta_capaian_program 
+			$qy_ta_capaian_program .= "INSERT INTO ta_capaian_program
 				VALUES ('".$row->Tahun."'
 				,'".$row->Kd_Urusan."'
 				,'".$row->Kd_Bidang."'
@@ -1678,7 +1689,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		$qy_ta_kegiatan = 'Alter table ta_kegiatan disable trigger all;';
 		foreach ($ta_kegiatan as $row) {
-			$qy_ta_kegiatan .= "INSERT INTO ta_kegiatan 
+			$qy_ta_kegiatan .= "INSERT INTO ta_kegiatan
 				VALUES ('".$row->Tahun."'
 				,'".$row->Kd_Urusan."'
 				,'".$row->Kd_Bidang."'
@@ -1699,7 +1710,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		$qy_ta_indikator = 'Alter table ta_indikator disable trigger all;';
 		foreach ($ta_indikator as $row) {
-			$qy_ta_indikator .= "INSERT INTO ta_indikator 
+			$qy_ta_indikator .= "INSERT INTO ta_indikator
 				VALUES ('".$row->Tahun."'
 				,'".$row->Kd_Urusan."'
 				,'".$row->Kd_Bidang."'
@@ -1727,7 +1738,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		sqlsrv_query($conn, "Alter table ta_belanja disable trigger all;");
 		foreach ($ta_belanja as $row) {
-			sqlsrv_query($conn, "INSERT INTO ta_belanja 
+			sqlsrv_query($conn, "INSERT INTO ta_belanja
 				VALUES ('".$row->Tahun."'
 				,'".$row->Kd_Urusan."'
 				,'".$row->Kd_Bidang."'
@@ -1748,7 +1759,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		sqlsrv_query($conn, "Alter table ta_belanja_rinc disable trigger all;");
 		foreach ($ta_belanja_rinc as $row) {
-			sqlsrv_query($conn, "INSERT INTO ta_belanja_rinc 
+			sqlsrv_query($conn, "INSERT INTO ta_belanja_rinc
 				VALUES ('".$row->Tahun."'
 				,'".$row->Kd_Urusan."'
 				,'".$row->Kd_Bidang."'
@@ -1770,7 +1781,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 
 		sqlsrv_query($conn, "Alter table ta_belanja_rinc_sub disable trigger all;");
 		foreach ($ta_belanja_rinc_sub as $row) {
-			sqlsrv_query($conn, "INSERT INTO ta_belanja_rinc_sub 
+			sqlsrv_query($conn, "INSERT INTO ta_belanja_rinc_sub
 				VALUES ('".$row->Tahun."'
 				,'".$row->Kd_Urusan."'
 				,'".$row->Kd_Bidang."'
@@ -1788,9 +1799,9 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				,'".$row->No_ID."'
 				,'".$row->Sat_1."'
 				,'".$row->Nilai_1."'
-				,NULL
+				,'".$row->Sat_2."'
 				,'".$row->Nilai_2."'
-				,NULL
+				,'".$row->Sat_3."'
 				,'".$row->Nilai_3."'
 				,'".$row->Satuan123."'
 				,'".$row->Jml_Satuan."'
@@ -1810,11 +1821,11 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$where_tambahan = "";
 		$pilihan = array(
 			'for_order' => array(
-				'1' => 'kode_jenis_belanja, kode_kategori_belanja', 
-				'2' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja', 
-				'3' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja', 
+				'1' => 'kode_jenis_belanja, kode_kategori_belanja',
+				'2' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja',
+				'3' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja',
 				'4' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja',
-				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja'
+				'5' => 'kode_jenis_belanja, kode_kategori_belanja, kode_sub_kategori_belanja, kode_belanja, uraian_belanja, detil_uraian_belanja, id'
 			),
 			'for_where' => array(
 				'1' => 'AND kode_jenis_belanja = "'.$id_pilihan[1].'"',
@@ -1852,7 +1863,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 						kode_belanja AS kode_belanja,(
 							SELECT belanja FROM m_belanja WHERE kd_jenis_belanja = kode_jenis_belanja AND kd_kategori_belanja = kode_kategori_belanja AND kd_subkategori_belanja = kode_sub_kategori_belanja AND kd_belanja = kode_belanja
 						) AS belanja,
-						uraian_belanja, detil_uraian_belanja, volume, satuan, nominal_satuan, subtotal, id_keg
+						uraian_belanja, detil_uraian_belanja, volume, satuan, volume_2, satuan_2, volume_3, satuan_3, nominal_satuan, subtotal, id_keg
 						FROM tx_rka_belanja_kegiatan
 						WHERE id_keg = '$id_kegiatan' ".$th." ".$not." ".$where_tambahan."
 						".$group_by."
@@ -1868,7 +1879,7 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			ref.sumber_dana,
 			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 1, ref.subtotal, 0) ) AS 'tahun1',
 			SUM( IF( ref.tahun = '$tahun' AND ref.is_tahun_sekarang = 0, ref.subtotal, 0) ) AS 'tahun2'
-			FROM (SELECT id_keg, 
+			FROM (SELECT id_keg,
 			(SELECT id_skpd FROM tx_rka_prog_keg WHERE id = id_keg) AS id_skpd
 			,kode_sumber_dana AS id_sumber
 			,(SELECT sumber_dana FROM m_sumber_dana WHERE id = id_sumber) AS sumber_dana
@@ -1882,6 +1893,74 @@ FROM tx_rka_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			WHERE ref.id_skpd = '$id_skpd'
 			GROUP BY ref.id_sumber, ref.sumber_dana
 			ORDER BY ref.id_sumber ASC) AS las
-			WHERE las.tahun1 > 0 OR las.tahun2 > 0");	
+			WHERE las.tahun1 > 0 OR las.tahun2 > 0");
 	}
+
+	function copy_belanja_kegiatan($keg_dari, $keg_tujuan){
+		$this->db->trans_strict(FALSE);
+		$this->db->trans_start();
+
+		$this->db->query("
+			INSERT INTO  tx_rka_belanja_kegiatan (
+				tahun,
+				kode_urusan,
+				kode_bidang,
+				kode_program,
+				kode_kegiatan,
+				kode_sumber_dana,
+				kode_jenis_belanja,
+				kode_kategori_belanja,
+				kode_sub_kategori_belanja,
+				kode_belanja,
+				uraian_belanja,
+				detil_uraian_belanja,
+				volume,
+				nominal_satuan,
+				subtotal,
+				is_tahun_sekarang,
+				volume_2,
+				satuan_2,
+				volume_3,
+				satuan_3,
+				id_keg,
+				created_date)
+			SELECT
+				tahun,
+				kode_urusan,
+				kode_bidang,
+				kode_program,
+				kode_kegiatan,
+				kode_sumber_dana,
+				kode_jenis_belanja,
+				kode_kategori_belanja,
+				kode_sub_kategori_belanja,
+				kode_belanja,
+				uraian_belanja,
+				detil_uraian_belanja,
+				volume,
+				nominal_satuan,
+				subtotal,
+				is_tahun_sekarang,
+				volume_2,
+				satuan_2,
+				volume_3,
+				satuan_3,
+				'$keg_tujuan',
+				'".date('Y-m-d H:i:s')."'
+			FROM tx_rka_belanja_kegiatan
+			WHERE id_keg = '$keg_dari'
+			");
+
+		$total = $this->db->query("SELECT
+			SUM( IF(ref.is_tahun_sekarang = 1, ref.subtotal, 0)) AS total_skr,
+			SUM( IF(ref.is_tahun_sekarang = 0, ref.subtotal, 0)) AS total_dpn
+			FROM tx_rka_belanja_kegiatan AS ref
+			WHERE id_keg = '$keg_tujuan'")->row();
+		$this->db->query("UPDATE tx_rka_prog_keg SET nominal = '".$total->total_skr."', nominal_thndpn = '".$total->total_dpn."'
+			WHERE id = '$keg_tujuan'");
+
+		$this->db->trans_complete();
+		return $this->db->trans_status();
+	}
+
 }

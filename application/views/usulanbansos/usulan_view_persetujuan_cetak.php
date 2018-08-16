@@ -46,6 +46,7 @@
 					<th>Nominal Anggaran</th>
 					<th>NO. Rekomendasi</th>
 					<th>Tgl Rekomendasi</th>
+					<th>Tgl Input Rekomendasi</th>
 					
 
 				</tr>
@@ -67,6 +68,11 @@
 			}else{
 				$StatusRKPD = "Disetujui";
 			};
+			if (!empty($row->norekomendasi)) {
+				$inpt = Formatting::date_format($row->changed_date, 'date');
+			}else{
+				$inpt = '';
+			}
 
 			
         		?>
@@ -84,7 +90,8 @@
 			<td><?php echo $StatusRKPD ?></td>
 			<td><?php echo  Formatting::currency($row->nominal_setuju,2) ?></td>
 			<td><?php echo  $row->norekomendasi ?></td>
-			<td><?php echo  $row->tglrekomendasi ?></td>
+			<td><?php echo  Formatting::date_format($row->tglrekomendasi) ?></td>
+			<td><?php echo  $inpt ?></td>
 			
 			
 			</tr>

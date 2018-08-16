@@ -10,6 +10,10 @@ class M_bidang extends CI_Model
 
     var $table_bidang = 'm_bidang';
 
+    function get_all_bidang(){
+    	return $this->db->get($this->table_bidang);
+    }
+
 	function get_value_autocomplete_kd_bidang($search, $kd_urusan){
 		$this->db->select('Kd_Bidang AS id, Nm_Bidang AS label');
 		$this->db->where('Kd_Urusan', $kd_urusan);

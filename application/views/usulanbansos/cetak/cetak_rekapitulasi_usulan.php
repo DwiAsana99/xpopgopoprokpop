@@ -40,6 +40,7 @@
 			<th>Nominal Rekomendasi</th>
 			<th>No. Rekomendasi</th>
 			<th>Tgl. Rekomendasi</th>
+			<th>Tgl. Input Rekomendasi</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -58,6 +59,11 @@
 				}else{
 					$pengusulbansos = $row->pengusulbansos;
 				}
+				if (!empty($row->norekomendasi)) {
+					$inpt = Formatting::date_format($row->changed_date, 'date');
+				}else{
+					$inpt = '';
+				}
 			 ?>
 			<tr>
 				<td><?php echo ($key+1).'.'; ?></td>
@@ -69,6 +75,7 @@
 				<td align="right"><?php echo Formatting::currency($row->nominal_rekomendasi, 2); ?></td>
 				<td><?php echo $row->norekomendasi; ?></td>
 				<td><?php echo Formatting::date_format($row->tglrekomendasi, 'date'); ?></td>
+				<td><?php echo $inpt; ?></td>
 			</tr>
 		<?php endforeach ?>
 	</tbody>
@@ -78,7 +85,7 @@
 			<th align="right"><?php echo Formatting::currency($total_dana, 2); ?></th>
 			<th colspan="2"></th>
 			<th align="right"><?php echo Formatting::currency($total_rekom, 2); ?></th>
-			<th colspan="2"></th>
+			<th colspan="3"></th>
 		</tr>
 	</tfoot>
 </table>

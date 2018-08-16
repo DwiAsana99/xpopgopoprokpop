@@ -113,13 +113,13 @@
 	$(document).ready(function(){
 		$('#nominal_satuan_1').autoNumeric(numOptionsNotRound);
 		$('#volume_1').autoNumeric(numOptionsNotRound);
-		$('#volume2_1').autoNumeric(numOptionsNotRound);
-		$('#volume3_1').autoNumeric(numOptionsNotRound);
+		// $('#volume2_1').autoNumeric(numOptionsNotRound);
+		// $('#volume3_1').autoNumeric(numOptionsNotRound);
 		$('#nominal_satuan_2').autoNumeric(numOptionsNotRound);
 		$('#volume_2').autoNumeric(numOptionsNotRound);
-		$('#volume_2').autoNumeric(numOptionsNotRound);
-		$('#volume2_2').autoNumeric(numOptionsNotRound);
-		$('#volume3_2').autoNumeric(numOptionsNotRound);
+		// $('#volume_2').autoNumeric(numOptionsNotRound);
+		// $('#volume2_2').autoNumeric(numOptionsNotRound);
+		// $('#volume3_2').autoNumeric(numOptionsNotRound);
 
 		prepare_chosen();
 		$(document).on("change", "#cb_jenis_belanja_1", function () {
@@ -218,9 +218,18 @@
         kd_jenis: kd_jenis
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat1_th"+th).attr('onclick','select_lihat1("'+th+'", true, "'+msg.pilihan.kd_jenis+'")');
+				$.ajax({
+	      type: "POST",
+		      url: '<?php echo site_url("common/edit_kategori_belanja"); ?>',
+		      data: {nama: 'lihat1_th'+th, jenis: '5.2', kategori: ''},
+		      success: function(msg){
+						$("#combox_th"+th).html(msg);
+		        prepare_chosen();
+		      }
+		    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat1_th"+th).removeAttr("disabled");
@@ -242,13 +251,22 @@
         id_keg: id_kegiatan,
         tahun: th,
         group: '2',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat2_th"+th).attr('onclick','select_lihat2("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'")');
+				$.ajax({
+		      type: "POST",
+		      url: '<?php echo site_url("common/edit_sub_belanja"); ?>',
+		      data: {nama: 'lihat2_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: ''},
+		      success: function(msg){
+		        $("#combox_th"+th).html(msg);
+		        prepare_chosen();
+		      }
+		    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat2_th"+th).removeAttr("disabled");
@@ -269,14 +287,23 @@
         id_keg: id_kegiatan,
         tahun: th,
         group: '3',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat,
         kd_sub: kd_sub
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat3_th"+th).attr('onclick','select_lihat3("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'")');
+				$.ajax({
+		      type: "POST",
+		      url: '<?php echo site_url("common/edit_belanja_belanja"); ?>',
+		      data: {nama: 'lihat3_th'+th, jenis: kd_jenis, kategori: kd_kat, sub: kd_sub, belanja: ''},
+		      success: function(msg){
+		        $("#combox_th"+th).html(msg);
+		        prepare_chosen();
+		      }
+		    });
         if (!from_back) {
           $("#text_lihat_th"+th).html(msg.title);
           $("#btn_lihat3_th"+th).removeAttr("disabled");
@@ -296,13 +323,13 @@
         id_keg: id_kegiatan,
         tahun: th,
         group: '4',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat,
         kd_sub: kd_sub,
         kd_bel: kd_bel
       },
       success: function(msg){
-      	clear_belanja('jns', th);
+      	// clear_belanja('jns', th);
         $("#box_lihat_th"+th).html(msg.html);
         $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", true, "'+msg.pilihan.kd_jenis+'", "'+msg.pilihan.kd_kat+'", "'+msg.pilihan.kd_sub+'", "'+msg.pilihan.kd_bel+'")');
         if (!from_back) {
@@ -323,7 +350,7 @@
         id_keg: id_kegiatan,
         tahun: th,
         group: '5',
-        kd_jenis: kd_jenis, 
+        kd_jenis: kd_jenis,
         kd_kat: kd_kat,
         kd_sub: kd_sub,
         kd_bel: kd_bel,
@@ -332,11 +359,21 @@
       },
       success: function(msgRespon){
         $("#box_lihat_th"+th).html(msgRespon.html);
+				$.ajax({
+		      type: "POST",
+		      url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
+		      data: {nama: 'lihat5_sumberdana_th'+th, id: ''},
+		      success: function(msg){
+		        $("#combox_sumberdana_th"+th).html(msg);
+		        $("#lihat5_sumberdana_th"+th).attr('onchange', 'onchange_sumberdana($(this), "'+th+'")');
+		        prepare_chosen();
+		      }
+		    });
         $("#btn_lihat4_th"+th).attr('onclick','select_lihat4("'+th+'", false, "'+msgRespon.pilihan.kd_jenis+'", "'+msgRespon.pilihan.kd_kat+'", "'+msgRespon.pilihan.kd_sub+'", "'+msgRespon.pilihan.kd_bel+'")');
         if (!from_back) {
-		  clear_belanja('jns', th);
           $("#text_lihat_th"+th).html(msgRespon.title);
           $("#btn_lihat4_th"+th).removeAttr("disabled");
+					clear_belanja('deturaian', th);
         }else if(from_back == 666){
           $("#btn_lihat1_th"+th).attr("disabled", "disabled");
           $("#btn_lihat2_th"+th).attr("disabled", "disabled");
@@ -348,8 +385,9 @@
           $("#btn_lihat2_th"+th).removeAttr("disabled");
           $("#btn_lihat3_th"+th).removeAttr("disabled");
           $("#btn_lihat4_th"+th).removeAttr("disabled");
+					clear_belanja('deturaian', th);
         }else{
-          clear_belanja('jns', th);
+          clear_belanja('deturaian', th);
         }
       }
     });
@@ -362,8 +400,11 @@
     min-width: 300px;
   }
   .custom:enabled{
-    background-color: #f4f4f4 !important;
+    background-color: #8cf5ff !important;
     margin-bottom: 5px !important;
+  }
+  .custom:hover{
+    background-color: #64f1ff !important;
   }
   .custom:disabled{
     background-color: #ddd !important;
@@ -611,7 +652,7 @@
 							</div>
 							<hr>
 						</td>
-	
+
 					</tr>
 					<tr <?php if(empty($kegiatan->id)){echo "style='display: none;'";} ?>>
 						<td colspan="3">
@@ -627,7 +668,7 @@
 	<!-- /.tab-pane -->
 	<div class="active tab-pane" id="tahun1">
 		<div class="tab-pane" id="tahun1">
-			<table>
+			<table style="display: none;">
 
 				<input type="hidden" id="inIndex_1" name="inIndex_1" value="1"/>
 				<input type="hidden" id="tahun_1" name="tahun_1" value=<?php if(!empty($detil_kegiatan_1)){echo $detil_kegiatan_1[0]->tahun;} ?> />
@@ -723,12 +764,12 @@
 			</div>
 
 			<div class="submit_link">
-	      		<input type='button' id="tambahjnsbelanja" onclick="save_belanja(1, 'jns');" style="cursor:pointer;" value="+ Kelompok Belanja">
+	      		<!-- <input type='button' id="tambahjnsbelanja" onclick="save_belanja(1, 'jns');" style="cursor:pointer;" value="+ Kelompok Belanja">
       			<input type='button'  id="tambahkatbelanja" onclick="save_belanja(1, 'kat');" style="cursor:pointer;" value='+ Jenis Belanja'>
 		      	<input type='button'  id="tambahsubkatbelanja" onclick="save_belanja(1, 'subkat');" style="cursor:pointer;" value='+ Obyek Belanja'>
 		      	<input type='button'  id="tambahbelanja" onclick="save_belanja(1, 'belanja');" style="cursor:pointer;" value='+ Rincian Obyek'>
 		      	<input type='button'  id="tambahuraian" onclick="save_belanja(1, 'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
-		      	<input type='button'  id="tambahdeturaian" onclick="save_belanja(1, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'>
+		      	<input type='button'  id="tambahdeturaian" onclick="save_belanja(1, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'> -->
 			</div>
 	<br>
 	<div class="row">
@@ -736,10 +777,10 @@
 	    	<b id="text_lihat_th1"></b>
 	    </div>
 	    <div class="col-md-2">
-	      <button type="button" class="col-md-12 custom" id="btn_lihat1_th1" onclick='select_lihat1("1", true, "5.2")'>Jenis Belanja</button>
-	      <button type="button" class="col-md-12 custom" id="btn_lihat2_th1" disabled>Obyek Belanja</button>
-	      <button type="button" class="col-md-12 custom" id="btn_lihat3_th1" disabled>Rincian Obyek</button>
-	      <button type="button" class="col-md-12 custom" id="btn_lihat4_th1" disabled>Rincian Belanja</button>
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat1_th1" onclick='select_lihat1("1", true, "5.2")'>Jenis Belanja</button>
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat2_th1" disabled>Obyek Belanja</button>
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat3_th1" disabled>Rincian Obyek</button>
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat4_th1" disabled>Rincian Belanja</button>
 	    </div>
 	    <div class="col-md-10" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th1">
 	      <?php if (!empty($detil_kegiatan_1)): ?>
@@ -756,7 +797,7 @@
 
 
 										<div class="tab-pane" id="tahun2">
-											<table>
+											<table style="display: none;">
 												<input type="hidden" id="inIndex_2" name="inIndex_2" value="1"/>
 												<input type="hidden" id="tahun_2" name="tahun_2" value=<?php if(!empty($detil_kegiatan_2)){echo $detil_kegiatan_2[0]->tahun;} ?> />
 												<input type="hidden" id="isEdit_2" value="0"/>
@@ -863,25 +904,25 @@
 											</div>
 
 			<div class="submit_link">
-	      		<input type='button' id="tambahjnsbelanja" onclick="save_belanja(2, 'jns');" style="cursor:pointer;" value="+ Kelompok Belanja">
+	      		<!-- <input type='button' id="tambahjnsbelanja" onclick="save_belanja(2, 'jns');" style="cursor:pointer;" value="+ Kelompok Belanja">
       			<input type='button'  id="tambahkatbelanja" onclick="save_belanja(2, 'kat');" style="cursor:pointer;" value='+ Jenis Belanja'>
 		      	<input type='button'  id="tambahsubkatbelanja" onclick="save_belanja(2, 'subkat');" style="cursor:pointer;" value='+ Obyek Belanja'>
 		      	<input type='button'  id="tambahbelanja" onclick="save_belanja(2, 'belanja');" style="cursor:pointer;" value='+ Rincian Obyek'>
 		      	<input type='button'  id="tambahuraian" onclick="save_belanja(2, 'uraian');" style="cursor:pointer;" value='+ Rincian Belanja'>
-		      	<input type='button'  id="tambahdeturaian" onclick="save_belanja(2, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'>
+		      	<input type='button'  id="tambahdeturaian" onclick="save_belanja(2, 'deturaian');" style="cursor:pointer;" value='+ Sub Rincian Belanja'> -->
 			</div>
 	<br>
 	<div class="row">
 	    <div class="col-md-12" style="margin-bottom: 15px;">
 	    	<b id="text_lihat_th2"></b>
 	    </div>
-	    <div class="col-md-3">
-	      <button type="button" class="col-md-12 custom" id="btn_lihat1_th2" onclick='select_lihat1("2", true, "5.2")'>Jenis Belanja</button>
-	      <button type="button" class="col-md-12 custom" id="btn_lihat2_th2" disabled>Obyek Belanja</button>
-	      <button type="button" class="col-md-12 custom" id="btn_lihat3_th2" disabled>Rincian Obyek</button>
-	      <button type="button" class="col-md-12 custom" id="btn_lihat4_th2" disabled>Rincian Belanja</button>
+	    <div class="col-md-2">
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat1_th2" onclick='select_lihat1("2", true, "5.2")'>Jenis Belanja</button>
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat2_th2" disabled>Obyek Belanja</button>
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat3_th2" disabled>Rincian Obyek</button>
+	      <button type="button" class="col-md-12 btn custom" id="btn_lihat4_th2" disabled>Rincian Belanja</button>
 	    </div>
-	    <div class="col-md-9" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th2">
+	    <div class="col-md-10" style="border: 1px solid #ddd; background-color: #f9f9f9; min-height: 150px;" id="box_lihat_th2">
 	      <?php if (!empty($detil_kegiatan_2)): ?>
 	        <?php foreach ($detil_kegiatan_2 as $key => $row): ?>
 	          <?php if (!empty($row->kode_sumber_dana)): ?>
@@ -896,14 +937,14 @@
 							</div>
 						</td>
 					</tr>
-					
+
 
 				</tbody>
 			</table>
 		</form>
 	</div>
 	<footer>
-		
+
 	</footer>
 </div>
 <div style="display: none" id="indikator_box_kegiatan">
@@ -1022,13 +1063,17 @@
 			}
 		});
 	}
-  function sumber_dananya_1(p_nama, p_id) {
+  function sumber_dananya_1(p_nama, p_id, slctor=null) {
     $.ajax({
       type: "POST",
       url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
       data: {nama: p_nama, id: p_id},
       success: function(msg){
-        $("#combo_sumberdana_1").html(msg);
+				if (slctor!=null) {
+          $("#combox_sumberdana_th1").html(msg);
+        }else{
+          $("#combo_sumberdana_1").html(msg);
+        }
         prepare_chosen();
       }
     });
@@ -1079,13 +1124,17 @@
 	      }
 	    });
 	  }
-	  function sumber_dananya_2(p_nama, p_id) {
+	  function sumber_dananya_2(p_nama, p_id, slctor=null) {
 	    $.ajax({
 	      type: "POST",
 	      url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
 	      data: {nama: p_nama, id: p_id},
 	      success: function(msg){
-	        $("#combo_sumberdana_2").html(msg);
+					if (slctor!=null) {
+	          $("#combox_sumberdana_th2").html(msg);
+	        }else{
+	          $("#combo_sumberdana_2").html(msg);
+	        }
 	        prepare_chosen();
 	      }
 	    });
@@ -1113,7 +1162,7 @@
 			is_tahun = 0;
 			tahun_skr = parseInt($('input[name=tahun]').val()) + 1;
 		}
-		
+
 		var uraian_kegiatan = "";
 		// $('#uraian_kegiatan_'+tahun).val();
 
@@ -1126,15 +1175,23 @@
 		var deturaian = $('#det_uraian_'+tahun).val();
 		var volume1 = $('#volume_'+tahun).autoNumeric('get');
 		var satuan1 = $('#satuan_'+tahun).val();
-		var volume2 = (($('#volume2_'+tahun).val() != '' && $('#volume2_'+tahun).autoNumeric('get')>=1) ? $('#volume2_'+tahun).autoNumeric('get') : '1');
-		var volume2db = (($('#volume2_'+tahun).val() != '' && $('#volume2_'+tahun).autoNumeric('get')>=1) ? $('#volume2_'+tahun).autoNumeric('get') : '0');
+		var volume2 = (($('#volume2_'+tahun).val() != '' && $('#volume2_'+tahun).val()>=1) ? parseFloat($('#volume2_'+tahun).val()) : '1');
+		var volume2db = parseFloat($('#volume2_'+tahun).val());
 		var satuan2 = $('#satuan2_'+tahun).val();
-		var volume3 = (($('#volume3_'+tahun).val() != '' && $('#volume3_'+tahun).autoNumeric('get')>=1) ? $('#volume3_'+tahun).autoNumeric('get') : '1');
-		var volume3db = (($('#volume3_'+tahun).val() != '' && $('#volume3_'+tahun).autoNumeric('get')>=1) ? $('#volume3_'+tahun).autoNumeric('get') : '0');
+		var volume3 = (($('#volume3_'+tahun).val() != '' && $('#volume3_'+tahun).val()>=1) ? parseFloat($('#volume3_'+tahun).val()) : '1');
+		var volume3db = parseFloat($('#volume3_'+tahun).val());
 		var satuan3 = $('#satuan3_'+tahun).val();
 		var nomsatuan = $('#nominal_satuan_'+tahun).autoNumeric('get');
 
-		var subtotal = parseFloat(volume1) * parseFloat(volume2) * parseFloat(volume3) * parseFloat(nomsatuan);
+		if(parseFloat(volume2) == 0){
+			var subtotal = parseFloat(volume1) * parseFloat(nomsatuan);
+		}else if(parseFloat(volume3) == 0){
+			var subtotal = parseFloat(volume1) * parseFloat(volume2) * parseFloat(nomsatuan);
+		}else{
+			var subtotal = parseFloat(volume1) * parseFloat(volume2) * parseFloat(volume3) * parseFloat(nomsatuan);
+		}
+
+		// var subtotal = parseFloat(volume1) * parseFloat(volume2) * parseFloat(volume3) * parseFloat(nomsatuan);
 
 // var status = true;
 		var status = eliminationName(jenis, kategori, subkategori, belanja, uraian, deturaian, volume1, satuan1, nomsatuan, sumberdana, clue, '#cusAlert_'+tahun, 'pesan_'+tahun);
@@ -1144,7 +1201,7 @@
 			    type: "POST",
 			    url: '<?php echo site_url("renja/belanja_kegiatan_save"); ?>',
 			    dataType: 'html',
-			    data: { 
+			    data: {
 			    // id_renstra : id_renstra,
 			    is_tahun_sekarang : is_tahun,
 			    tahun : tahun_skr,
@@ -1154,7 +1211,7 @@
 			    kode_program : kd_program,
 			    kode_kegiatan : kd_kegiatan,
 			    id_keg : id_kegiatan,
-			    kode_jenis_belanja : jenis, 
+			    kode_jenis_belanja : jenis,
 			    kode_kategori_belanja : kategori,
 			    kode_sub_kategori_belanja : subkategori,
 			    kode_belanja : belanja,
@@ -1191,7 +1248,7 @@
 
 	function clear_belanja(clue, tahun){
 		if (clue=='all') {
-	      	
+
 	    }
 	    else if (clue=='jns') {
 			document.getElementById("cb_jenis_belanja_"+tahun).value = '';
@@ -1319,7 +1376,7 @@
           },
           success: function(msg){
             select_lihat5(tahun, 666, msg.edit.kode_jenis_belanja, msg.edit.kode_kategori_belanja, msg.edit.kode_sub_kategori_belanja, msg.edit.kode_belanja, msg.edit.uraian_belanja, id_belanja);
-            
+
             var total = 0;
             for (var i = 0; i < msg.list.length; i++) {
               total += parseInt(msg.list[i].subtotal);
@@ -1331,6 +1388,18 @@
             var sumber_dana = msg.edit.kode_sumber_dana;
 
             if (tahun == 1) {
+							setTimeout(function(){
+		            sumber_dananya_1("lihat5_sumberdana_th1", sumber_dana, 'lihat5_sumberdana_th1');
+		            $("#lihat5_subrincian_th1").val(msg.edit.detil_uraian_belanja);
+		            $("#lihat5_vol1_th1").val(msg.edit.volume);
+		            $("#lihat5_satuan1_th1").val(msg.edit.satuan);
+		            $("#lihat5_vol2_th1").val(msg.edit.volume_2);
+		            $("#lihat5_satuan2_th1").val(msg.edit.satuan_2);
+		            $("#lihat5_vol3_th1").val(msg.edit.volume_3);
+		            $("#lihat5_satuan3_th1").val(msg.edit.satuan_3);
+		            $("#lihat5_nominalsatuan_th1").val(msg.edit.nominal_satuan);
+		          }, 2500);
+
 	            jenis_belanjanya_1("cb_jenis_belanja_1", jenis);
 	            kategori_belanjanya_1("cb_kategori_belanja_1", jenis, kategori);
 	            sub_belanjanya_1("cb_subkategori_belanja_1", jenis, kategori, sub);
@@ -1340,13 +1409,27 @@
 	            $('#det_uraian_1').val(msg.edit.detil_uraian_belanja);
 	            $('#volume_1').autoNumeric('set', msg.edit.volume);
 	            $('#satuan_1').val(msg.edit.satuan);
-	            $('#volume2_1').autoNumeric('set', msg.edit.volume_2);
+	            // $('#volume2_1').autoNumeric('set', msg.edit.volume_2);
+	            $('#volume2_1').val(msg.edit.volume_2);
 	            $('#satuan2_1').val(msg.edit.satuan_2);
-	            $('#volume3_1').autoNumeric('set', msg.edit.volume_3);
+	            // $('#volume3_1').autoNumeric('set', msg.edit.volume_3);
+	            $('#volume3_1').val(msg.edit.volume_3);
 	            $('#satuan3_1').val(msg.edit.satuan_3);
 	            $('#nominal_satuan_1').autoNumeric('set', msg.edit.nominal_satuan);
 	            $('#nominal').autoNumeric('set', total);
         	}else{
+						setTimeout(function(){
+	            sumber_dananya_2("lihat5_sumberdana_th2", sumber_dana, 'lihat5_sumberdana_th2');
+	            $("#lihat5_subrincian_th2").val(msg.edit.detil_uraian_belanja);
+	            $("#lihat5_vol1_th2").val(msg.edit.volume);
+	            $("#lihat5_satuan1_th2").val(msg.edit.satuan);
+	            $("#lihat5_vol2_th2").val(msg.edit.volume_2);
+	            $("#lihat5_satuan2_th2").val(msg.edit.satuan_2);
+	            $("#lihat5_vol3_th2").val(msg.edit.volume_3);
+	            $("#lihat5_satuan3_th2").val(msg.edit.satuan_3);
+	            $("#lihat5_nominalsatuan_th2").val(msg.edit.nominal_satuan);
+	          }, 2500);
+
         		jenis_belanjanya_2("cb_jenis_belanja_2", jenis);
 	            kategori_belanjanya_2("cb_kategori_belanja_2", jenis, kategori);
 	            sub_belanjanya_2("cb_subkategori_belanja_2", jenis, kategori, sub);
@@ -1356,17 +1439,19 @@
 	            $('#det_uraian_2').val(msg.edit.detil_uraian_belanja);
 	            $('#volume_2').autoNumeric('set', msg.edit.volume);
 	            $('#satuan_2').val(msg.edit.satuan);
-	            $('#volume2_2').autoNumeric('set', msg.edit.volume_2);
+	            // $('#volume2_2').autoNumeric('set', msg.edit.volume_2);
+	            $('#volume2_2').val(msg.edit.volume_2);
 	            $('#satuan2_2').val(msg.edit.satuan_2);
-	            $('#volume3_2').autoNumeric('set', msg.edit.volume_3);
+	            // $('#volume3_2').autoNumeric('set', msg.edit.volume_3);
+	            $('#volume3_2').val(msg.edit.volume_3);
 	            $('#satuan3_2').val(msg.edit.satuan_3);
 	            $('#nominal_satuan_2').autoNumeric('set', msg.edit.nominal_satuan);
 	            $('#nominal_thndpn').autoNumeric('set', total);
         	}
 
-            
+
           }
-      });      
+      });
     }
   }
 
@@ -1404,8 +1489,125 @@
 			}else{
 				$('#nominal_thndpn').autoNumeric('set', total);
 			}
-            
+
         }
       });
+  }
+
+
+	function tambah_belanja(th, kd_jenis, kd_kat=null, kd_sub=null, kd_bel=null, uraian=null) {
+		if(kd_kat!=null && kd_sub!=null && kd_bel!=null && uraian!=null){
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+			belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, kd_bel, th);
+			$("#uraian_"+th).val(uraian);
+			setTimeout(function(){
+				save_belanja(th, 'deturaian');
+			}, 2500);
+		}else if(kd_kat!=null && kd_sub!=null && kd_bel!=null && uraian==null){
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+			belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, kd_bel, th);
+			$("#uraian_"+th).val($('#lihat4_th'+th).val());
+			select_lihat5(th, false, kd_jenis, kd_kat, kd_sub, kd_bel, $('#lihat4_th'+th).val());
+		}else if(kd_kat!=null && kd_sub!=null && kd_bel==null && uraian==null){
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+			belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, $('#lihat3_th'+th).val(), th);
+			select_lihat4(th, false, kd_jenis, kd_kat, kd_sub, $('#lihat3_th'+th).val());
+		}else if(kd_kat!=null && kd_sub==null && kd_bel==null && uraian==null){
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+			sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, $('#lihat2_th'+th).val(), th);
+			select_lihat3(th, false, kd_jenis, kd_kat, $('#lihat2_th'+th).val());
+		}else if (kd_kat==null && kd_sub==null && kd_bel==null && uraian==null) {
+			jenis_belanjanya("cb_jenis_belanja_"+th, kd_jenis, th);
+			kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, $('#lihat1_th'+th).val(), th);
+			select_lihat2(th, false, kd_jenis, $('#lihat1_th'+th).val());
+		}
+		// if (kd_kat != null) {
+		// 	kategori_belanjanya("cb_kategori_belanja_"+th, kd_jenis, kd_kat, th);
+		// }
+		// if (kd_sub != null) {
+		// 	sub_belanjanya("cb_subkategori_belanja_"+th, kd_jenis, kd_kat, kd_sub, th);
+		// }
+		// if (kd_bel != null) {
+		// 	belanja_belanjanya("cb_belanja_"+th, kd_jenis, kd_kat, kd_sub, kd_bel, th);
+		// }
+		// if (uraian != null) {
+		// 	$('#uraian_'+th).val(uraian);
+		// }
+		// sumber_dananya_1("sumberdana_"+th, sumber_dana);
+	}
+
+  function jenis_belanjanya(p_nama, p_jenis, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_jenis_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis},
+      success: function(msg){
+        $("#combo_jenis_belanja_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+  function kategori_belanjanya(p_nama, p_jenis, p_kategori, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_kategori_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis, kategori: p_kategori},
+      success: function(msg){
+        $("#combo_kategori_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+  function sub_belanjanya(p_nama, p_jenis, p_kategori, p_sub, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_sub_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis, kategori: p_kategori, sub: p_sub},
+      success: function(msg){
+        $("#combo_subkategori_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+  function belanja_belanjanya(p_nama, p_jenis, p_kategori, p_sub, p_belanja, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_belanja_belanja"); ?>',
+      data: {nama: p_nama, jenis: p_jenis, kategori: p_kategori, sub: p_sub, belanja: p_belanja},
+      success: function(msg){
+        $("#combo_belanja_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+
+  function sumber_dananya(p_nama, p_id, th) {
+    $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("common/edit_sumber_dana"); ?>',
+      data: {nama: p_nama, id: p_id},
+      success: function(msg){
+        $("#combo_sumberdana_"+th).html(msg);
+        prepare_chosen();
+      }
+    });
+  }
+
+  function onchange_sumberdana(ini, th) {
+  	$("#sumberdana_"+th).val(ini.val());
+  }
+
+  function inputAtas(ini, itu) {
+  	itu.val(ini.val());
+  	// console.log(itu);
+  	// console.log(ini);
+  	// alert(itu);
   }
 </script>
