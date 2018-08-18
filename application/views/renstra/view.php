@@ -6,6 +6,15 @@
 		$enable_add = FALSE;
 	}
 ?>
+<?php 
+	$skpd_login = $this->db->query("SELECT * FROM m_skpd WHERE id_skpd = ".$this->session->userdata('id_skpd'))->row(); 
+
+	if ($skpd_login->id_skpd != $skpd_login->kode_unit) {
+		$enable_add = FALSE;
+		$enable_edit = FALSE;
+		$enable_delete = FALSE;
+	}
+?>
 <style type="text/css">
 	.table-common, .table-display{
 	    border: 2px solid #000;
@@ -195,8 +204,6 @@
 		$("#jendela_kontrol").load("<?php echo site_url('renstra/get_jendela_kontrol'); ?>");
 	}
 </script>
-
-<?php $skpd_login = $this->db->query("SELECT * FROM m_skpd WHERE id_skpd = ".$this->session->userdata('id_skpd'))->row(); ?>
 
 <article class="module width_full" id="jendela_kontrol">
 </article>

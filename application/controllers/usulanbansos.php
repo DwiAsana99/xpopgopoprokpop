@@ -647,10 +647,15 @@ class usulanbansos extends CI_Controller
 
 			$data['nama_pengusul_ng'] = $result->nama_pengusul_ng;
 
-			$tglrekom = explode('-', $result->tglrekomendasi);
-			$dayyy = explode(' ', $tglrekom[2]);
-			$tglrekomen = $dayyy[0]."/".$tglrekom[1]."/".$tglrekom[0];
-			$data['tglrekomendasi'] = $tglrekomen;
+			$data['tglrekomendasi'] = '';
+			if (!empty($result->tglrekomendasi)) {
+				$tglrekom = explode('-', $result->tglrekomendasi);
+				$dayyy = explode(' ', $tglrekom[2]);
+				$tglrekomen = $dayyy[0]."/".$tglrekom[1]."/".$tglrekom[0];
+				$data['tglrekomendasi'] = $tglrekomen;
+			}
+
+			
 			//$data['file_rekomendasi'] = $result->filerekomendasi;
 
 			$data['isEdit']				= TRUE;

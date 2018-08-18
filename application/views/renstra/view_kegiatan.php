@@ -30,6 +30,7 @@
 	// 	$enable_edit = FALSE;
 	// 	$enable_delete = FALSE;
 	// }
+	print_r($this->session->userdata("id_skpd"));
 ?>
 <script type="text/javascript">
 

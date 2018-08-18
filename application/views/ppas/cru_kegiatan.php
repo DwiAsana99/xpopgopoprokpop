@@ -1108,7 +1108,7 @@
 		var subkategori = $('#cb_subkategori_belanja_'+tahun).val();
 		var belanja = $('#cb_belanja_'+tahun).val();
 		var uraian = $('#uraian_'+tahun).val();
-		var sumberdana = $('#sumberdana_'+tahun).val();
+		var sumberdana = $('#lihat5_sumberdana_th'+tahun).val();
 		var deturaian = $('#det_uraian_'+tahun).val();
 		var volume1 = $('#volume_'+tahun).autoNumeric('get');
 		var satuan1 = $('#satuan_'+tahun).val();
@@ -1323,7 +1323,7 @@
             var sumber_dana = msg.edit.kode_sumber_dana;
 
             if (tahun == 1) {
-							setTimeout(function(){
+				setTimeout(function(){
 		            sumber_dananya_1("lihat5_sumberdana_th1", sumber_dana, 'lihat5_sumberdana_th1');
 		            $("#lihat5_subrincian_th1").val(msg.edit.detil_uraian_belanja);
 		            $("#lihat5_vol1_th1").val(msg.edit.volume);
@@ -1353,17 +1353,17 @@
 	            $('#nominal_satuan_1').autoNumeric('set', msg.edit.nominal_satuan);
 	            $('#nominal').autoNumeric('set', total);
         	}else{
-						setTimeout(function(){
-	            sumber_dananya_2("lihat5_sumberdana_th2", sumber_dana, 'lihat5_sumberdana_th2');
-	            $("#lihat5_subrincian_th2").val(msg.edit.detil_uraian_belanja);
-	            $("#lihat5_vol1_th2").val(msg.edit.volume);
-	            $("#lihat5_satuan1_th2").val(msg.edit.satuan);
-	            $("#lihat5_vol2_th2").val(msg.edit.volume_2);
-	            $("#lihat5_satuan2_th2").val(msg.edit.satuan_2);
-	            $("#lihat5_vol3_th2").val(msg.edit.volume_3);
-	            $("#lihat5_satuan3_th2").val(msg.edit.satuan_3);
-	            $("#lihat5_nominalsatuan_th2").val(msg.edit.nominal_satuan);
-	          }, 2500);
+				setTimeout(function(){
+		            sumber_dananya_2("lihat5_sumberdana_th2", sumber_dana, 'lihat5_sumberdana_th2');
+		            $("#lihat5_subrincian_th2").val(msg.edit.detil_uraian_belanja);
+		            $("#lihat5_vol1_th2").val(msg.edit.volume);
+		            $("#lihat5_satuan1_th2").val(msg.edit.satuan);
+		            $("#lihat5_vol2_th2").val(msg.edit.volume_2);
+		            $("#lihat5_satuan2_th2").val(msg.edit.satuan_2);
+		            $("#lihat5_vol3_th2").val(msg.edit.volume_3);
+		            $("#lihat5_satuan3_th2").val(msg.edit.satuan_3);
+		            $("#lihat5_nominalsatuan_th2").val(msg.edit.nominal_satuan);
+		          }, 2500);
 
         		jenis_belanjanya_2("cb_jenis_belanja_2", jenis);
 	            kategori_belanjanya_2("cb_kategori_belanja_2", jenis, kategori);

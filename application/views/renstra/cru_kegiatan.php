@@ -918,7 +918,7 @@ function do_hitung(kategori_target, status_target, index, forakhir){
 		var subkategori = $('#cb_subkategori_belanja_'+tahun).val();
 		var belanja = $('#cb_belanja_'+tahun).val();
 		var uraian = $('#uraian_'+tahun).val();
-		var sumberdana = $('#sumberdana_'+tahun).val();
+		var sumberdana = $('#lihat5_sumberdana_th'+tahun).val();
 		var deturaian = $('#det_uraian_'+tahun).val();
 		var volume1 = parseFloat($('#volume_'+tahun).autoNumeric('get'));
 		var satuan1 = $('#satuan_'+tahun).val();

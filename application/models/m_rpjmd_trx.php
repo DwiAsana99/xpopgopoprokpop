@@ -366,7 +366,7 @@ class M_rpjmd_trx extends CI_Model
 	}
 
 	function add_sasaran($data, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir){
+				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir, $urusan_bidang){
 		$this->db->trans_strict(FALSE);
 		$this->db->trans_start();
 
@@ -378,12 +378,22 @@ class M_rpjmd_trx extends CI_Model
 			'kondisi_awal' => $kondisi_awal[$key], 'target_1' => $target_1[$key], 'target_2' => $target_2[$key], 'target_3' => $target_3[$key], 'target_4' => $target_4[$key], 'target_5' => $target_5[$key], 'kondisi_akhir' => $kondisi_akhir[$key]));
 		}
 
+		
+		foreach ($urusan_bidang as $key => $val) {
+			if (!empty($val)) {
+				$urbid = $this->db->query("SELECT * FROM m_bidang WHERE id = '".$urusan_bidang[$key]."'")->row();
+				$this->db->insert('t_rpjmd_urusan_bidang', array('id_sasaran' => $id, 'kd_urusan' => $urbid->Kd_Urusan, 
+					'kd_bidang' => $urbid->Kd_Bidang, 'nama_urusan_bidang' => $urbid->Nm_Bidang));
+			}
+		}
+
 		$this->db->trans_complete();
 		return $this->db->trans_status();
 	}
 
 	function edit_sasaran($data, $id_sasaran, $id_indikator, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir){
+				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir, $urusan_bidang){
+
 		$this->db->trans_strict(FALSE);
 		$this->db->trans_start();
 
@@ -412,6 +422,17 @@ class M_rpjmd_trx extends CI_Model
 			$this->db->delete($this->table_indikator_sasaran);
 		}
 
+		//for urusan bidang
+		$this->db->where('id_sasaran', $id_sasaran);
+		$this->db->delete('t_rpjmd_urusan_bidang');
+		foreach ($urusan_bidang as $key => $val) {
+			if (!empty($val)) {
+				$urbid = $this->db->query("SELECT * FROM m_bidang WHERE id = '".$urusan_bidang[$key]."'")->row();
+				$this->db->insert('t_rpjmd_urusan_bidang', array('id_sasaran' => $id_sasaran, 'kd_urusan' => $urbid->Kd_Urusan, 
+					'kd_bidang' => $urbid->Kd_Bidang, 'nama_urusan_bidang' => $urbid->Nm_Bidang));
+			}
+		}
+
 		$this->db->trans_complete();
 		return $this->db->trans_status();
 	}
@@ -419,6 +440,13 @@ class M_rpjmd_trx extends CI_Model
 	function delete_sasaran($id){
 		$this->db->where('id', $id);
 		$result = $this->db->delete($this->table_sasaran);
+		if ($result) {
+			$this->db->where_in('id_sasaran', $id_sasaran);
+			$this->db->delete($this->table_indikator_sasaran);
+
+			$this->db->where('id_sasaran', $id_sasaran);
+			$this->db->delete('t_rpjmd_urusan_bidang');
+		}
 		return $result;
 	}
 
@@ -1444,6 +1472,21 @@ class M_rpjmd_trx extends CI_Model
 		return $this->db->query($query)->result();
 	}
 
+	function get_urusan_bidang_sasaran($id_sasaran, $kd_urusan=NULL, $kd_bidang=NULL){
+		if (!empty($id_sasaran)) {
+			$result = $this->db->query("SELECT b.id, b.Kd_Urusan, b.Kd_Bidang, r.nama_urusan_bidang FROM m_bidang b
+			INNER JOIN t_rpjmd_urusan_bidang r
+			ON b.Kd_Urusan = r.kd_urusan AND b.Kd_Bidang = r.kd_bidang
+			WHERE id_sasaran = '$id_sasaran'");	
+		}else{
+			$result = $this->db->query("SELECT s.id as id_nya, s.sasaran as nama_prog FROM t_rpjmd_sasaran s
+			INNER JOIN t_rpjmd_urusan_bidang r
+			ON s.id = r.id_sasaran
+			WHERE r.kd_urusan = '$kd_urusan' AND r.kd_bidang = '$kd_bidang'");
+		}
+		
+		return $result->result();
+	}
 
 }
 ?>

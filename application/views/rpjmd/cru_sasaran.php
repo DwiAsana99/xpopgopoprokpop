@@ -111,6 +111,31 @@
 	});
 
 </script>
+
+<style type="text/css">
+	.chosen-container a{
+	  border-radius: 0 !important;
+	  height: 12px !important;
+	  padding: 0px 0px !important;
+	  font-size: 15px !important;
+	  line-height: inherit !important;
+	  background-color: #fff !important;
+	  background: #fff !important;
+	  line-height: 1.42857143 !important;
+	  box-shadow: none !important;
+	  border: 1px solid #d2d6de !important;
+	}
+	.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+	    position: absolute;
+	    top: 4px;
+	    right: 2px;
+	    display: block;
+	    width: 12px;
+	    height: 12px;
+	    background: url(<?php echo base_url(); ?>/asset/js/chosen/chosen-sprite.png) -42px -10px no-repeat !important;
+	    font-size: 1px;
+	}
+</style>
 <div style="width: 900px">
 	<header>
 		<h3>
@@ -137,12 +162,12 @@
 					<td><strong>Sasaran</strong></td>
 					<td><textarea class="common" name="sasaran"><?php if(!empty($sasaran->sasaran)){echo $sasaran->sasaran;} ?></textarea></td>
 				</tr>
-				<!-- <tr>
+				<tr>
 					<td><strong>Urusan Bidang</strong></td>
 					<td>
 						<?php echo $cb_urusan_bidang; ?>
 					</td>
-				</tr> -->
+				</tr>
 				<tr>
 					<td>
 						<strong>

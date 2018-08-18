@@ -472,7 +472,7 @@ class Renstra extends CI_Controller
 		}
 
 		$id_prog_rpjmd = array("" => "");
-		foreach ($this->m_rpjmd_trx->get_program_rpjmd_for_me($id_skpd, NULL) as $row) {
+		foreach ($this->m_rpjmd_trx->get_urusan_bidang_sasaran(NULL, $kd_urusan_edit, $kd_bidang_edit) as $row) {
 			$id_prog_rpjmd[$row->id_nya] = $row->nama_prog;
 		}
 

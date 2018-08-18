@@ -117,11 +117,24 @@ class Rpjmd extends CI_Controller
 		$this->load->view("rpjmd/view_sasaran", $data);
 	}
 
+	function get_combo_sasaran($kd_urusan, $kd_bidang){
+		$kd_urusan = $this->input->post('kd_urusan');
+		$kd_bidang = $this->input->post('kd_bidang');
+
+		$id_prog_rpjmd = array("" => "");
+		foreach ($this->m_rpjmd_trx->get_urusan_bidang_sasaran(NULL, $kd_urusan, $kd_bidang) as $row) {
+			$id_prog_rpjmd[$row->id_nya] = $row->nama_prog;
+		}
+
+		echo form_dropdown('id_prog_rpjmd', $id_prog_rpjmd, NULL, 'data-placeholder="Pilih Sasaram RPJMD" class="common chosen-select" id="id_prog_rpjmd"');		
+	}
+
 	function cru_sasaran(){
 		$id_rpjmd = $this->input->post('id_rpjmd');
 		$id_tujuan = $this->input->post('id_tujuan');
 		$id_sasaran = $this->input->post('id_sasaran');
 
+		$urusan_bidang_edit = array('' => '');
 		if (!empty($id_sasaran)) {
 			$result = $this->m_rpjmd_trx->get_one_sasaran($id_rpjmd, $id_tujuan, $id_sasaran);
 			// print_r($this->db->last_query());
@@ -131,12 +144,16 @@ class Rpjmd extends CI_Controller
 			}
 			$data['sasaran'] = $result;
 			$data['indikator_sasaran'] = $this->m_rpjmd_trx->get_indikator_sasaran($result->id, FALSE);
+
+			foreach ($this->m_rpjmd_trx->get_urusan_bidang_sasaran($result->id) as $row) {
+				$urusan_bidang_edit[] = $row->id;
+			}
 		}
 
-		// $bidang_urusan = array('' => '');
-		// foreach ($this->m_bidang->get_all_bidang()->result() as $row) {
-		// 	$bidang_urusan[$row->id] = $row->Kd_Urusan.'.'.$row->Kd_Bidang.' - '.$row->Nm_Bidang;
-		// }
+		$bidang_urusan = array('' => '');
+		foreach ($this->m_bidang->get_all_bidang()->result() as $row) {
+			$bidang_urusan[$row->id] = $row->Kd_Urusan.'.'.$row->Kd_Bidang.' - '.$row->Nm_Bidang;
+		}
 
 		$status_indikator = array("" => "~~ Pilih Positif / Negatif ~~");
 		foreach ($this->m_lov->get_status_indikator() as $row) {
@@ -152,7 +169,7 @@ class Rpjmd extends CI_Controller
 		$data['tujuan'] = $this->m_rpjmd_trx->get_one_rpjmd_tujuan($id_rpjmd, $id_tujuan);
 		$data['status_indikator'] = $status_indikator;
 		$data['kategori_indikator'] = $kategori_indikator;
-		// $data['cb_urusan_bidang'] = form_multiselect('cb_urusan_bidang', $bidang_urusan, NULL, 'data-placeholder="Pilih Bidang Urusan" class="common chosen-select" id="cb_urusan_bidang"');
+		$data['cb_urusan_bidang'] = form_multiselect('cb_urusan_bidang[]', $bidang_urusan, $urusan_bidang_edit, 'data-placeholder="Pilih Bidang Urusan" class="common chosen-select" id="cb_urusan_bidang"');
 
 		$this->load->view("rpjmd/cru_sasaran", $data);
 	}
@@ -175,17 +192,20 @@ class Rpjmd extends CI_Controller
 		$target_5 = $this->input->post("target_5");
 		$kondisi_akhir = $this->input->post('target_kondisi_akhir');
 
+		$urusan_bidang = $this->input->post('cb_urusan_bidang');
+		// print_r($urusan_bidang);exit();
+
 		// $clean = array('id_sasaran');
 		$clean = array('id_sasaran', 'id_indikator_sasaran', 'indikator', 'satuan', 'status_indikator', 'kategori_indikator', 'kondisi_awal', 'target_1', 'target_2',
-			'target_3',	'target_4',	'target_5',	'target_kondisi_akhir');
+			'target_3',	'target_4',	'target_5',	'target_kondisi_akhir', 'cb_urusan_bidang');
 		$data = $this->global_function->clean_array($data, $clean);
 
 		if (!empty($id)) {
 			$result = $this->m_rpjmd_trx->edit_sasaran($data, $id, $id_indikator_sasaran, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir);
+				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir, $urusan_bidang);
 		}else{
 			$result = $this->m_rpjmd_trx->add_sasaran($data, $indikator, $satuan_target, $status_target, $kategori_target, 
-				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir);
+				$kondisi_awal, $target_1, $target_2, $target_3, $target_4, $target_5, $kondisi_akhir, $urusan_bidang);
 		}
 
 		if ($result) {

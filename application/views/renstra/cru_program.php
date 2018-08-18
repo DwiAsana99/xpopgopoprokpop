@@ -181,6 +181,18 @@
 						<td><?php echo $tujuan_n_sasaran->sasaran; ?></td>
 					</tr>
 					<tr>
+						<td>Urusan</td>
+						<td id="cmb-urusan">
+							<?php echo $kd_urusan; ?>
+		    			</td>
+					</tr>
+					<tr>
+						<td>Bidang Urusan</td>
+						<td id="cmb-bidang">
+							<?php echo $kd_bidang; ?>
+						</td>
+					</tr>
+					<tr>
 						<td>Sasaran RPJMD</td>
 						<td>
 							<?php echo $id_prog_rpjmd; ?>
@@ -193,19 +205,7 @@
 							} ?>
 							</p>
 
-		    		</td>
-					</tr>
-					<tr>
-						<td>Urusan</td>
-						<td id="cmb-urusan">
-							<?php echo $kd_urusan; ?>
 		    			</td>
-					</tr>
-					<tr>
-						<td>Bidang Urusan</td>
-						<td id="cmb-bidang">
-							<?php echo $kd_bidang; ?>
-						</td>
 					</tr>
 					<tr>
 						<td>Program</td>

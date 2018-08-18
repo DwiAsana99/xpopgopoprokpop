@@ -24,6 +24,16 @@
 	}
 
 ?>
+<?php 
+	$skpd_login = $this->db->query("SELECT * FROM m_skpd WHERE id_skpd = ".$this->session->userdata('id_skpd'))->row(); 
+
+	if ($skpd_login->id_skpd != $skpd_login->kode_unit) {
+		$enable_add = FALSE;
+		$enable_edit = FALSE;
+		$enable_delete = FALSE;
+	}
+	print_r($skpd_login);
+?>
 <script type="text/javascript">
 	var element_program;
 	$(document).ready(function(){

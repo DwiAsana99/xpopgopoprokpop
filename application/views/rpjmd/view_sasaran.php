@@ -112,6 +112,7 @@
 			<th>No</th>
 			<th>Sasaran</th>
 			<th>Indikator</th>
+			<th>Bidang Urusan</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -121,6 +122,7 @@
 			$i=0;
 			foreach ($sasaran as $row) {
 				$indikator = $this->m_rpjmd_trx->get_indikator_sasaran($row->id);
+				$bidang_urusan = $this->m_rpjmd_trx->get_urusan_bidang_sasaran($row->id);
 				$i++;
 	?>
 		<tr class="tr-click" id-r="<?php echo $row->id_rpjmd; ?>" id-t="<?php echo $row->id_tujuan; ?>" id-s="<?php echo $row->id; ?>">
@@ -132,6 +134,13 @@
 						foreach ($indikator as $row1) {
 							$j++;
 							echo $j.". ".$row1->indikator."<BR>";
+						}
+			?>
+			</td>			
+			<td class="td-click">
+			<?php
+						foreach ($bidang_urusan as $row2) {
+							echo $row2->Kd_Urusan.".".$row2->Kd_Bidang." - ".$row2->nama_urusan_bidang."<BR>";
 						}
 			?>
 			</td>

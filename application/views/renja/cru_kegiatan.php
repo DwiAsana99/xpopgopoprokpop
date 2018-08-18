@@ -111,12 +111,12 @@
 
 	//baruu untuk tabke uraian belanja
 	$(document).ready(function(){
-		$('#nominal_satuan_1').autoNumeric(numOptionsNotRound);
-		$('#volume_1').autoNumeric(numOptionsNotRound);
+		// $('#nominal_satuan_1').autoNumeric(numOptionsNotRound);
+		// $('#volume_1').autoNumeric(numOptionsNotRound);
 		// $('#volume2_1').autoNumeric(numOptionsNotRound);
 		// $('#volume3_1').autoNumeric(numOptionsNotRound);
-		$('#nominal_satuan_2').autoNumeric(numOptionsNotRound);
-		$('#volume_2').autoNumeric(numOptionsNotRound);
+		// $('#nominal_satuan_2').autoNumeric(numOptionsNotRound);
+		// $('#volume_2').autoNumeric(numOptionsNotRound);
 		// $('#volume_2').autoNumeric(numOptionsNotRound);
 		// $('#volume2_2').autoNumeric(numOptionsNotRound);
 		// $('#volume3_2').autoNumeric(numOptionsNotRound);
@@ -1171,9 +1171,9 @@
 		var subkategori = $('#cb_subkategori_belanja_'+tahun).val();
 		var belanja = $('#cb_belanja_'+tahun).val();
 		var uraian = $('#uraian_'+tahun).val();
-		var sumberdana = $('#sumberdana_'+tahun).val();
+		var sumberdana = $('#lihat5_sumberdana_th'+tahun).val();
 		var deturaian = $('#det_uraian_'+tahun).val();
-		var volume1 = $('#volume_'+tahun).autoNumeric('get');
+		var volume1 = $('#volume_'+tahun).val();
 		var satuan1 = $('#satuan_'+tahun).val();
 		var volume2 = (($('#volume2_'+tahun).val() != '' && $('#volume2_'+tahun).val()>=1) ? parseFloat($('#volume2_'+tahun).val()) : '1');
 		var volume2db = parseFloat($('#volume2_'+tahun).val());
@@ -1181,7 +1181,7 @@
 		var volume3 = (($('#volume3_'+tahun).val() != '' && $('#volume3_'+tahun).val()>=1) ? parseFloat($('#volume3_'+tahun).val()) : '1');
 		var volume3db = parseFloat($('#volume3_'+tahun).val());
 		var satuan3 = $('#satuan3_'+tahun).val();
-		var nomsatuan = $('#nominal_satuan_'+tahun).autoNumeric('get');
+		var nomsatuan = $('#nominal_satuan_'+tahun).val();
 
 		if(parseFloat(volume2) == 0){
 			var subtotal = parseFloat(volume1) * parseFloat(nomsatuan);
@@ -1407,7 +1407,7 @@
 	            sumber_dananya_1("sumberdana_1", sumber_dana);
 	            $('#uraian_1').val(msg.edit.uraian_belanja);
 	            $('#det_uraian_1').val(msg.edit.detil_uraian_belanja);
-	            $('#volume_1').autoNumeric('set', msg.edit.volume);
+	            $('#volume_1').val(msg.edit.volume);
 	            $('#satuan_1').val(msg.edit.satuan);
 	            // $('#volume2_1').autoNumeric('set', msg.edit.volume_2);
 	            $('#volume2_1').val(msg.edit.volume_2);
@@ -1415,7 +1415,7 @@
 	            // $('#volume3_1').autoNumeric('set', msg.edit.volume_3);
 	            $('#volume3_1').val(msg.edit.volume_3);
 	            $('#satuan3_1').val(msg.edit.satuan_3);
-	            $('#nominal_satuan_1').autoNumeric('set', msg.edit.nominal_satuan);
+	            $('#nominal_satuan_1').val(msg.edit.nominal_satuan);
 	            $('#nominal').autoNumeric('set', total);
         	}else{
 						setTimeout(function(){
@@ -1437,7 +1437,7 @@
 	            sumber_dananya_2("sumberdana_2", sumber_dana);
 	            $('#uraian_2').val(msg.edit.uraian_belanja);
 	            $('#det_uraian_2').val(msg.edit.detil_uraian_belanja);
-	            $('#volume_2').autoNumeric('set', msg.edit.volume);
+	            $('#volume_2').val(msg.edit.volume);
 	            $('#satuan_2').val(msg.edit.satuan);
 	            // $('#volume2_2').autoNumeric('set', msg.edit.volume_2);
 	            $('#volume2_2').val(msg.edit.volume_2);
@@ -1445,7 +1445,7 @@
 	            // $('#volume3_2').autoNumeric('set', msg.edit.volume_3);
 	            $('#volume3_2').val(msg.edit.volume_3);
 	            $('#satuan3_2').val(msg.edit.satuan_3);
-	            $('#nominal_satuan_2').autoNumeric('set', msg.edit.nominal_satuan);
+	            $('#nominal_satuan_2').val(msg.edit.nominal_satuan);
 	            $('#nominal_thndpn').autoNumeric('set', total);
         	}
 

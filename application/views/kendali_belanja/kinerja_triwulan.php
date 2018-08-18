@@ -144,13 +144,14 @@
 							<div style="margin-top:5px">
 							  <label>Aksi</label>
 							  <div style="width:100%">
-                    <textarea class="common catatan" name="catatan[<?php echo $i; ?>]" style="width:95%" readonly><?php if(!empty($row->aksi)){echo $row->aksi;} ?></textarea>,
+                    <textarea class="common catatan" name="catatan[<?php echo $i; ?>]" style="width:95%" readonly><?php if(!empty($row->aksi)){echo $row->aksi;} ?></textarea>
 								</div>
 								<div style="width: 100%;">
 									<table class="table-common" width="100%">
 										<tr style="width:100%">
 											<td>Target</td>
 											<td><input style="width: 100%;" type="text" class="common keterangan" name="keterangan[<?php echo $i; ?>]" value="<?php echo (!empty($row->target))?$for_target:''; ?>" readonly></td>
+											<td><input style="width: 100%;" type="text" class="common satuan" name="satuan[<?php echo $i; ?>]" value="<?php echo (!empty($row->satuan))?$row->satuan:''; ?>" readonly></td>
 										</tr>
 										<tr style="width:100%">
 											<td>Capaian (%)</td>

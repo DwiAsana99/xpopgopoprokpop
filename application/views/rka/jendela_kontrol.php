@@ -61,7 +61,7 @@
     <?php }
 		else {
 	?>
-    	<input type="button" class="button-action" id="export_simda" value="Singkron Data Ke Simda" />
+    	<input type="button" class="button-action" id="export_simda" value="Kirim Data Ke Simda" />
     	<a href="<?php echo site_url('rka/preview_rka'); ?>"><input type="button" value="Lihat RKA" /></a>
 		<a href="<?php echo site_url('rka/rekap_sumber_dana'); ?>"><input type="button" value="Rekap Sumber Dana" /></a>
     <?php } ?>
@@ -79,7 +79,7 @@
 			    dataType: 'html',
 			    beforeSend: function() {
 					$.blockUI({
-						message: '<center><i class="fa fa-refresh fa-spin fa-lg"></i></center><br>Proses singkron sedang berjalan, mohon menunggu hingga proses selesai...<br>Proses ini akan memerlukan waktu yang cukup lama...',
+						message: '<center><i class="fa fa-refresh fa-spin fa-lg"></i></center><br>Proses kirim data sedang berjalan, mohon menunggu hingga proses selesai...<br>Proses ini akan memerlukan waktu yang cukup lama...',
 						css: window._css,
 						overlayCSS: window._ovcss
 					});

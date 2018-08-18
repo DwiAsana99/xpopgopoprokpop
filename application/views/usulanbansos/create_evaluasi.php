@@ -482,7 +482,8 @@ function isDate(txtDate, separator) {
 					<tr>
 							<td>Tanggal Rekomendasi</td>
 
-							<td><input  type="text" class="common" name="tglrekomendasi" id="tglnya" value="<?php if(!empty($tglrekomendasi)){echo $tglrekomendasi;}else{echo date('d/m/Y');} ?>"/></td>
+							<td><input  type="text" class="common" name="tglrekomendasi" id="tglnya" value="<?php echo (!empty($tglrekomendasi))?$tglrekomendasi:date('d/m/Y'); ?>" readonly>
+							</td>
 					</tr>
 					<tr>
 							<td>Nominal Rekomendasi</td>
