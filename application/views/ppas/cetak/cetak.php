@@ -12,9 +12,9 @@
     	<tr>
         	<th colspan="12" align="center"><?php echo "RUMUSAN RENCANA PROGRAM DAN KEGIATAN SKPD TAHUN ".$ta; ?></th>
         </tr>
-        <tr>
-        	<th colspan="12" align="center"><?php echo "DAN PERKIRAAN MAJU TAHUN ".($ta+1); ?></th>
-        </tr>
+        <!-- <tr>
+        	<th colspan="12" align="center"><?php //echo "DAN PERKIRAAN MAJU TAHUN ".($ta+1); ?></th>
+        </tr> -->
         <tr>
         	<th colspan="12" align="center"><?php echo "KABUPATEN KLUNGKUNG"; ?></th>
         </tr>
