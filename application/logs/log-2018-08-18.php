@@ -326,3 +326,45 @@ ERROR - 2018-08-18 23:01:16 --> Severity: Notice  --> Undefined index: a C:\xamp
 ERROR - 2018-08-18 23:01:16 --> Severity: Notice  --> Undefined index: cellLineHeight C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12821
 ERROR - 2018-08-18 23:01:16 --> Severity: Notice  --> Undefined index: cellLineStackingStrategy C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12822
 ERROR - 2018-08-18 23:01:16 --> Severity: Notice  --> Undefined index: cellLineStackingShift C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12823
+ERROR - 2018-08-18 23:20:43 --> 404 Page Not Found --> asset
+ERROR - 2018-08-18 23:20:44 --> Query error: Column 'tahun' in where clause is ambiguous
+ERROR - 2018-08-18 23:36:41 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:36:42 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:37:37 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:38:55 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:38:56 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:39:03 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:39:07 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:39:10 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:40:17 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:40:18 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:40:19 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:40:26 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:40:27 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:40:39 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:40:40 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:41:28 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:41:29 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:41:32 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:41:43 --> Severity: Notice  --> Undefined variable: url_data_list_musrenbangcam C:\xampp\htdocs\sirenbangda\application\views\musrenbangkab\musrenbangkab.php 27
+ERROR - 2018-08-18 23:41:43 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:41:48 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:45:08 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:45:10 --> 404 Page Not Found --> musrenbangkab/show_list_musrembangkab
+ERROR - 2018-08-18 23:45:24 --> 404 Page Not Found --> musrenbangkab/show_list_musrembangkab
+ERROR - 2018-08-18 23:45:38 --> 404 Page Not Found --> musrenbangkab/show_list_musrembangkab
+ERROR - 2018-08-18 23:46:14 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:46:59 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:47:07 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:48:32 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:48:35 --> 404 Page Not Found --> musrenbangkab/preview_musrenbangkab
+ERROR - 2018-08-18 23:48:42 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:49:12 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:49:14 --> 404 Page Not Found --> musrenbangkab/preview_musrenbangkab
+ERROR - 2018-08-18 23:49:18 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:49:29 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:49:35 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:50:33 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:52:48 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:52:54 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
+ERROR - 2018-08-18 23:58:17 --> 404 Page Not Found --> musrenbangkab/get_summary_biaya
