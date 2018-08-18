@@ -845,6 +845,7 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		$data2['id_skpd'] = $id_skpd;
 		$data2['id_skpd_unit'] = $id_skpd_unit;
 		$data2['ta'] = $ta;
+		$data['skpd'] = $this->m_skpd->get_one_skpd(array('id_skpd' => $id_skpd));
 		//$data2['program'] = $this->m_ppas->get_program_skpd_4_cetak($id_skpd,$ta);
 		$data['rka'] = $this->load->view('ppas/cetak/program_kegiatan_preview', $data2, TRUE);
 		return $data;
@@ -872,6 +873,38 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			$this->session->set_userdata('msg_typ','err');
 			$this->session->set_userdata('msg', 'Data PPAS tidak tersedia.');
 			redirect('home');
+		}
+	}
+
+	function do_cetak_ppas($id_skpd=NULL) {
+		$this->auth->restrict();
+		if (empty($id_skpd)) {
+			$id_skpd = $this->session->userdata('id_skpd');
+			$ta = $this->session->userdata('t_anggaran_aktif');
+		}
+
+		if ($id_skpd == "all") {
+			$all_skpd = $this->m_renja_trx->get_all_skpd();
+			$html="";
+			foreach ($all_skpd as $row) {
+				$data = $this->cetak_skpd_func($row->id_skpd,$ta);
+				$html .= '<div style="page-break-after: always;">'.$this->load->view('ppas/cetak/cetak', $data, true).'</div>';
+			}
+			$data['contents'] = $html;
+			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Renja Semua '. date("d-m-Y_H-i-s"), 1);
+			$html = $this->load->view('template_cetak', $data, true);
+
+			$filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
+		    pdf_create($html, $filename, "A4", "Landscape", FALSE);
+		}else{
+			$data = $this->cetak_skpd_func($id_skpd,$ta);
+			$data['qr'] = $this->ciqrcode->generateQRcode("sirenbangda", 'Renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s"), 1);
+			$data['tanpa_footer'] = true;
+			$html = $this->template->load('template_cetak', 'ppas/cetak/cetak', $data, true);
+	        $filename='renja '. $this->session->userdata('nama_skpd') ." ". date("d-m-Y_H-i-s") .'.pdf';
+			$this->create_pdf->load($html, $filename, 'A4-L','');
+
+		    // pdf_create($html, $filename, "A4", "Landscape", FALSE);
 		}
 	}
 

@@ -152,7 +152,7 @@
 				timeout: 2000,
 				overlayCSS: window._ovcss
 			});
-			var link = '<?php //echo site_url("renstra/do_cetak_renstra"); ?>';
+			var link = '<?php echo site_url("ppas/do_cetak_ppas"); ?>';
 			$(location).attr('href',link);
 		});
 

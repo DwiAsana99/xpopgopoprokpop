@@ -8,7 +8,7 @@
         public function __construct(){
             $this->CI =& get_instance();
             parent::__construct();
-            $this->load->model(array('m_renja_trx', 'm_ppas', 'm_skpd', 'm_template_cetak', 'm_lov', 'm_urusan', 'm_bidang', 'm_rkpd',
+            $this->load->model(array('m_ppas', 'm_skpd', 'm_template_cetak', 'm_lov', 'm_urusan', 'm_bidang', 'm_rkpd',
                                     'm_program', 'm_kegiatan','m_settings'));
             if (!empty($this->session->userdata("db_aktif"))) {
                 $this->load->database($this->session->userdata("db_aktif"), FALSE, TRUE);

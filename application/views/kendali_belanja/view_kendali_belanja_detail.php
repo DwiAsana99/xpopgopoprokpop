@@ -194,6 +194,7 @@ $(".see_revisi").click(function(){
 			<th> Ukuran Kinerja   </th>
 			<th> Bobot Komulatif (%) </th>
 			<th> Target Komulatif </th>
+			<th> Realisasi Komulatif (%) </th>
 			<th> Capaian Kinerja (%) </th>
 			<th> Progres Fisik (%) </th>
 		</tr>
@@ -216,7 +217,7 @@ $(".see_revisi").click(function(){
 				$num_row_span = $count_output==0 ? 1 : $count_output;
 
 				$target_kom = $this->db->query('SELECT SUM(target) AS target FROM tx_dpa_rencana_aksi WHERE id_dpa_prog_keg = "'.$id_dpa_prog_keg.'" AND bulan<='.$i.' AND aksi = "'.@$detail_output[0]->aksi.'"')->row()->target;
-				// print_r($id_dpa_prog_keg);
+				$realisasi_kom = $this->db->query('SELECT SUM(capaian) AS realisasi FROM tx_dpa_rencana_aksi WHERE id_dpa_prog_keg = "'.$id_dpa_prog_keg.'" AND bulan='.$i.' AND aksi = "'.@$detail_output[0]->aksi.'"')->row()->realisasi;
 		?>
 		<tr>
 			<td rowspan="<?php echo $num_row_span ?>">BLN <?php echo $i?></td>
@@ -226,6 +227,7 @@ $(".see_revisi").click(function(){
 			<td ><?php echo @$detail_output[0]->aksi?></td>
 			<td rowspan="<?php echo $num_row_span ?>" align="right"><?php echo $bobot_kom; ?></td>
 			<td align="right"><?php echo $target_kom; ?></td>
+			<td align="right"><?php echo $realisasi_kom; ?></td>
 			<td rowspan="<?php echo $num_row_span ?>" align="right"><?php echo round($cap_bulanan, 2); ?></td>
 			<td rowspan="<?php echo $num_row_span ?>" align="right"><?php echo round($cap_bulanan*$bobot_kom/100, 2); ?></td>
 			<td align="center" rowspan="<?php echo $num_row_span ?>">
@@ -263,10 +265,12 @@ $(".see_revisi").click(function(){
 				if($num_row_span > 1){
 					for($j=1;$j<$num_row_span;$j++){
 						$target_kom = $this->db->query('SELECT SUM(target) AS target FROM tx_dpa_rencana_aksi WHERE id_dpa_prog_keg = "'.$id_dpa_prog_keg.'" AND bulan<='.$i.' AND aksi = "'.@$detail_output[$j]->aksi.'"')->row()->target;
+						$realisasi_kom = $this->db->query('SELECT SUM(capaian) AS realisasi FROM tx_dpa_rencana_aksi WHERE id_dpa_prog_keg = "'.$id_dpa_prog_keg.'" AND bulan='.$i.' AND aksi = "'.@$detail_output[$j]->aksi.'"')->row()->realisasi;
 		?>
 		<tr>
 			<td><?php echo @$detail_output[$j]->aksi?></td>
 			<td align="right"><?php echo $target_kom; ?></td>
+			<td align="right"><?php echo $realisasi_kom; ?></td>
 		</tr>
 
 		<?php

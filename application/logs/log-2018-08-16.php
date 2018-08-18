@@ -520,3 +520,221 @@ ERROR - 2018-08-16 10:49:57 --> Severity: Notice  --> Undefined property: stdCla
 ERROR - 2018-08-16 10:49:57 --> Severity: Notice  --> Undefined property: stdClass::$nama_value D:\xampp\htdocs\sirenbangda\application\views\renstra\cetak\cetak_lihat_renstra.php 237
 ERROR - 2018-08-16 10:49:57 --> Severity: Notice  --> Undefined property: stdClass::$nama_value D:\xampp\htdocs\sirenbangda\application\views\renstra\cetak\cetak_lihat_renstra.php 237
 ERROR - 2018-08-16 10:49:57 --> Severity: Notice  --> Undefined property: stdClass::$nama_value D:\xampp\htdocs\sirenbangda\application\views\renstra\cetak\cetak_lihat_renstra.php 237
+ERROR - 2018-08-16 12:19:56 --> 404 Page Not Found --> renstra_preview/index
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:21:55 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:00 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:00 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:00 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:22:01 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 219
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:45 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 113
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Undefined offset: 0 C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 117
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:23:46 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:02 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 125
+ERROR - 2018-08-16 13:24:03 --> Severity: Notice  --> Trying to get property of non-object C:\xampp\htdocs\sirenbangda\application\views\kendali_belanja\view_kendali_belanja_detail.php 139
+ERROR - 2018-08-16 23:17:21 --> 404 Page Not Found --> asset
+ERROR - 2018-08-16 23:17:21 --> Query error: Column 'tahun' in where clause is ambiguous
+ERROR - 2018-08-16 23:20:14 --> Severity: Warning  --> Missing argument 3 for Renja::cetak_skpd_func_new(), called in C:\xampp\htdocs\sirenbangda\application\controllers\renja.php on line 725 and defined C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1282
+ERROR - 2018-08-16 23:20:14 --> Severity: Notice  --> Undefined variable: id_skpd_unit C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1303
+ERROR - 2018-08-16 23:20:14 --> Severity: Notice  --> Undefined variable: id_skpd_unit C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1332
+ERROR - 2018-08-16 23:20:15 --> Severity: Notice  --> Undefined offset: 16 C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 21162
+ERROR - 2018-08-16 23:20:15 --> Severity: Notice  --> Undefined offset: 1 C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 21193
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: y C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12768
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: x C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12771
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: w C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12804
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: h C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12805
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: va C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12806
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: R C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12807
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: direction C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12808
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: mih C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12809
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: border C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12810
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: border_details C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12811
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: padding C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12812
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: textbuffer C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12815
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: a C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12818
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: cellLineHeight C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12821
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: cellLineStackingStrategy C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12822
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: cellLineStackingShift C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12823
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: y C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12768
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: x C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12771
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: w C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12804
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: h C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12805
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: va C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12806
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: R C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12807
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: direction C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12808
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: mih C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12809
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: border C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12810
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: border_details C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12811
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: padding C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12812
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: textbuffer C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12815
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: a C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12818
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: cellLineHeight C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12821
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: cellLineStackingStrategy C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12822
+ERROR - 2018-08-16 23:20:17 --> Severity: Notice  --> Undefined index: cellLineStackingShift C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12823
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: y C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12768
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: x C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12771
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: w C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12804
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: h C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12805
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: va C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12806
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: R C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12807
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: direction C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12808
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: mih C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12809
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: border C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12810
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: border_details C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12811
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: padding C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12812
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: textbuffer C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12815
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: a C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12818
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: cellLineHeight C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12821
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: cellLineStackingStrategy C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12822
+ERROR - 2018-08-16 23:20:18 --> Severity: Notice  --> Undefined index: cellLineStackingShift C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12823
+ERROR - 2018-08-16 23:24:03 --> Severity: Warning  --> Missing argument 3 for Renja::cetak_skpd_func_new(), called in C:\xampp\htdocs\sirenbangda\application\controllers\renja.php on line 725 and defined C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1282
+ERROR - 2018-08-16 23:24:03 --> Severity: Notice  --> Undefined variable: id_skpd_unit C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1303
+ERROR - 2018-08-16 23:24:03 --> Severity: Notice  --> Undefined variable: id_skpd_unit C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1332
+ERROR - 2018-08-16 23:24:03 --> Severity: Notice  --> Undefined offset: 16 C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 21162
+ERROR - 2018-08-16 23:24:03 --> Severity: Notice  --> Undefined offset: 1 C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 21193
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: y C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12768
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: x C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12771
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: w C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12804
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: h C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12805
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: va C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12806
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: R C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12807
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: direction C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12808
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: mih C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12809
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: border C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12810
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: border_details C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12811
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: padding C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12812
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: textbuffer C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12815
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: a C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12818
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: cellLineHeight C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12821
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: cellLineStackingStrategy C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12822
+ERROR - 2018-08-16 23:24:05 --> Severity: Notice  --> Undefined index: cellLineStackingShift C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12823
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: y C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12768
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: x C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12771
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: w C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12804
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: h C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12805
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: va C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12806
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: R C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12807
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: direction C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12808
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: mih C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12809
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: border C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12810
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: border_details C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12811
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: padding C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12812
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: textbuffer C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12815
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: a C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12818
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: cellLineHeight C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12821
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: cellLineStackingStrategy C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12822
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: cellLineStackingShift C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12823
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: y C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12768
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: x C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12771
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: w C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12804
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: h C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12805
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: va C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12806
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: R C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12807
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: direction C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12808
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: mih C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12809
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: border C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12810
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: border_details C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12811
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: padding C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12812
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: textbuffer C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12815
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: a C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12818
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: cellLineHeight C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12821
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: cellLineStackingStrategy C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12822
+ERROR - 2018-08-16 23:24:06 --> Severity: Notice  --> Undefined index: cellLineStackingShift C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 12823
+ERROR - 2018-08-16 23:29:42 --> Severity: Warning  --> Missing argument 3 for Renja::cetak_skpd_func_new(), called in C:\xampp\htdocs\sirenbangda\application\controllers\renja.php on line 725 and defined C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1282
+ERROR - 2018-08-16 23:29:42 --> Severity: Notice  --> Undefined variable: id_skpd_unit C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1303
+ERROR - 2018-08-16 23:29:42 --> Severity: Notice  --> Undefined variable: id_skpd_unit C:\xampp\htdocs\sirenbangda\application\controllers\renja.php 1332
+ERROR - 2018-08-16 23:29:42 --> Severity: Notice  --> Undefined offset: 16 C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 21162
+ERROR - 2018-08-16 23:29:43 --> Severity: Notice  --> Undefined offset: 1 C:\xampp\htdocs\sirenbangda\application\libraries\mpdf\mpdf.php 21193

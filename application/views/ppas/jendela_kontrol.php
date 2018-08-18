@@ -75,7 +75,7 @@
 	?>
     	<a href="<?php echo site_url('ppas/preview_ppas'); ?>"><input type="button" value="Lihat PPAS" /></a>
     <?php } ?>
-	  	<!--<input type="button" class="button-action" id="cetak" value="Cetak" />-->
+	  	<input type="button" class="button-action" id="cetak" value="Cetak" />
 	 	<input type="button" value="Back" onclick="history.go(-1)" />
 	</div>
 </footer>

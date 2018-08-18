@@ -17,14 +17,14 @@
 		<th rowspan="2">Program dan Kegiatan</th>
 		<th rowspan="2">Indikator Kinerja Program/Kegiatan</th>
 		<th colspan="3">Rencana Tahun <?php echo $tahun_rka?></th>
-		<th colspan="2">Perkiraan Maju Rencana Tahun <?php echo $tahun_rka+1;?></th>
+		<!-- <th colspan="2">Perkiraan Maju Rencana Tahun <?php echo $tahun_rka+1;?></th> -->
 	</tr>
 	<tr>
 		<th >Lokasi</th>
 		<th >Target Capaian Kinerja</th>
 		<th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
-		<th >Target Capaian Kinerja</th>
-		<th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
+		<!-- <th >Target Capaian Kinerja</th> -->
+		<!-- <th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th> -->
 	</tr>
 </thead>
 <tbody>
@@ -46,10 +46,10 @@
 				<strong>".strtoupper($row_urusan->nama_urusan)."</strong>
 			</td>
 			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal)."</td>
-			<td></td>
-			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal_thndpn)."</td>
-
 		</tr>";
+		// <td></td>
+		// 	<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal_thndpn)."</td>
+
 
 		$bidang = $this->db->query("
 			SELECT t.*,b.Nm_Bidang as nama_bidang from (
@@ -85,10 +85,10 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					<strong>".strtoupper($row_bidang->nama_bidang)."</strong>
 				</td>
 				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal)."</td>
-				<td></td>
-				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal_thndpn)."</td>
 			</tr>";
 			}
+			// <td></td>
+			// 	<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal_thndpn)."</td>
 
 		$program = $this->m_ppas->get_program_skpd_4_cetak($id_skpd,$ta,$row_urusan->kd_urusan,$row_bidang->kd_bidang, $for_where);
 
@@ -123,10 +123,10 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			<?php echo $temp[0]->target." ".$temp[0]->satuan_target;?>
 		</td>
 		<td style="border-bottom: 0;" align="right" rowspan="<?php echo $total_for_iteration; ?>"><?php echo Formatting::currency($row->sum_nominal);?></td>
-		<td align="center">
-			<?php echo $temp[0]->target_thndpn;?>
-		</td>
-		<td style="border-bottom: 0;" align="right" rowspan="<?php echo $total_for_iteration; ?>"><?php echo Formatting::currency($row->sum_nominal_thndpn);?></td>
+		<!-- <td align="center">
+			<?php //echo $temp[0]->target_thndpn;?>
+		</td> -->
+		<!-- <td style="border-bottom: 0;" align="right" rowspan="<?php //echo $total_for_iteration; ?>"><?php //echo Formatting::currency($row->sum_nominal_thndpn);?></td> -->
 	</tr>
 <?php
 		if ($total_for_iteration > 1) {
@@ -144,11 +144,11 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					echo $temp[$i]->target." ".$temp[$i]->satuan_target;
 				?>
 			</td>
-			<td align="center">
+			<!-- <td align="center">
 				<?php
-					echo $temp[$i]->target_thndpn;
+					//echo $temp[$i]->target_thndpn;
 				?>
-			</td>
+			</td> -->
 		</tr>
 <?php
 		 	}
@@ -185,12 +185,12 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 			?>
 			</td>
 			<td style="border-bottom: 0;" rowspan="<?php echo $total_for_iteration; ?>" align="right" ><?php echo Formatting::currency($row->nominal);?></td>
-			<td align="center">
+			<!-- <td align="center">
 			<?php
-				echo $temp[0]->target_thndpn;
+				// echo $temp[0]->target_thndpn;
 			?>
-			</td>
-			<td style="border-bottom: 0;" rowspan="<?php echo $total_for_iteration; ?>" align="right" ><?php echo Formatting::currency($row->nominal_thndpn);?></td>
+			</td> -->
+			<!-- <td style="border-bottom: 0;" rowspan="<?php //echo $total_for_iteration; ?>" align="right" ><?php //echo Formatting::currency($row->nominal_thndpn);?></td> -->
 		</tr>
 <?php
 			if ($total_for_iteration > 1) {
@@ -208,11 +208,11 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					echo $temp[$i]->target." ".$temp[$i]->satuan_target;
 				?>
 			</td>
-			<td align="center">
+			<!-- <td align="center">
 				<?php
-					echo $temp[$i]->target_thndpn;
+					//echo $temp[$i]->target_thndpn;
 				?>
-			</td>
+			</td> -->
 		</tr>
 <?php
 				}
