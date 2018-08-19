@@ -104,6 +104,7 @@
             </tr> -->
         </tbody>
 	</table>
+    <table id="header-fixed" class="table-common" style="width: 150% !important; max-width: 150%;"></table>
     </div>
 	<footer>
 		<div class="submit_link">
@@ -111,6 +112,14 @@
 		</div>
 	</footer>
 </article>
+<style type="text/css">
+    #header-fixed { 
+        position: fixed; 
+        top: 0px;
+        display: none;
+        background-color: white;
+    }
+</style>
 <script type="text/javascript">
     $("#reload_table").click(function(){
         $('#preview_body').html("<tr><th colspan='33' align='center'><i class='fa fa-refresh fa-spin'></i>&emsp; Mohon menunggu..</th></tr>");
@@ -127,6 +136,19 @@
 			}
 		});
      });
+    var tableOffset = $("#tabel_ev").offset().top;
+    var $header = $("#tabel_ev > thead").clone();
+    var $fixedHeader = $("#header-fixed").append($header);
 
+    $(window).bind("scroll", function() {
+        var offset = $(this).scrollTop();
+        
+        if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
+            $fixedHeader.show();
+        }
+        else if (offset < tableOffset) {
+            $fixedHeader.hide();
+        }
+    });
 
 </script>
