@@ -1371,6 +1371,7 @@ function view_detil_renstra_skpd($id_skpd){
 		$skpd = $this->m_renstra_trx->get_one_renstra_skpd($id_skpd, TRUE);
 		// print_r($this->db->last_query());
 		// exit();
+		$data['id_skpd'] = $id_skpd;
 		if (!empty($skpd)) {
 			$data = $this->cetak_skpd_func($id_skpd, 'lihatrenstra');
 			$this->template->load('template', 'renstra/preview_renstra', $data);

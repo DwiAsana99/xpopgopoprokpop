@@ -20,12 +20,9 @@
 		<th rowspan="2">Indikator Kinerja Program/Kegiatan</th>
 		<th colspan="3">Rencana Tahun <?php echo $tahun_ppas?></th>
 		<th rowspan="2">Catatan</th>
-		<th colspan="2">Perkiraan Maju Rencana Tahun <?php echo $tahun_ppas+1;?></th>
 	</tr>
 	<tr>
 		<th >Lokasi</th>
-		<th >Target Capaian Kinerja</th>
-		<th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
 		<th >Target Capaian Kinerja</th>
 		<th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
 	</tr>
@@ -43,8 +40,7 @@
 				<strong>".strtoupper($row_urusan->nama_urusan)."</strong>
 			</td>
 			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal, 2)."</td>
-			<td colspan=\"2\"></td>
-			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal_thndpn, 2)."</td>
+			<td colspan=\"1\"></td>
 
 		</tr>";
 
@@ -81,8 +77,7 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					<strong>".strtoupper($row_bidang->nama_bidang)."</strong>
 				</td>
 				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal, 2)."</td>
-				<td colspan=\"2\"></td>
-				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal_thndpn, 2)."</td>
+				<td colspan=\"1\"></td>
 			</tr>";
 
 
@@ -117,8 +112,7 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 						<strong>".strtoupper($row_skpd->nama_skpd)."</strong>
 					</td>
 					<td align=\"right\">".Formatting::currency($row_skpd->sum_nominal, 2)."</td>
-					<td colspan=\"2\"></td>
-					<td align=\"right\">".Formatting::currency($row_skpd->sum_nominal_thndpn, 2)."</td>
+					<td colspan=\"1\"></td>
 				</tr>";
 				$id_skpd = $row_skpd->id_skpd;
 
@@ -159,10 +153,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				    </td>
 				    <td style="border-bottom: 0;" align="right" rowspan="<?php echo $total_temp; ?>"><?php echo Formatting::currency($row->sum_nominal, 2);?></td>
 				    <td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>"><?php echo $row->catatan;?></td>
-				    <td align="center">
-				        <?php echo $temp[0]->target_thndpn." ".$temp[0]->satuan_target_thndpn;?>
-				    </td>
-				    <td style="border-bottom: 0;" align="right" rowspan="<?php echo $total_temp; ?>"><?php echo Formatting::currency($row->sum_nominal_thndpn, 2);?></td>
 				</tr>
 				<?php
 				    if ($total_for_iteration > 1) {
@@ -198,26 +188,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				                echo $temp[$i]->target." ".$temp[$i]->satuan_target;
 				            ?>
 				        </td>
-				<?php
-				            if ($go_3_keg && $col_indikator > $max_col_keg) {
-				?>
-				        <!-- <td style="border-top: 0;border-bottom: 0;" ></td>
-				        <td style="border-top: 0;border-bottom: 0;" ></td> -->
-				<?php
-				            }
-				?>
-				        <td align="center">
-				            <?php
-				                echo $temp[$i]->target_thndpn." ".$temp[$i]->satuan_target_thndpn;
-				            ?>
-				        </td>
-				<?php
-				            if ($go_3_keg && $col_indikator > $max_col_keg) {
-				?>
-				        <!-- <td style="border-top: 0;border-bottom: 0;" ></td> -->
-				<?php
-				                }
-				?>
 				    </tr>
 				<?php
 				        }
@@ -255,12 +225,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				        </td>
 				        <td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>" align="right" ><?php echo Formatting::currency($row->nominal, 2);?></td>
 				        <td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>"><?php echo $row->catatan;?></td>
-				        <td align="center">
-				        <?php
-				            echo $temp[0]->target_thndpn." ".$temp[0]->satuan_target_thndpn;
-				        ?>
-				        </td>
-				        <td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>" align="right" ><?php echo Formatting::currency($row->nominal_thndpn, 2);?></td>
 				    </tr>
 				<?php
 				        if ($total_for_iteration > 1) {
@@ -304,18 +268,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				<?php
 				                }
 				?>
-				        <td align="center">
-				            <?php
-				                echo $temp[$i]->target_thndpn." ".$temp[$i]->satuan_target_thndpn;
-				            ?>
-				        </td>
-				<?php
-				                if ($go_3_keg && $col_indikator_keg > $max_col_keg) {
-				?>
-				        <td style="border-top: 0;border-bottom: 0;" ></td>
-				<?php
-				                }
-				?>
 				    </tr>
 				<?php
 				            }
@@ -340,12 +292,7 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
             </td>
 			<td colspan="2">
             	<strong>
-                	Total Nominal Tahun Depan
-                </strong>
-            </td>
-			<td align="right">
-            	<strong>
-					<?php echo Formatting::currency($tot_nominal_thndpn, 2); ?>
+                
                 </strong>
             </td>
 		</tr>

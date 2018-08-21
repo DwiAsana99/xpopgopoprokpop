@@ -43,12 +43,9 @@
                 <th rowspan="2">Indikator Kinerja Program/Kegiatan</th>
                 <th colspan="3">Rencana Tahun <?php echo $tahun_ppas?></th>
                 <th rowspan="2">Catatan</th>
-                <th colspan="2">Perkiraan Maju Rencana Tahun <?php echo $tahun_ppas+1;?></th>
             </tr>
             <tr>
                 <th >Lokasi</th>
-                <th >Target Capaian Kinerja</th>
-                <th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
                 <th >Target Capaian Kinerja</th>
                 <th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
             </tr>

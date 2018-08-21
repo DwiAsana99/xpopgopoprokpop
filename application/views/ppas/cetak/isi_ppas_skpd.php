@@ -17,8 +17,7 @@
 				<strong>".strtoupper($row_urusan->nama_urusan)."</strong>
 			</td>
 			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal,2)."</td>
-			<td colspan=\"2\"></td>
-			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal_thndpn,2)."</td>
+			<td colspan=\"1\"></td>
 
 		</tr>";
 		$total_nomppas += $row_urusan->sum_nominal;
@@ -58,8 +57,7 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					<strong>".strtoupper($row_bidang->nama_bidang)."</strong>
 				</td>
 				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal,2)."</td>
-				<td colspan=\"2\"></td>
-				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal_thndpn,2)."</td>
+				<td colspan=\"1\"></td>
 			</tr>";
 
 			$program = $this->m_ppas->get_program_skpd_4_cetak_v2($id_skpd,$ta,$row_urusan->kd_urusan,$row_bidang->kd_bidang);
@@ -98,10 +96,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 				</td>
 				<td style="border-bottom: 0;" align="right" rowspan="<?php echo $total_temp; ?>"><?php echo Formatting::currency($row->sum_nominal,2);?></td>
 				<td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>"><?php echo $row->catatan;?></td>
-				<td align="center">
-					<?php echo $temp[0]->target_thndpn." ".$temp[0]->satuan_target_thndpn;?>
-				</td>
-				<td style="border-bottom: 0;" align="right" rowspan="<?php echo $total_temp; ?>"><?php echo Formatting::currency($row->sum_nominal_thndpn,2);?></td>
 			</tr>
 		<?php
 				if ($total_for_iteration > 1) {
@@ -145,18 +139,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		<?php
 						}
 		?>
-					<td align="center">
-						<?php
-							echo $temp[$i]->target_thndpn." ".$temp[$i]->satuan_target_thndpn;
-						?>
-					</td>
-		<?php
-						if ($go_3_keg && $col_indikator > $max_col_keg) {
-		?>
-					<td style="border-top: 0;border-bottom: 0;" ></td>
-		<?php
-							}
-		?>
 				</tr>
 		<?php
 				 	}
@@ -195,12 +177,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					</td>
 					<td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>" align="right" ><?php echo Formatting::currency($row->nominal,2);?></td>
 					<td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>"><?php echo $row->catatan;?></td>
-					<td align="center">
-					<?php
-						echo $temp[0]->target_thndpn." ".$temp[0]->satuan_target_thndpn;
-					?>
-					</td>
-					<td style="border-bottom: 0;" rowspan="<?php echo $total_temp; ?>" align="right" ><?php echo Formatting::currency($row->nominal_thndpn,2);?></td>
 				</tr>
 		<?php
 					if ($total_for_iteration > 1) {
@@ -244,18 +220,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 		<?php
 							}
 		?>
-					<td align="center">
-						<?php
-							echo $temp[$i]->target_thndpn." ".$temp[$i]->satuan_target_thndpn;
-						?>
-					</td>
-		<?php
-							if ($go_3_keg && $col_indikator_keg > $max_col_keg) {
-		?>
-					<td style="border-top: 0;border-bottom: 0;" ></td>
-		<?php
-							}
-		?>
 				</tr>
 		<?php
 						}
@@ -267,7 +231,7 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 ?>
 	<tr bgcolor="#999999">
         	<td colspan="4"></td>
-			<td colspan="4">
+			<td colspan="1">
             	<strong>
                 	Jumlah Program
                 </strong>
@@ -282,7 +246,7 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
                 	Jumlah Kegiatan
                 </strong>
             </td>
-			<td align="right">
+			<td align="right" colspan="2">
             	<strong>
 					<?php echo $k." Kegiatan"; ?>
                 </strong>
@@ -296,19 +260,9 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
                 	Total Nominal Tahun Ini
                 </strong>
             </td>
-			<td align="right">
+			<td align="right" colspan="2">
             	<strong>
 					<?php echo Formatting::currency($total_nomppas,2) ;?>
                 <strong>
-            </td>
-			<td colspan="2">
-            	<strong>
-                	Total Nominal Tahun Depan
-                </strong>
-            </td>
-			<td align="right">
-            	<strong>
-					<?php echo Formatting::currency($total_nomppas_thndpn,2); ?>
-                </strong>
             </td>
 		</tr>

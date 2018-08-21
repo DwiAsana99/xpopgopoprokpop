@@ -18,10 +18,8 @@
 		<th rowspan="2" colspan="2">Kode</th>
 		<th rowspan="2">Program dan Kegiatan</th>
 		<th >Rencana Tahun <?php echo $tahun_ppas?></th>
-		<th >Perkiraan Maju Rencana Tahun <?php echo $tahun_ppas+1;?></th>
 	</tr>
 	<tr>
-		<th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
 		<th >Kebutuhan Dana/Pagu Indikatif (Rp.)</th>
 	</tr>
 </thead>
@@ -37,7 +35,6 @@
 				<strong>".strtoupper($row_urusan->nama_urusan)."</strong>
 			</td>
 			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal,2)."</td>
-			<td align=\"right\">".Formatting::currency($row_urusan->sum_nominal_thndpn,2)."</td>
 
 		</tr>";
 
@@ -74,7 +71,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 					<strong>".strtoupper($row_bidang->nama_bidang)."</strong>
 				</td>
 				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal,2)."</td>
-				<td align=\"right\">".Formatting::currency($row_bidang->sum_nominal_thndpn,2)."</td>
 			</tr>";
 
 
@@ -112,7 +108,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
 						<strong>".strtoupper($row_skpd->nama_skpd)."</strong>
 					</td>
 					<td align=\"right\">".Formatting::currency($row_skpd->sum_nominal,2)."</td>
-					<td align=\"right\">".Formatting::currency($row_skpd->sum_nominal_thndpn,2)."</td>
 				</tr>";
 				$id_skpd = $row_skpd->id_skpd;
 			}
@@ -130,11 +125,6 @@ FROM t_ppas_indikator_prog_keg WHERE target > 0)) AS keg ON keg.parent=pro.id
             	<strong>
 					<?php echo Formatting::currency($tot_nominal,2) ;?>
                 <strong>
-            </td>
-			<td align="right">
-            	<strong>
-					<?php echo Formatting::currency($tot_nominal_thndpn,2); ?>
-                </strong>
             </td>
 		</tr>
 </tbody>

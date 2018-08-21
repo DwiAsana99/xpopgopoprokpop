@@ -20,7 +20,7 @@
 		<table class="table-common">
 			<thead>
 				<tr>
-					<th colspan="12" align="center"><?php echo $ppas_type; ?></th>
+					<th colspan="10" align="center"><?php echo $ppas_type; ?></th>
 				</tr>
 			</thead>		
 			<?php
